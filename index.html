@@ -537,7 +537,7 @@
             </form>
             <div id="cuMsg" style="margin-top:10px"></div>
           </div>
-          <div class="card panel"><div class="title-row"><h3>Usuarios registrados</h3><button class="textbtn" onclick="loadUsers()">Actualizar</button></div><div id="usersList" class="list"></div></div>
+          <div class="card panel"><div class="title-row"><h3>Usuarios registrados</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="textbtn" onclick="syncAllParentCourseAccess({silent:false}).then(()=>loadUsers())">Sincronizar accesos</button><button class="textbtn" onclick="loadUsers()">Actualizar</button></div></div><div id="usersList" class="list"></div></div>
         </div>
       </div>
 
@@ -725,7 +725,7 @@ const COURSES=["7° Básico","8° Básico","I° Medio","II° Medio","III° Medio
 const SUBJECTS=["Lenguaje","Matemática","Inglés","Historia","Ciencias","Biología","Física","Química","Artes","Música","Educación Física","Tecnología","Filosofía","Electivo","Otra"];
 
 let FB={},app,auth,db,messaging=null,secondaryApp,secondaryAuth,currentUser=null,currentSession=null;
-let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null;
+let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false;
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -847,16 +847,21 @@ async function handleAuth(user){
     if(!snap.exists()) throw new Error("La cuenta existe, pero no tiene un perfil autorizado en Firestore.");
     const p=snap.data();
     if(p.active===false) throw new Error("Esta cuenta está desactivada. Contacta al administrador.");
-    currentSession={uid:user.uid,email:user.email||p.email,name:p.name||user.email.split("@")[0],role:p.role,courses:p.courses||[],studentIds:p.studentIds||[],notificationPrefs:p.notificationPrefs||{}};
+    currentSession={uid:user.uid,email:user.email||p.email,name:p.name||user.email.split("@")[0],role:p.role,courses:[...new Set(p.courses||[])],studentIds:p.studentIds||[],notificationPrefs:p.notificationPrefs||{}};
     if(!["admin","teacher","parent","student"].includes(currentSession.role)) throw new Error("La cuenta no tiene un rol válido.");
-    $("authScreen").classList.add("hidden");applySession();await logAudit("login","session",user.uid,"Inicio de sesión");subscribeEvaluations();setTimeout(refreshNotificationStatus,350);
+    $("authScreen").classList.add("hidden");
+    applySession();
+    await configureContext();
+    await logAudit("login","session",user.uid,"Inicio de sesión");
+    subscribeEvaluations();
+    setTimeout(refreshNotificationStatus,350);
   }catch(e){await FB.signOut(auth);showAuthError(e.message)}
 }
 function applySession(){
   $("userName").textContent=currentSession.name;$("userRole").textContent=roleLabel(currentSession.role);$("userAvatar").textContent=currentSession.name.charAt(0).toUpperCase();$("sideRole").textContent=roleLabel(currentSession.role);$("sideUser").textContent=currentSession.email;
   document.querySelectorAll(".admin-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="admin"));
   document.querySelectorAll(".staff-write").forEach(x=>x.style.display=["admin","teacher"].includes(currentSession.role)?"":"none");
-  configureContext();populateSelects();if(currentSession.role==="admin"){loadUsers();loadStudents();loadAudit()}
+  populateSelects();if(currentSession.role==="admin"){loadUsers();loadStudents();loadAudit()}
 }
 async function login(e){e.preventDefault();clearAuthMsgs();try{await FB.signInWithEmailAndPassword(auth,$("loginEmail").value.trim(),$("loginPassword").value)}catch(err){showAuthError(authMessage(err.code))}}
 async function logout(){
@@ -926,18 +931,67 @@ async function sendResetPasswordEmail(event){
 
 function allowedCourses(){return currentSession?.role==="admin"?COURSES:[...(currentSession?.courses||[])]}
 async function configureContext(){
-  selectedContext="all";$("contextSelect").style.display="none";
-  if(currentSession.role==="admin"){$("contextText").innerHTML="<strong>Administrador:</strong> visualizando todos los cursos.";return}
-  if(currentSession.role==="teacher"){$("contextText").innerHTML="<strong>Profesor/a:</strong> acceso a "+(currentSession.courses.join(", ")||"ningún curso asignado")+".";return}
-  parentChildren=[];
-  for(const id of currentSession.studentIds){
-    try{const s=await FB.getDoc(FB.doc(db,"students",id));if(s.exists())parentChildren.push({id:s.id,...s.data()})}catch{}
+  selectedContext="all";
+  $("contextSelect").style.display="none";
+
+  if(currentSession.role==="admin"){
+    $("contextText").innerHTML="<strong>Administrador:</strong> visualizando todos los cursos.";
+    return;
   }
-  if(parentChildren.length){
-    $("contextText").innerHTML="<strong>Apoderado/a:</strong> selecciona el estudiante que deseas revisar.";
-    $("contextSelect").innerHTML='<option value="all">Todos mis estudiantes</option>'+parentChildren.map(s=>`<option value="${s.id}">${esc(s.name)} · ${esc(s.course)}</option>`).join("");
-    $("contextSelect").style.display="";
-  }else $("contextText").innerHTML="<strong>Apoderado/a:</strong> no hay estudiantes asociados a esta cuenta.";
+
+  if(currentSession.role==="teacher"){
+    $("contextText").innerHTML="<strong>Profesor/a:</strong> acceso a "+(currentSession.courses.join(", ")||"ningún curso asignado")+".";
+    return;
+  }
+
+  parentChildren=[];
+
+  if(currentSession.role==="parent"){
+    for(const id of currentSession.studentIds||[]){
+      try{
+        const s=await FB.getDoc(FB.doc(db,"students",id));
+        if(s.exists()) parentChildren.push({id:s.id,...s.data()});
+      }catch(err){
+        console.warn("No se pudo leer estudiante asociado:",id,err);
+      }
+    }
+
+    const childCourses=[...new Set(parentChildren.map(s=>s.course).filter(Boolean))];
+    const profileCourses=[...new Set(currentSession.courses||[])];
+
+    // Diagnóstico: la visibilidad de evaluaciones requiere que users/{uid}.courses
+    // coincida con los cursos reales de los estudiantes asociados.
+    const same=
+      childCourses.length===profileCourses.length &&
+      childCourses.every(c=>profileCourses.includes(c));
+
+    if(!same){
+      console.warn("Desincronización de acceso del apoderado",{
+        profileCourses,
+        childCourses,
+        studentIds:currentSession.studentIds
+      });
+    }
+
+    if(parentChildren.length){
+      $("contextText").innerHTML=
+        "<strong>Apoderado/a:</strong> selecciona el estudiante que deseas revisar.";
+      $("contextSelect").innerHTML=
+        '<option value="all">Todos mis estudiantes</option>'+
+        parentChildren.map(
+          s=>`<option value="${s.id}">${esc(s.name)} · ${esc(s.course)}</option>`
+        ).join("");
+      $("contextSelect").style.display="";
+    }else{
+      $("contextText").innerHTML=
+        "<strong>Apoderado/a:</strong> no hay estudiantes asociados a esta cuenta.";
+    }
+
+    renderAll();
+    return;
+  }
+
+  // Student u otros roles.
   renderAll();
 }
 function changeContext(){selectedContext=$("contextSelect").value;renderAll()}
@@ -1285,8 +1339,136 @@ function renderCourses(){
   const allowed=currentSession.role==="admin"?COURSES:contextCourses();$("courseGrid").innerHTML=allowed.map(c=>{const x=evaluations.filter(e=>e.course===c&&e.status!=="Cancelada"),next=x.filter(e=>e.date>=iso()).sort((a,b)=>a.date.localeCompare(b.date))[0];return `<div class="card coursecard"><strong>${esc(c)}</strong><span>${x.length} evaluación${x.length===1?"":"es"} registrada${x.length===1?"":"s"}</span><span>${next?`Próxima: ${fmt(next.date,{day:"2-digit",month:"short"})} · ${esc(next.subject)}`:"Sin próximas evaluaciones"}</span></div>`}).join("")||'<div class="empty">Sin cursos visibles.</div>';
 }
 
+
+async function syncAllParentCourseAccess({silent=true}={}){
+  if(currentSession?.role!=="admin" || parentAccessSyncRunning) return;
+
+  parentAccessSyncRunning=true;
+  try{
+    // Leemos directamente desde Firestore para no depender del orden en que
+    // loadUsers() y loadStudents() terminaron de cargar.
+    const [usersSnap,studentsSnap]=await Promise.all([
+      FB.getDocs(FB.collection(db,"users")),
+      FB.getDocs(FB.collection(db,"students"))
+    ]);
+
+    const allStudents=studentsSnap.docs.map(d=>({id:d.id,...d.data()}));
+    const studentMap=new Map(allStudents.map(s=>[s.id,s]));
+
+    let repaired=0;
+
+    for(const d of usersSnap.docs){
+      const u=d.data();
+      if(u.role!=="parent") continue;
+
+      const expectedCourses=[
+        ...new Set(
+          (u.studentIds||[])
+            .map(id=>studentMap.get(id)?.course)
+            .filter(Boolean)
+        )
+      ].sort();
+
+      const actualCourses=[...new Set(u.courses||[])].sort();
+
+      const different=
+        expectedCourses.length!==actualCourses.length ||
+        expectedCourses.some((c,i)=>c!==actualCourses[i]);
+
+      if(different){
+        await FB.updateDoc(d.ref,{
+          courses:expectedCourses,
+          updatedAt:FB.serverTimestamp()
+        });
+        repaired++;
+      }
+    }
+
+    if(repaired){
+      console.info(`Accesos de apoderados sincronizados: ${repaired}`);
+      if(!silent){
+        showToast(
+          `Se corrigieron ${repaired} cuenta(s) de apoderado.`,
+          "ok",
+          "Accesos sincronizados"
+        );
+      }
+    }else if(!silent){
+      showToast(
+        "Todos los apoderados ya tienen sus cursos correctamente sincronizados.",
+        "ok",
+        "Accesos verificados"
+      );
+    }
+
+    return repaired;
+  }catch(err){
+    console.error("No se pudieron sincronizar los accesos de apoderados:",err);
+    if(!silent){
+      showAppMessage(
+        "No se pudieron sincronizar los accesos",
+        err.message||"Revisa la conexión y los permisos de Firestore.",
+        "error"
+      );
+    }
+  }finally{
+    parentAccessSyncRunning=false;
+  }
+}
+
 async function loadUsers(){
-  if(currentSession.role!=="admin")return;try{const s=await FB.getDocs(FB.collection(db,"users"));users=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"));$("usersList").innerHTML=users.map(u=>`<div class="rowcard"><div><strong>${esc(u.name||u.email)}</strong><small>${esc(u.email||"")}<br>${esc(roleLabel(u.role))}${u.role==="teacher"&&u.courses?.length?` · ${esc(u.courses.join(", "))}`:""}${u.role==="parent"?` · ${(u.studentIds||[]).length} estudiante(s)`:""}${u.active===false?" · DESACTIVADO":""}</small></div><button class="iconbtn" onclick="openUser('${u.id}')">✏️</button></div>`).join("")||'<div class="empty">Sin usuarios.</div>';renderCreateAssignments()}catch(e){$("usersList").innerHTML='<div class="empty">No se pudieron cargar los usuarios.</div>'}
+  if(currentSession.role!=="admin") return;
+
+  try{
+    const s=await FB.getDocs(FB.collection(db,"users"));
+    users=s.docs
+      .map(d=>({id:d.id,...d.data()}))
+      .sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"));
+
+    $("usersList").innerHTML=
+      users.map(u=>`<div class="rowcard">
+        <div>
+          <strong>${esc(u.name||u.email)}</strong>
+          <small>
+            ${esc(u.email||"")}<br>
+            ${esc(roleLabel(u.role))}
+            ${u.role==="teacher"&&u.courses?.length?` · ${esc(u.courses.join(", "))}`:""}
+            ${u.role==="parent"?` · ${(u.studentIds||[]).length} estudiante(s)${u.courses?.length?` · Cursos: ${esc(u.courses.join(", "))}`:" · Sin cursos sincronizados"}`:""}
+            ${u.active===false?" · DESACTIVADO":""}
+          </small>
+        </div>
+        <button class="iconbtn" onclick="openUser('${u.id}')">✏️</button>
+      </div>`).join("") || '<div class="empty">Sin usuarios.</div>';
+
+    renderCreateAssignments();
+
+    // Repara automáticamente perfiles antiguos o desincronizados.
+    const repaired=await syncAllParentCourseAccess({silent:true});
+    if(repaired){
+      const refreshed=await FB.getDocs(FB.collection(db,"users"));
+      users=refreshed.docs
+        .map(d=>({id:d.id,...d.data()}))
+        .sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"));
+
+      $("usersList").innerHTML=
+        users.map(u=>`<div class="rowcard">
+          <div>
+            <strong>${esc(u.name||u.email)}</strong>
+            <small>
+              ${esc(u.email||"")}<br>
+              ${esc(roleLabel(u.role))}
+              ${u.role==="teacher"&&u.courses?.length?` · ${esc(u.courses.join(", "))}`:""}
+              ${u.role==="parent"?` · ${(u.studentIds||[]).length} estudiante(s)${u.courses?.length?` · Cursos: ${esc(u.courses.join(", "))}`:" · Sin cursos sincronizados"}`:""}
+              ${u.active===false?" · DESACTIVADO":""}
+            </small>
+          </div>
+          <button class="iconbtn" onclick="openUser('${u.id}')">✏️</button>
+        </div>`).join("") || '<div class="empty">Sin usuarios.</div>';
+    }
+  }catch(e){
+    console.error(e);
+    $("usersList").innerHTML='<div class="empty">No se pudieron cargar los usuarios.</div>';
+  }
 }
 async function loadStudents(){
   if(currentSession.role!=="admin")return;try{const s=await FB.getDocs(FB.collection(db,"students"));students=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.course+a.name).localeCompare(b.course+b.name,"es"));$("studentsList").innerHTML=students.map(s=>`<div class="rowcard"><div><strong>${esc(s.name)}</strong><small>${esc(s.course)} · ${(s.guardianUids||[]).length} apoderado(s)</small></div><button class="iconbtn" onclick="openStudent('${s.id}')">✏️</button></div>`).join("")||'<div class="empty">Sin estudiantes.</div>';renderCreateAssignments()}catch(e){$("studentsList").innerHTML='<div class="empty">No se pudieron cargar los estudiantes.</div>'}
@@ -1305,7 +1487,14 @@ async function createUser(e){
     try{
       await FB.setDoc(FB.doc(db,"users",uid),{name,email,role,courses,studentIds,active:true,createdAt:FB.serverTimestamp(),createdBy:currentSession.uid});
       if(role==="parent")for(const sid of studentIds)await FB.updateDoc(FB.doc(db,"students",sid),{guardianUids:FB.arrayUnion(uid)});
-      await logAudit("create","user",uid,`${name} · ${roleLabel(role)}`);$("cuMsg").innerHTML='<div class="notice ok">Cuenta creada correctamente.</div>';$("createUserForm").reset();renderCreateAssignments();await FB.signOut(secondaryAuth);loadUsers();loadStudents();
+      await logAudit("create","user",uid,`${name} · ${roleLabel(role)}`);
+      if(role==="parent") await syncAllParentCourseAccess({silent:true});
+      $("cuMsg").innerHTML='<div class="notice ok">Cuenta creada correctamente.</div>';
+      $("createUserForm").reset();
+      renderCreateAssignments();
+      await FB.signOut(secondaryAuth);
+      loadUsers();
+      loadStudents();
     }catch(err){try{await FB.deleteUser(cr.user)}catch{}throw err}
   }catch(err){console.error(err);$("cuMsg").innerHTML=`<div class="notice danger">${esc(({"auth/email-already-in-use":"Ese correo ya existe.","auth/weak-password":"La contraseña debe tener al menos 6 caracteres."})[err.code]||"No se pudo crear la cuenta.")}</div>`;try{if(secondaryAuth.currentUser)await FB.signOut(secondaryAuth)}catch{}}
 }
