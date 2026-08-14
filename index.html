@@ -725,7 +725,7 @@ const COURSES=["7° Básico","8° Básico","I° Medio","II° Medio","III° Medio
 const SUBJECTS=["Lenguaje","Matemática","Inglés","Historia","Ciencias","Biología","Física","Química","Artes","Música","Educación Física","Tecnología","Filosofía","Electivo","Otra"];
 
 let FB={},app,auth,db,messaging=null,secondaryApp,secondaryAuth,currentUser=null,currentSession=null;
-let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all";
+let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null;
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -830,7 +830,17 @@ async function initFirebase(){
   }catch(e){showAuthError("No se pudo iniciar Firebase. "+e.message)}
 }
 async function handleAuth(user){
-  if(!user){currentUser=currentSession=null;$("authScreen").classList.remove("hidden");return}
+  if(!user){
+    if(evalUnsubscribe){
+      try{evalUnsubscribe()}catch{}
+      evalUnsubscribe=null;
+    }
+    currentUser=currentSession=null;
+    evaluations=[];
+    initialEvalSnapshot=true;
+    $("authScreen").classList.remove("hidden");
+    return;
+  }
   currentUser=user;
   try{
     const snap=await FB.getDoc(FB.doc(db,"users",user.uid));
@@ -849,7 +859,20 @@ function applySession(){
   configureContext();populateSelects();if(currentSession.role==="admin"){loadUsers();loadStudents();loadAudit()}
 }
 async function login(e){e.preventDefault();clearAuthMsgs();try{await FB.signInWithEmailAndPassword(auth,$("loginEmail").value.trim(),$("loginPassword").value)}catch(err){showAuthError(authMessage(err.code))}}
-async function logout(){try{await FB.signOut(auth)}catch{} profileDialog.close?.()}
+async function logout(){
+  if(evalUnsubscribe){
+    try{evalUnsubscribe()}catch{}
+    evalUnsubscribe=null;
+  }
+  evaluations=[];
+  initialEvalSnapshot=true;
+  try{
+    await FB.signOut(auth);
+  }catch(err){
+    console.warn("Error al cerrar sesión:",err);
+  }
+  profileDialog.close?.();
+}
 function authMessage(c){return({"auth/invalid-credential":"Correo o contraseña incorrectos.","auth/too-many-requests":"Demasiados intentos. Intenta nuevamente más tarde.","auth/invalid-email":"El correo no es válido.","auth/user-disabled":"Esta cuenta está deshabilitada."})[c]||"No se pudo iniciar sesión."}
 function showAuthError(m){clearAuthMsgs();$("authError").textContent=m;$("authError").classList.add("show")}
 function showAuthInfo(m){clearAuthMsgs();$("authInfo").textContent=m;$("authInfo").classList.add("show")}
@@ -930,13 +953,55 @@ function evalQuery(){
   return c.length===1?FB.query(col,FB.where("course","==",c[0])):FB.query(col,FB.where("course","in",c));
 }
 function subscribeEvaluations(){
-  const q=evalQuery();if(!q){evaluations=[];renderAll();return}
-  FB.onSnapshot(q,snap=>{
-    const changes=snap.docChanges();
-    evaluations=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.date.localeCompare(b.date));
-    if(!initialEvalSnapshot&&currentSession.role==="parent") notifyChanges(changes);
-    initialEvalSnapshot=false;renderAll();
-  },e=>{console.error(e);showAppMessage("No se pudieron cargar las evaluaciones","Revisa las reglas de Firestore y vuelve a intentarlo.","error")});
+  // Evita dejar listeners de Firestore activos al cambiar o cerrar sesión.
+  if(evalUnsubscribe){
+    try{evalUnsubscribe()}catch{}
+    evalUnsubscribe=null;
+  }
+
+  initialEvalSnapshot=true;
+
+  const q=evalQuery();
+  if(!q){
+    evaluations=[];
+    renderAll();
+    return;
+  }
+
+  evalUnsubscribe=FB.onSnapshot(
+    q,
+    snap=>{
+      // Si la sesión terminó mientras llegaba el snapshot, se ignora.
+      if(!currentUser || !currentSession) return;
+
+      const changes=snap.docChanges();
+      evaluations=snap.docs
+        .map(d=>({id:d.id,...d.data()}))
+        .sort((a,b)=>a.date.localeCompare(b.date));
+
+      if(!initialEvalSnapshot && currentSession?.role==="parent"){
+        notifyChanges(changes);
+      }
+
+      initialEvalSnapshot=false;
+      renderAll();
+    },
+    e=>{
+      // Al cerrar sesión Firestore puede devolver permission-denied durante unos
+      // milisegundos. Es un efecto normal del cierre y no debe mostrarse al usuario.
+      if(!currentUser || !currentSession || e?.code==="permission-denied"){
+        console.debug("Listener de evaluaciones cerrado:",e?.code||e);
+        return;
+      }
+
+      console.error(e);
+      showAppMessage(
+        "No se pudieron cargar las evaluaciones",
+        "Revisa tu conexión y vuelve a intentarlo. Si el problema continúa, revisa los permisos de Firestore.",
+        "error"
+      );
+    }
+  );
 }
 async function notifyChanges(changes){
   if(Notification.permission!=="granted")return;
