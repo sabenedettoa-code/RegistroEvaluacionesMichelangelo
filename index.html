@@ -240,8 +240,196 @@
     .notification-intro strong{font-size:12px;display:block;margin-bottom:3px}
     .notification-intro small{font-size:10px;color:var(--muted);line-height:1.45;display:block}
 
-    @media(max-width:980px){.app{grid-template-columns:1fr}aside{display:none}.mobile-top{display:flex;position:sticky;top:0;z-index:50;background:#2c3b30;color:white;padding:10px 13px;align-items:center;justify-content:space-between}.mobile-nav{display:grid;position:fixed;bottom:0;left:0;right:0;z-index:60;grid-template-columns:repeat(5,1fr);background:white;border-top:1px solid var(--line)}.mobile-nav button{border:0;background:white;padding:9px 3px;font-size:9px}.mobile-nav button.hidden{display:none}.mobile-nav button.active{background:var(--soft)}main{padding:20px 14px 80px}.stats{grid-template-columns:repeat(2,1fr)}.grid,.grid.equal,.admin-grid{grid-template-columns:1fr}.coursegrid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:650px){.topbar{align-items:flex-start}.topbar h1{font-size:23px}.top-actions .user-chip{display:none}.hero{padding:20px}.contextbar{align-items:flex-start;flex-direction:column}.contextbar select{width:100%}.eval{grid-template-columns:6px 1fr}.eval .actions{grid-column:2}.filters input,.filters select{width:100%}.calendar{gap:3px}.day{min-height:80px;padding:5px}.calitem{font-size:8px;padding:4px}.coursegrid{grid-template-columns:1fr}form.formgrid{grid-template-columns:1fr}.field.full,.form-actions{grid-column:1}.checkgrid{grid-template-columns:1fr}.authcard{grid-template-columns:1fr}.authbrand{min-height:auto;padding:24px}.authbrand p,.authbrand .bottomcopy{display:none}.authlogo{width:70px;height:70px}.authbrand h2{font-size:20px;margin:12px 0 0}.authform{padding:26px 22px}}
+    /* ===== MOBILE-FIRST V15 ===== */
+    html,body{max-width:100%;overflow-x:hidden}
+    button,input,select,textarea{touch-action:manipulation}
+    button{-webkit-tap-highlight-color:transparent}
+    .mobile-agenda{display:grid;gap:12px}
+    .agenda-day{
+      display:grid;grid-template-columns:58px 1fr;gap:12px;
+      padding:13px;background:var(--panel);border:1px solid var(--line);
+      border-radius:17px;box-shadow:0 7px 20px rgba(58,45,34,.05)
+    }
+    .agenda-date{
+      width:58px;min-height:58px;border-radius:15px;background:var(--paper);
+      border:1px solid var(--line);display:grid;place-items:center;align-content:center;
+      text-align:center;color:var(--brown2)
+    }
+    .agenda-date strong{font-size:21px;line-height:1}
+    .agenda-date small{font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+    .agenda-items{display:grid;gap:8px;min-width:0}
+    .agenda-item{
+      padding:10px 11px;border-radius:13px;background:#fff;border:1px solid var(--line);
+      min-width:0
+    }
+    .agenda-item strong{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .agenda-item small{display:block;font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
+    .agenda-empty{padding:26px 15px;text-align:center;color:var(--muted);font-size:12px}
+
+    @media(max-width:980px){
+      body{padding-bottom:env(safe-area-inset-bottom)}
+      .app{grid-template-columns:1fr}
+      aside{display:none}
+      .mobile-top{
+        display:flex;position:sticky;top:0;z-index:70;
+        background:rgba(66,55,45,.96);color:white;
+        padding:calc(9px + env(safe-area-inset-top)) 14px 9px;
+        align-items:center;justify-content:space-between;gap:10px;
+        border-bottom:1px solid rgba(255,255,255,.08);
+        box-shadow:0 7px 20px rgba(48,37,28,.13);
+        backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)
+      }
+      .mobile-top .btn{min-height:40px;padding:9px 13px;border-radius:13px}
+      .mobile-nav{
+        display:grid;position:fixed;bottom:0;left:0;right:0;z-index:80;
+        grid-template-columns:repeat(5,1fr);
+        padding:6px 6px calc(6px + env(safe-area-inset-bottom));
+        background:rgba(255,253,248,.96);
+        border-top:1px solid var(--line);
+        box-shadow:0 -8px 24px rgba(56,44,34,.10);
+        backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)
+      }
+      .mobile-nav button{
+        min-height:52px;border:0;background:transparent;padding:5px 2px;
+        color:var(--muted);font-size:9px;font-weight:800;line-height:1.35;
+        border-radius:12px
+      }
+      .mobile-nav button:first-line{font-size:18px}
+      .mobile-nav button.hidden{display:none}
+      .mobile-nav button.active{background:var(--paper);color:var(--brown2)}
+      main{padding:18px 14px calc(84px + env(safe-area-inset-bottom))}
+      .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+      .stat{padding:15px}
+      .stat .value{font-size:27px}
+      .grid,.grid.equal,.admin-grid{grid-template-columns:1fr}
+      .coursegrid{grid-template-columns:repeat(2,1fr)}
+      .panel{padding:17px}
+      .hero{border-radius:18px}
+      .topbar{gap:13px;margin-bottom:16px}
+      .top-actions{gap:7px}
+      .btn,.iconbtn{min-height:42px}
+      .iconbtn{min-width:42px;width:42px;height:42px}
+      .admin-tabs{
+        overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;scrollbar-width:none;
+        -webkit-overflow-scrolling:touch
+      }
+      .admin-tabs::-webkit-scrollbar{display:none}
+      .admin-tabs .tabbtn{flex:0 0 auto;min-height:42px}
+    }
+
+    @media(max-width:650px){
+      main{padding:14px 11px calc(82px + env(safe-area-inset-bottom))}
+      .mobile-top{padding-left:11px;padding-right:11px}
+      .mobile-top .logo{width:36px!important;height:36px!important}
+      .topbar{
+        align-items:stretch;flex-direction:column;
+        margin-bottom:14px
+      }
+      .topbar h1{font-size:23px;line-height:1.12}
+      .topbar p{font-size:11px;line-height:1.45}
+      .top-actions{
+        width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+        align-items:stretch
+      }
+      .top-actions .btn{width:100%;min-width:0;white-space:normal;padding:10px 9px}
+      .top-actions .iconbtn{width:100%;min-width:0}
+      .top-actions .user-chip{display:none}
+      .topbar .staff-write{display:none}
+      .eyebrow{font-size:9px;margin-bottom:6px}
+      .hero{padding:17px 16px;margin-bottom:14px}
+      .hero h2{font-size:18px;line-height:1.25;margin-bottom:7px}
+      .hero p{font-size:11px;line-height:1.55}
+      .contextbar{
+        align-items:stretch;flex-direction:column;padding:11px 12px;
+        font-size:11px;margin-bottom:14px
+      }
+      .contextbar select{width:100%;min-width:0;min-height:44px}
+      .stats{gap:9px;margin-bottom:14px}
+      .stat{padding:13px;border-radius:16px}
+      .stat .label{font-size:8px;line-height:1.35}
+      .stat .value{font-size:25px;margin-top:5px}
+      .stat .sub{font-size:9px}
+      .grid{gap:12px}
+      .card{border-radius:18px}
+      .panel{padding:14px}
+      .title-row{margin-bottom:11px}
+      .title-row h3{font-size:15px}
+      .eval{
+        grid-template-columns:5px minmax(0,1fr);
+        gap:10px;padding:13px;border-radius:15px
+      }
+      .eval h4{font-size:13px;line-height:1.35}
+      .eval .meta{font-size:10px;overflow-wrap:anywhere}
+      .eval .actions{
+        grid-column:2;display:flex;justify-content:flex-end;
+        width:100%;margin-top:2px
+      }
+      .eval .actions .iconbtn{width:44px;height:44px;min-width:44px}
+      .pill{font-size:9px}
+      .filters{display:grid;grid-template-columns:1fr;gap:8px}
+      .filters input,.filters select{width:100%;min-width:0;min-height:44px}
+      input,select,textarea{font-size:16px;min-height:44px}
+      textarea{min-height:100px}
+      form.formgrid{grid-template-columns:1fr;gap:11px}
+      .field.full,.form-actions{grid-column:1}
+      .form-actions{
+        flex-direction:column-reverse;align-items:stretch;gap:8px
+      }
+      .form-actions .btn{width:100%;min-height:46px}
+      .checkgrid{grid-template-columns:1fr;max-height:260px}
+      .check{min-height:40px}
+      .rowcard{
+        grid-template-columns:minmax(0,1fr) auto;padding:12px;gap:8px
+      }
+      .rowcard strong{font-size:12px}
+      .rowcard small{font-size:9.5px;overflow-wrap:anywhere}
+      .coursegrid{grid-template-columns:1fr;gap:9px}
+      .coursecard{padding:14px}
+      .coursecard strong{font-size:15px}
+      .coursecard span{font-size:10px}
+      #calendario .panel{padding:11px}
+      #calendarGrid.calendar{display:block}
+      #calendario .top-actions{grid-template-columns:44px 1fr 44px}
+      #calendario .top-actions .btn{padding:9px 6px}
+      .auth{padding:0;align-items:stretch}
+      .authcard{
+        width:100%;min-height:100dvh;border:0;border-radius:0;
+        grid-template-columns:1fr;box-shadow:none
+      }
+      .authbrand{
+        min-height:auto;padding:calc(22px + env(safe-area-inset-top)) 22px 18px;
+        border-radius:0 0 24px 24px
+      }
+      .authbrand p,.authbrand .bottomcopy{display:none}
+      .authlogo{width:66px;height:66px}
+      .authbrand h2{font-size:19px;margin:10px 0 0}
+      .authform{padding:22px 20px calc(25px + env(safe-area-inset-bottom));justify-content:flex-start}
+      .authform h1{font-size:23px}
+      dialog[open]{
+        width:100%;max-width:none;margin:auto 0 0;border-radius:22px 22px 0 0;
+        max-height:88dvh;overflow:auto
+      }
+      dialog::backdrop{background:rgba(40,32,26,.42);backdrop-filter:blur(3px)}
+      .app-modal-shell{padding:20px 17px calc(18px + env(safe-area-inset-bottom))}
+      .app-modal-actions{flex-direction:column-reverse;align-items:stretch}
+      .app-modal-actions .btn{width:100%;min-height:46px}
+      .app-toast-wrap{
+        left:10px;right:10px;bottom:calc(76px + env(safe-area-inset-bottom));
+        width:auto
+      }
+      .app-toast{border-radius:15px;padding:12px 13px}
+    }
+
+    @media(max-width:380px){
+      .stats{grid-template-columns:1fr 1fr}
+      .stat .value{font-size:23px}
+      .mobile-nav button{font-size:8px}
+      .mobile-top strong{font-size:11px!important}
+      .mobile-top small{font-size:8px!important}
+      .top-actions{grid-template-columns:1fr}
+      #calendario .top-actions{grid-template-columns:44px 1fr 44px}
+    }
+
   </style>
 </head>
 <body>
@@ -370,11 +558,11 @@
 </div>
 
 <div class="mobile-nav">
-  <button class="active" data-section="inicio" onclick="showSection('inicio')">🏠<br>Inicio</button>
-  <button data-section="evaluaciones" onclick="showSection('evaluaciones')">📝<br>Evaluaciones</button>
-  <button data-section="calendario" onclick="showSection('calendario')">📅<br>Calendario</button>
-  <button data-section="cursos" onclick="showSection('cursos')">🎓<br>Cursos</button>
-  <button class="admin-nav hidden" data-section="administracion" onclick="showSection('administracion')">👥<br>Admin</button>
+  <button class="active" data-section="inicio" onclick="showSection('inicio')"><span style="font-size:18px">🏠</span><br><span>Inicio</span></button>
+  <button data-section="evaluaciones" onclick="showSection('evaluaciones')"><span style="font-size:18px">📝</span><br><span>Evaluaciones</span></button>
+  <button data-section="calendario" onclick="showSection('calendario')"><span style="font-size:18px">📅</span><br><span>Calendario</span></button>
+  <button data-section="cursos" onclick="showSection('cursos')"><span style="font-size:18px">🎓</span><br><span>Cursos</span></button>
+  <button class="admin-nav hidden" data-section="administracion" onclick="showSection('administracion')"><span style="font-size:18px">👥</span><br><span>Admin</span></button>
 </div>
 
 
@@ -972,9 +1160,60 @@ async function deleteEval(id){
 }
 
 function renderCalendar(){
-  const y=calendarDate.getFullYear(),m=calendarDate.getMonth();$("calendarTitle").textContent=calendarDate.toLocaleDateString("es-CL",{month:"long",year:"numeric"});const first=new Date(y,m,1),start=new Date(y,m,1-((first.getDay()+6)%7));
-  let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(x=>`<div class="dayhead">${x}</div>`).join("");const data=visibleEvaluations().filter(e=>e.status!=="Cancelada");
-  for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const ds=d.toISOString().slice(0,10),items=data.filter(e=>e.date===ds);h+=`<div class="day ${d.getMonth()!==m?"dim":""}"><div class="daynum">${d.getDate()}</div>${items.slice(0,3).map(e=>`<div class="calitem" onclick="openEval('${e.id}')">${esc(e.subject)} · ${esc(e.course)}</div>`).join("")}${items.length>3?`<div class="calitem">+${items.length-3} más</div>`:""}</div>`}$("calendarGrid").innerHTML=h;
+  const y=calendarDate.getFullYear(),m=calendarDate.getMonth();
+  $("calendarTitle").textContent=calendarDate.toLocaleDateString("es-CL",{month:"long",year:"numeric"});
+  const data=visibleEvaluations().filter(e=>e.status!=="Cancelada");
+
+  if(window.matchMedia("(max-width:650px)").matches){
+    const monthItems=data
+      .filter(e=>{
+        const d=new Date(e.date+"T12:00:00");
+        return d.getFullYear()===y && d.getMonth()===m;
+      })
+      .sort((a,b)=>a.date.localeCompare(b.date)||a.subject.localeCompare(b.subject,"es"));
+
+    if(!monthItems.length){
+      $("calendarGrid").className="mobile-agenda";
+      $("calendarGrid").innerHTML='<div class="agenda-empty">No hay evaluaciones programadas para este mes.</div>';
+      return;
+    }
+
+    const groups={};
+    monthItems.forEach(e=>(groups[e.date]??=[]).push(e));
+
+    $("calendarGrid").className="mobile-agenda";
+    $("calendarGrid").innerHTML=Object.entries(groups).map(([date,items])=>{
+      const d=new Date(date+"T12:00:00");
+      const day=d.getDate();
+      const mon=d.toLocaleDateString("es-CL",{month:"short"}).replace(".","");
+      const weekday=d.toLocaleDateString("es-CL",{weekday:"short"}).replace(".","");
+      return `<div class="agenda-day">
+        <div class="agenda-date"><strong>${day}</strong><small>${esc(mon)}</small></div>
+        <div class="agenda-items">
+          <div class="meta" style="font-weight:800;text-transform:capitalize">${esc(weekday)}</div>
+          ${items.map(e=>`<div class="agenda-item" ${["admin","teacher"].includes(currentSession.role)?`onclick="openEval('${e.id}')" style="cursor:pointer"`:""}>
+            <strong>${esc(e.subject)} · ${esc(e.course)}</strong>
+            <small>${esc(e.title)}${e.type?` · ${esc(e.type)}`:""}${e.status==="Modificada"?" · Fecha modificada":""}</small>
+          </div>`).join("")}
+        </div>
+      </div>`;
+    }).join("");
+    return;
+  }
+
+  $("calendarGrid").className="calendar";
+  const first=new Date(y,m,1),start=new Date(y,m,1-((first.getDay()+6)%7));
+  let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(x=>`<div class="dayhead">${x}</div>`).join("");
+  for(let i=0;i<42;i++){
+    const d=new Date(start);d.setDate(start.getDate()+i);
+    const ds=d.toISOString().slice(0,10),items=data.filter(e=>e.date===ds);
+    h+=`<div class="day ${d.getMonth()!==m?"dim":""}">
+      <div class="daynum">${d.getDate()}</div>
+      ${items.slice(0,3).map(e=>`<div class="calitem" onclick="openEval('${e.id}')">${esc(e.subject)} · ${esc(e.course)}</div>`).join("")}
+      ${items.length>3?`<div class="calitem">+${items.length-3} más</div>`:""}
+    </div>`;
+  }
+  $("calendarGrid").innerHTML=h;
 }
 function changeMonth(n){calendarDate=new Date(calendarDate.getFullYear(),calendarDate.getMonth()+n,1);renderCalendar()}function goToday(){calendarDate=new Date();renderCalendar()}
 function renderCourses(){
@@ -1050,6 +1289,16 @@ $("loginForm").addEventListener("submit",login);$("evalForm").addEventListener("
 $("todayText").textContent=new Date().toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 initFirebase();
+
+let mobileLayoutTimer=null;
+window.addEventListener("resize",()=>{
+  clearTimeout(mobileLayoutTimer);
+  mobileLayoutTimer=setTimeout(()=>{
+    const calendarSection=$("calendario");
+    if(calendarSection?.classList.contains("active")) renderCalendar();
+  },140);
+});
+
 </script>
 </body>
 </html>
