@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V28.6 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V28.8 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V28.6 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V28.8 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1474,6 +1474,34 @@
       .assignment-card{padding:14px}
       .assignment-card .check{min-height:44px;font-size:10.5px;padding:9px 10px}
       .mobile-top{padding-left:12px!important;padding-right:12px!important}
+    }
+
+  
+    /* ===== V28.8 · TUTOR/A DE CURSO ===== */
+    .course-tutor-line{
+      display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
+      border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
+      color:#6a4a33;font-size:10px;font-weight:800;line-height:1.35
+    }
+    .course-tutor-line.missing{background:#f7f1e8;color:var(--muted);border-style:dashed}
+    .tutor-summary{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      padding:14px 15px;margin:15px 0;border:1px solid #dcc6a8;border-radius:16px;
+      background:linear-gradient(135deg,#fffaf3,#f3e4d0)
+    }
+    .tutor-summary .tutor-main{display:flex;align-items:center;gap:11px;min-width:0}
+    .tutor-summary .tutor-icon{
+      width:40px;height:40px;border-radius:13px;display:grid;place-items:center;flex:none;
+      background:#e9d3b7;font-size:19px
+    }
+    .tutor-summary strong{display:block;color:var(--brown2);font-size:13px}
+    .tutor-summary small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+    .tutor-select-help{
+      padding:11px 12px;border-radius:13px;background:#f7f1e8;border:1px solid var(--line);
+      color:var(--muted);font-size:11px;line-height:1.5;margin-bottom:13px
+    }
+    @media(max-width:560px){
+      .tutor-summary{align-items:flex-start}.tutor-summary .btn{width:100%}
     }
 
   </style>
@@ -1921,6 +1949,35 @@
   </div>
 </dialog>
 
+
+<dialog id="courseTutorDialog">
+  <div class="dialog">
+    <div class="dialoghead">
+      <div>
+        <h3>Elegir Tutor/a del curso</h3>
+        <div id="courseTutorCourse" class="meta" style="margin-top:4px"></div>
+      </div>
+      <button class="iconbtn" onclick="courseTutorDialog.close()">×</button>
+    </div>
+
+    <div class="tutor-select-help">
+      Selecciona a uno de los profesores registrados en la plataforma. La tutoría es independiente de los cursos y asignaturas que tenga asignados el docente.
+    </div>
+
+    <div class="field full">
+      <label>Tutor/a</label>
+      <select id="courseTutorSelect">
+        <option value="">Sin Tutor/a asignado</option>
+      </select>
+    </div>
+
+    <div class="form-actions" style="margin-top:18px">
+      <button class="btn ghost" type="button" onclick="courseTutorDialog.close()">Cancelar</button>
+      <button class="btn primary" type="button" onclick="saveCourseTutor()">Guardar Tutor/a</button>
+    </div>
+  </div>
+</dialog>
+
 <dialog id="profileDialog"><div class="dialog"><div class="dialoghead"><h3>Mi perfil</h3><button class="iconbtn" onclick="profileDialog.close()">×</button></div>
   <div id="profileContent"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="btn ghost" onclick="profileDialog.close();openResetPassword(currentSession.email)">Enviar enlace para cambiar contraseña</button><button class="btn danger" onclick="logout()">Cerrar sesión</button></div>
 </div></dialog>
@@ -1938,10 +1995,10 @@ const FIREBASE_CONFIG={
   measurementId:"G-FNJ0M9LCF3"
 };
 const COURSES=["7° Básico","8° Básico","I° Medio","II° Medio","III° Medio","IV° Medio"];
-const SUBJECTS=["Lenguaje","Matemática","Inglés","Historia","Ciencias","Biología","Física","Química","Artes","Música","Educación Física","Tecnología","Filosofía","Electivo","Otra"];
+const SUBJECTS=["Arte","Física","Química","Lenguaje y Literatura","Historia","Matemática","Teatro"];
 
 let FB={},app,auth,db,messaging=null,functions=null,secondaryApp,secondaryAuth,currentUser=null,currentSession=null;
-let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false,evalRangeFilter="upcoming",studyPlans=[],studyUnsubscribe=null,currentStudent=null,grades=[],gradesUnsubscribe=null,selectedGradeStudentId="",calendarView="month",calendarCourseFilter="",pendingEvaluationId="";
+let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false,evalRangeFilter="upcoming",studyPlans=[],studyUnsubscribe=null,currentStudent=null,grades=[],gradesUnsubscribe=null,selectedGradeStudentId="",calendarView="month",calendarCourseFilter="",pendingEvaluationId="",courseTutors={},selectedTutorCourse="";
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -2095,6 +2152,7 @@ async function handleAuth(user){
     currentStudent=null;
     selectedGradeStudentId="";
     currentUser=currentSession=null;
+    courseTutors={};
     evaluations=[];
     initialEvalSnapshot=true;
     $("authScreen").classList.remove("hidden");
@@ -2111,6 +2169,7 @@ async function handleAuth(user){
     $("authScreen").classList.add("hidden");
     applySession();
     await configureContext();
+    await loadCourseTutors();
     if(currentSession.role==="teacher") await loadStudents();
     await logAudit("login","session",user.uid,"Inicio de sesión");
     subscribeEvaluations();
@@ -2198,11 +2257,23 @@ async function sendResetPasswordEmail(event){
   }
 }
 
-function allowedCourses(){return currentSession?.role==="admin"?COURSES:[...(currentSession?.courses||[])]}
+function allowedCourses(){
+  if(currentSession?.role==="admin") return COURSES;
+  if(currentSession?.role==="teacher"){
+    const assigned=[...(currentSession?.courses||[])];
+    // Profesor complementario: sin curso asignado = puede trabajar en todos los cursos,
+    // siempre limitado a sus asignaturas asignadas.
+    return assigned.length ? assigned : COURSES;
+  }
+  return [...(currentSession?.courses||[])];
+}
 function allowedSubjects(){return currentSession?.role==="admin"?SUBJECTS:[...(currentSession?.subjects||[])]}
 function teacherCanManage(course,subject){
   if(currentSession?.role!=="teacher") return currentSession?.role==="admin";
-  const courseOK=(currentSession.courses||[]).includes(course);
+  const courses=currentSession.courses||[];
+  // Sin cursos asignados se considera profesor complementario y puede trabajar
+  // en cualquier curso, pero solo dentro de sus asignaturas autorizadas.
+  const courseOK=!courses.length || courses.includes(course);
   const subjects=currentSession.subjects||[];
   // Perfiles docentes antiguos sin el campo subjects mantienen acceso hasta que el administrador los edite.
   const subjectOK=currentSession.subjectsConfigured===false || subjects.includes(subject);
@@ -2223,7 +2294,10 @@ async function configureContext(){
   }
 
   if(currentSession.role==="teacher"){
-    $("contextText").innerHTML=`<strong>Profesor/a:</strong> ${esc(currentSession.courses.join(", ")||"sin cursos asignados")}${currentSession.subjectsConfigured?` · <strong>Asignaturas:</strong> ${esc(currentSession.subjects.join(", ")||"ninguna asignada")}`:" · asignaturas aún no configuradas"}.`;
+    const courseText=(currentSession.courses||[]).length
+      ? esc(currentSession.courses.join(", "))
+      : "Profesor complementario · todos los cursos";
+    $("contextText").innerHTML=`<strong>Profesor/a:</strong> ${courseText}${currentSession.subjectsConfigured?` · <strong>Asignaturas:</strong> ${esc(currentSession.subjects.join(", ")||"ninguna asignada")}`:" · asignaturas aún no configuradas"}.`;
     return;
   }
 
@@ -3143,15 +3217,112 @@ function openDayEvaluations(date){
 }
 
 function changeMonth(n){calendarDate=new Date(calendarDate.getFullYear(),calendarDate.getMonth()+n,1);renderCalendar()}function goToday(){calendarDate=new Date();renderCalendar()}
+function courseSettingsId(course){
+  return String(course||"")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-zA-Z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"")
+    .toLowerCase();
+}
+
+async function loadCourseTutors(){
+  try{
+    const snap=await FB.getDocs(FB.collection(db,"courseSettings"));
+    const map={};
+    snap.docs.forEach(d=>{
+      const data=d.data()||{};
+      if(data.course) map[data.course]={id:d.id,...data};
+    });
+    courseTutors=map;
+    if($("courseGrid")) renderCourses();
+  }catch(err){
+    console.warn("No se pudieron cargar los tutores de curso:",err);
+    courseTutors={};
+  }
+}
+
+async function openCourseTutorDialog(course){
+  if(currentSession?.role!=="admin") return;
+  selectedTutorCourse=course;
+
+  if(!users.length){
+    await loadUsers();
+  }
+
+  const teachers=users
+    .filter(u=>u.role==="teacher"&&u.active!==false)
+    .sort((a,b)=>(a.name||a.email||"").localeCompare(b.name||b.email||"","es"));
+
+  const current=courseTutors[course]?.tutorUid||"";
+  $("courseTutorCourse").textContent=course;
+  $("courseTutorSelect").innerHTML=`<option value="">Sin Tutor/a asignado</option>`+
+    teachers.map(t=>`<option value="${esc(t.id)}">${esc(t.name||t.email||"Profesor/a")}</option>`).join("");
+  $("courseTutorSelect").value=current;
+  courseTutorDialog.showModal();
+}
+
+async function saveCourseTutor(){
+  if(currentSession?.role!=="admin"||!selectedTutorCourse) return;
+
+  const tutorUid=$("courseTutorSelect").value;
+  const docId=courseSettingsId(selectedTutorCourse);
+  const ref=FB.doc(db,"courseSettings",docId);
+
+  try{
+    if(!tutorUid){
+      await FB.deleteDoc(ref).catch(err=>{
+        if(err?.code!=="not-found") throw err;
+      });
+      delete courseTutors[selectedTutorCourse];
+      await logAudit("update","course",selectedTutorCourse,`${selectedTutorCourse} · Tutor/a retirado`);
+      showToast("El curso quedó sin Tutor/a asignado.","ok","Tutoría actualizada");
+    }else{
+      const teacher=users.find(u=>u.id===tutorUid&&u.role==="teacher");
+      if(!teacher){
+        showAppMessage("Profesor no disponible","Selecciona un profesor activo de la lista.","warn");
+        return;
+      }
+
+      const data={
+        course:selectedTutorCourse,
+        tutorUid,
+        tutorName:teacher.name||teacher.email||"Profesor/a",
+        tutorEmail:teacher.email||"",
+        updatedAt:FB.serverTimestamp(),
+        updatedBy:currentSession.uid
+      };
+
+      await FB.setDoc(ref,data,{merge:true});
+      courseTutors[selectedTutorCourse]={id:docId,...data};
+      await logAudit("update","course",selectedTutorCourse,`${selectedTutorCourse} · Tutor/a: ${data.tutorName}`);
+      showToast(`${data.tutorName} quedó asignado/a como Tutor/a.`,"ok","Tutoría actualizada");
+    }
+
+    courseTutorDialog.close();
+    renderCourses();
+
+    if(courseDetailDialog?.open){
+      courseDetailDialog.close();
+      setTimeout(()=>openCourseDetail(selectedTutorCourse),50);
+    }
+  }catch(err){
+    console.error("Error guardando Tutor/a:",err);
+    showAppMessage("No se pudo guardar el Tutor/a",err.message||"Revisa las reglas de Firestore.","error");
+  }
+}
+
 function renderCourses(){
   const allowed=currentSession.role==="admin"?COURSES:contextCourses();
   $("courseGrid").innerHTML=allowed.map(c=>{
     const x=evaluations.filter(e=>e.course===c&&e.status!=="Cancelada");
     const next=x.filter(e=>e.date>=iso()).sort((a,b)=>a.date.localeCompare(b.date))[0];
+    const tutor=courseTutors[c];
     return `<div class="card coursecard clickable-card" onclick="openCourseDetail('${c}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCourseDetail('${c}')}">
       <strong>${esc(c)}</strong>
       <span>${x.length} evaluación${x.length===1?"":"es"} registrada${x.length===1?"":"s"}</span>
       <span>${next?`Próxima: ${fmt(next.date,{day:"2-digit",month:"short"})} · ${esc(next.subject)}`:"Sin próximas evaluaciones"}</span>
+      <div class="course-tutor-line ${tutor?.tutorName?"":"missing"}">👤 ${tutor?.tutorName?`Tutor/a: ${esc(tutor.tutorName)}`:"Tutor/a sin asignar"}</div>
       <span class="detail-hint">Ver resumen del curso →</span>
     </div>`;
   }).join("")||'<div class="empty">Sin cursos visibles.</div>';
@@ -3174,7 +3345,12 @@ function gradeDisplay(v){
 function accessibleStudentsForGrades(){
   if(!currentSession) return [];
   if(currentSession.role==="admin") return students.slice().sort((a,b)=>a.name.localeCompare(b.name,"es"));
-  if(currentSession.role==="teacher") return students.filter(s=>currentSession.courses.includes(s.course)).sort((a,b)=>a.name.localeCompare(b.name,"es"));
+  if(currentSession.role==="teacher"){
+    const courses=currentSession.courses||[];
+    return students
+      .filter(s=>!courses.length || courses.includes(s.course))
+      .sort((a,b)=>a.name.localeCompare(b.name,"es"));
+  }
   if(currentSession.role==="parent") return parentChildren.slice().sort((a,b)=>a.name.localeCompare(b.name,"es"));
   if(currentSession.role==="student"){
     return currentStudent?[currentStudent]:students.filter(s=>s.id===currentSession.studentId);
@@ -3185,9 +3361,10 @@ function accessibleStudentsForGrades(){
 function gradeReadQueryForStudent(studentId,course=""){
   const col=FB.collection(db,"grades");
   if(currentSession?.role==="teacher"){
-    if(!course || !currentSession.courses.includes(course)) return null;
-    // Las reglas del profesor dependen del curso. Consultar por curso permite
-    // que Firestore compruebe el permiso; luego filtramos por estudiante.
+    const assigned=currentSession.courses||[];
+    if(!course || (assigned.length && !assigned.includes(course))) return null;
+    // Para profesores complementarios (sin cursos asignados), cualquier curso es válido;
+    // la asignatura continúa limitada por subjects.
     return FB.query(col,FB.where("course","==",course));
   }
   return FB.query(col,FB.where("studentId","==",studentId));
@@ -3430,7 +3607,7 @@ function openUserDetail(id){
       <div class="entity-box"><span>Correo</span><strong>${esc(u.email||"—")}</strong></div>
       <div class="entity-box"><span>Rol</span><strong>${esc(roleLabel(u.role))}</strong></div>
       <div class="entity-box"><span>Estado</span><strong>${u.active===false?"Desactivado":"Activo"}</strong></div>
-      <div class="entity-box"><span>Cursos</span><strong>${esc((u.courses||[]).join(", ")||"—")}</strong></div>
+      <div class="entity-box"><span>Cursos</span><strong>${esc((u.courses||[]).join(", ")||"Profesor complementario · todos los cursos")}</strong></div>
       ${u.role==="teacher"?`<div class="entity-box"><span>Asignaturas</span><strong>${esc((u.subjects||[]).join(", ")||"Sin asignaturas definidas")}</strong></div>`:""}
     </div>
 
@@ -3502,6 +3679,17 @@ async function openCourseDetail(course){
     <div class="entity-hero">
       <div class="entity-avatar">🎓</div>
       <div><h3>${esc(course)}</h3><p>Resumen académico y próximas evaluaciones.</p></div>
+    </div>
+
+    <div class="tutor-summary">
+      <div class="tutor-main">
+        <div class="tutor-icon">👤</div>
+        <div>
+          <strong>${courseTutors[course]?.tutorName?esc(courseTutors[course].tutorName):"Tutor/a sin asignar"}</strong>
+          <small>${courseTutors[course]?.tutorEmail?esc(courseTutors[course].tutorEmail):"Tutoría del curso"}</small>
+        </div>
+      </div>
+      ${currentSession?.role==="admin"?`<button class="btn secondary" onclick="courseDetailDialog.close();openCourseTutorDialog('${esc(course)}')">Elegir Tutor/a</button>`:""}
     </div>
 
     <div class="entity-grid">
@@ -4172,7 +4360,7 @@ function renderUsersList(){
   $("usersList").innerHTML=users.map(u=>{
     const teacherMeta=u.role==="teacher"?`
       <div class="teacher-access-summary">
-        <span>🏫 ${(u.courses||[]).length} curso(s)</span>
+        <span>🏫 ${(u.courses||[]).length ? `${(u.courses||[]).length} curso(s)` : "Complementario · todos los cursos"}</span>
         <span>📚 ${(u.subjects||[]).length} asignatura(s)</span>
       </div>`:"";
     return `<div class="rowcard clickable-card" onclick="openUserDetail('${u.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openUserDetail('${u.id}')}" >
@@ -4220,11 +4408,18 @@ async function loadStudents(){
       const s=await FB.getDocs(FB.collection(db,"students"));
       docs=s.docs;
     }else{
-      // Firestore rules require course-scoped queries for teachers.
-      for(const course of currentSession.courses||[]){
-        const q=FB.query(FB.collection(db,"students"),FB.where("course","==",course));
-        const s=await FB.getDocs(q);
-        docs.push(...s.docs);
+      const assigned=currentSession.courses||[];
+      if(!assigned.length){
+        // Profesor complementario: puede acceder a estudiantes de todos los cursos.
+        const s=await FB.getDocs(FB.collection(db,"students"));
+        docs=s.docs;
+      }else{
+        // Profesor con cursos asignados: consulta solo esos cursos.
+        for(const course of assigned){
+          const q=FB.query(FB.collection(db,"students"),FB.where("course","==",course));
+          const s=await FB.getDocs(q);
+          docs.push(...s.docs);
+        }
       }
     }
 
@@ -4246,7 +4441,7 @@ function teacherAssignmentsHTML(prefix,u={}){
   const subjects=u.subjects||[];
   return `<div class="assignment-shell">
     <div class="assignment-card">
-      <div class="assignment-head"><div><strong>Cursos asignados</strong><small>Define en qué cursos puede trabajar este profesor.</small></div><span class="assignment-icon">🏫</span></div>
+      <div class="assignment-head"><div><strong>Cursos asignados</strong><small>Selecciona cursos solo si corresponde. Si no eliges ninguno, se considerará profesor complementario y podrá trabajar en todos los cursos dentro de sus asignaturas.</small></div><span class="assignment-icon">🏫</span></div>
       <div class="checkgrid">${COURSES.map(c=>`<label class="check"><input type="checkbox" name="${prefix}Courses" value="${c}" ${courses.includes(c)?"checked":""}>${c}</label>`).join("")}</div>
     </div>
     <div class="assignment-card">
@@ -4271,8 +4466,8 @@ async function createUser(e){
   const studentRecord=studentId?students.find(s=>s.id===studentId):null;
   const courses=role==="teacher"?checked("cuCourses"):role==="parent"?[...new Set(students.filter(s=>studentIds.includes(s.id)).map(s=>s.course))]:role==="student"&&studentRecord?[studentRecord.course]:[];
   const subjects=role==="teacher"?checked("cuSubjects"):[];
-  if(role==="teacher"&&(!courses.length||!subjects.length)){
-    $("cuMsg").innerHTML='<div class="notice warn">Para crear un profesor debes asignarle al menos un curso y una asignatura.</div>';
+  if(role==="teacher"&&!subjects.length){
+    $("cuMsg").innerHTML='<div class="notice warn">Selecciona al menos una asignatura. Los cursos pueden quedar sin marcar para un profesor complementario.</div>';
     return;
   }
   if(role==="student"&&!studentRecord){$("cuMsg").innerHTML='<div class="notice warn">Selecciona el estudiante asociado.</div>';return;}
@@ -4385,8 +4580,8 @@ async function updateUser(e){
   const studentRecord=studentId?students.find(s=>s.id===studentId):null;
   const courses=role==="teacher"?checked("euCourses"):role==="parent"?[...new Set(students.filter(s=>studentIds.includes(s.id)).map(s=>s.course))]:role==="student"&&studentRecord?[studentRecord.course]:[];
   const subjects=role==="teacher"?checked("euSubjects"):[];
-  if(role==="teacher"&&(!courses.length||!subjects.length)){
-    showAppMessage("Faltan asignaciones","Selecciona al menos un curso y una asignatura para este profesor.","warn");
+  if(role==="teacher"&&!subjects.length){
+    showAppMessage("Falta asignatura","Selecciona al menos una asignatura. Si es profesor complementario, puedes dejar todos los cursos sin marcar.","warn");
     return;
   }
   if(role==="student"&&!studentRecord){showAppMessage("Falta asociación","Selecciona el estudiante correspondiente a esta cuenta.","warn");return;}
@@ -4437,7 +4632,7 @@ async function logAudit(action,entityType,entityId,detail){
 async function loadAudit(){
   if(currentSession.role!=="admin")return;try{const q=FB.query(FB.collection(db,"auditLogs"),FB.orderBy("createdAt","desc"),FB.limit(100));const s=await FB.getDocs(q);$("auditList").innerHTML=s.docs.map(d=>{const a=d.data(),date=a.createdAt?.toDate?a.createdAt.toDate().toLocaleString("es-CL"):"";return `<div class="audit"><strong>${esc(a.actorName||"Usuario")} · ${esc(a.action)} ${esc(a.entityType)}</strong><div>${esc(a.detail||"")} · ${date}</div></div>`}).join("")||'<div class="empty">Sin registros.</div>'}catch(e){$("auditList").innerHTML='<div class="empty">No se pudo cargar la auditoría. Puede requerir un índice o reglas actualizadas.</div>'}
 }
-function openProfile(){$("profileContent").innerHTML=`<div class="notice ok"><strong>${esc(currentSession.name)}</strong><br>${esc(currentSession.email)}<br>${esc(roleLabel(currentSession.role))}${currentSession.courses?.length?`<br>Cursos: ${esc(currentSession.courses.join(", "))}`:""}${currentSession.role==="teacher"&&currentSession.subjects?.length?`<br>Asignaturas: ${esc(currentSession.subjects.join(", "))}`:""}</div><p class="meta" style="margin-top:12px">Las notificaciones del navegador requieren permiso en cada dispositivo. Para avisos push con la aplicación completamente cerrada se necesita habilitar Firebase Cloud Messaging y un servicio emisor.</p>`;profileDialog.showModal()}
+function openProfile(){$("profileContent").innerHTML=`<div class="notice ok"><strong>${esc(currentSession.name)}</strong><br>${esc(currentSession.email)}<br>${esc(roleLabel(currentSession.role))}${currentSession.role==="teacher"&&!currentSession.courses?.length?`<br>Cursos: Profesor complementario · todos los cursos`:currentSession.courses?.length?`<br>Cursos: ${esc(currentSession.courses.join(", "))}`:""}${currentSession.role==="teacher"&&currentSession.subjects?.length?`<br>Asignaturas: ${esc(currentSession.subjects.join(", "))}`:""}</div><p class="meta" style="margin-top:12px">Las notificaciones del navegador requieren permiso en cada dispositivo. Para avisos push con la aplicación completamente cerrada se necesita habilitar Firebase Cloud Messaging y un servicio emisor.</p>`;profileDialog.showModal()}
 
 function exportCSV(){
   const rows=[["Curso","Fecha","Asignatura","Tipo","Título","Profesor","Estado","Ponderación","Contenidos","Observaciones"],...visibleEvaluations().map(e=>[e.course,e.date,e.subject,e.type,e.title,e.teacher||"",e.status,e.weight??"",e.contents||"",e.notes||""])];
