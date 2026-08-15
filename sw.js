@@ -1,7 +1,6 @@
-// Michelangelo Evaluaciones
-// PWA + Firebase Cloud Messaging
+// Michelangelo Evaluaciones - PWA + Firebase Cloud Messaging
 
-const CACHE = "michelangelo-evaluaciones-v12";
+const CACHE = "michelangelo-evaluaciones-v23";
 
 const ASSETS = [
   "./",
@@ -58,12 +57,6 @@ const messaging =
 messaging.onBackgroundMessage(
   payload => {
 
-    console.log(
-      "[sw.js] Mensaje FCM en segundo plano:",
-      payload
-    );
-
-
     const title =
       payload?.notification?.title
       ||
@@ -100,18 +93,17 @@ messaging.onBackgroundMessage(
     };
 
 
-    self.registration
-      .showNotification(
-        title,
-        options
-      );
+    self.registration.showNotification(
+      title,
+      options
+    );
 
   }
 );
 
 
 /* =====================================================
-   INSTALACIÓN PWA
+   INSTALACIÓN
 ===================================================== */
 
 self.addEventListener(
@@ -142,7 +134,7 @@ self.addEventListener(
 
 
 /* =====================================================
-   ACTIVACIÓN
+   ACTIVACIÓN Y LIMPIEZA DE CACHÉ
 ===================================================== */
 
 self.addEventListener(
@@ -162,9 +154,7 @@ self.addEventListener(
 
                 .filter(
                   key =>
-                    key
-                    !==
-                    CACHE
+                    key !== CACHE
                 )
 
                 .map(
@@ -189,7 +179,7 @@ self.addEventListener(
 
 
 /* =====================================================
-   CACHÉ / OFFLINE
+   FUNCIONAMIENTO OFFLINE
 ===================================================== */
 
 self.addEventListener(
@@ -197,9 +187,7 @@ self.addEventListener(
   event => {
 
     if (
-      event.request.method
-      !==
-      "GET"
+      event.request.method !== "GET"
     ) {
 
       return;
@@ -212,11 +200,6 @@ self.addEventListener(
         event.request.url
       );
 
-
-    /*
-      No interferir con las
-      conexiones de Firebase.
-    */
 
     if (
       url.hostname.includes(
@@ -300,8 +283,7 @@ self.addEventListener(
   "notificationclick",
   event => {
 
-    event.notification
-      .close();
+    event.notification.close();
 
 
     event.waitUntil(
@@ -332,8 +314,7 @@ self.addEventListener(
                 client
               ) {
 
-                return client
-                  .focus();
+                return client.focus();
 
               }
 
@@ -344,10 +325,9 @@ self.addEventListener(
               clients.openWindow
             ) {
 
-              return clients
-                .openWindow(
-                  "./index.html"
-                );
+              return clients.openWindow(
+                "./index.html"
+              );
 
             }
 
