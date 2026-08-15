@@ -1,15 +1,19 @@
-const CACHE="michelangelo-evaluaciones-v25-8";
+const CACHE="michelangelo-evaluaciones-v27";
+
 const ASSETS=[
   "./",
   "./index.html",
   "./logo.png",
-  "./favicon.ico",
-  "./favicon.png",
   "./manifest.webmanifest"
 ];
 
-importScripts("https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/12.17.1/firebase-messaging-compat.js");
+importScripts(
+  "https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"
+);
+
+importScripts(
+  "https://www.gstatic.com/firebasejs/12.17.1/firebase-messaging-compat.js"
+);
 
 firebase.initializeApp({
   apiKey:"AIzaSyDL3ziFbr1borIZsSo1Rjnp_AYdc3bR3yk",
@@ -22,130 +26,162 @@ firebase.initializeApp({
 
 const messaging=firebase.messaging();
 
+/*
+  La notificación ahora es mostrada automáticamente por FCM
+  cuando la app está cerrada o en segundo plano.
+
+  Por eso NO usamos showNotification() aquí.
+  Así evitamos notificaciones duplicadas.
+*/
+
 messaging.onBackgroundMessage(payload=>{
-  const title=
-    payload?.notification?.title ||
-    payload?.data?.title ||
-    "Colegio Waldorf Michelangelo";
 
-  const options={
-    body:
-      payload?.notification?.body ||
-      payload?.data?.body ||
-      "Tienes una nueva notificación.",
-
-    icon:"./logo.png",
-    badge:"./logo.png",
-
-    tag:
-      payload?.data?.tag ||
-      "michelangelo-fcm",
-
-    data:
-      payload?.data || {}
-  };
-
-  self.registration.showNotification(
-    title,
-    options
+  console.log(
+    "[FCM] Mensaje recibido en segundo plano:",
+    payload?.data?.type || "notification"
   );
+
 });
 
-self.addEventListener("install",event=>{
-  event.waitUntil(
-    caches.open(CACHE)
-      .then(cache=>cache.addAll(ASSETS))
-      .then(()=>self.skipWaiting())
-  );
-});
 
-self.addEventListener("activate",event=>{
-  event.waitUntil(
-    caches.keys()
-      .then(keys=>
-        Promise.all(
-          keys
-            .filter(key=>key!==CACHE)
-            .map(key=>caches.delete(key))
-        )
-      )
-      .then(()=>self.clients.claim())
-  );
-});
+self.addEventListener(
+  "install",
+  event=>{
 
-self.addEventListener("fetch",event=>{
-  if(event.request.method!=="GET"){
-    return;
-  }
+    event.waitUntil(
 
-  const url=new URL(event.request.url);
+      caches
+        .open(CACHE)
 
-  if(
-    url.hostname.includes("googleapis.com") ||
-    url.hostname.includes("firebaseio.com") ||
-    url.hostname.includes("gstatic.com")
-  ){
-    return;
-  }
-
-  event.respondWith(
-    fetch(event.request)
-      .then(response=>{
-        const copy=response.clone();
-
-        caches.open(CACHE)
-          .then(cache=>
-            cache.put(
-              event.request,
-              copy
+        .then(
+          cache=>
+            cache.addAll(
+              ASSETS
             )
-          );
+        )
 
-        return response;
-      })
-      .catch(()=>
-        caches.match(event.request)
-          .then(cached=>
-            cached ||
-            caches.match("./index.html")
-          )
+        .then(
+          ()=>
+            self.skipWaiting()
+        )
+
+    );
+
+  }
+);
+
+
+self.addEventListener(
+  "activate",
+  event=>{
+
+    event.waitUntil(
+
+      caches
+        .keys()
+
+        .then(
+          keys=>
+            Promise.all(
+
+              keys
+
+                .filter(
+                  key=>
+                    key!==CACHE
+                )
+
+                .map(
+                  key=>
+                    caches.delete(
+                      key
+                    )
+                )
+
+            )
+        )
+
+        .then(
+          ()=>
+            self.clients.claim()
+        )
+
+    );
+
+  }
+);
+
+
+self.addEventListener(
+  "fetch",
+  event=>{
+
+    if(
+      event.request.method!=="GET"
+    ){
+      return;
+    }
+
+    const url=
+      new URL(
+        event.request.url
+      );
+
+    if(
+      url.hostname.includes("googleapis.com") ||
+      url.hostname.includes("firebaseio.com") ||
+      url.hostname.includes("gstatic.com")
+    ){
+      return;
+    }
+
+    event.respondWith(
+
+      fetch(
+        event.request
       )
-  );
-});
 
-self.addEventListener("notificationclick",event=>{
-  event.notification.close();
+        .then(
+          response=>{
 
-  const evaluationId=
-    event.notification?.data?.evaluationId ||
-    "";
+            const copy=
+              response.clone();
 
-  const targetUrl=
-    evaluationId
-      ? `./index.html?evaluation=${encodeURIComponent(evaluationId)}`
-      : "./index.html";
+            caches
+              .open(CACHE)
 
-  event.waitUntil(
-    clients.matchAll({
-      type:"window",
-      includeUncontrolled:true
-    })
-    .then(async windows=>{
-      for(const client of windows){
-        if("navigate" in client){
-          try{
-            await client.navigate(targetUrl);
-          }catch{}
-        }
+              .then(
+                cache=>
+                  cache.put(
+                    event.request,
+                    copy
+                  )
+              );
 
-        if("focus" in client){
-          return client.focus();
-        }
-      }
+            return response;
 
-      if(clients.openWindow){
-        return clients.openWindow(targetUrl);
-      }
-    })
-  );
-});
+          }
+        )
+
+        .catch(
+          ()=>
+
+            caches
+              .match(
+                event.request
+              )
+
+              .then(
+                cached=>
+                  cached ||
+                  caches.match(
+                    "./index.html"
+                  )
+              )
+
+        )
+
+    );
+
+  }
+);
