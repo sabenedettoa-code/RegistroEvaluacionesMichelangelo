@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V28.9 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V28.10 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V28.9 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V28.10 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1477,7 +1477,7 @@
     }
 
   
-    /* ===== V28.9 · TUTOR/A DE CURSO ===== */
+    /* ===== V28.10 · TUTOR/A DE CURSO ===== */
     .course-tutor-line{
       display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
       border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
@@ -1909,7 +1909,7 @@
 </div></dialog>
 
 <dialog id="studentDialog"><div class="dialog"><div class="dialoghead"><h3>Editar estudiante</h3><button class="iconbtn" onclick="studentDialog.close()">×</button></div>
-  <form id="editStudentForm" class="formgrid"><input id="esId" type="hidden"><div class="field full"><label>Nombre</label><input id="esName" required></div><div class="field full"><label>Curso</label><select id="esCourse"></select></div><div class="form-actions"><button class="btn ghost" type="button" onclick="studentDialog.close()">Cancelar</button><button class="btn primary" type="submit">Guardar cambios</button></div></form>
+  <form id="editStudentForm" class="formgrid"><input id="esId" type="hidden"><div class="field full"><label>Nombre</label><input id="esName" required></div><div class="field full"><label>Curso</label><select id="esCourse"></select></div><div class="form-actions" style="justify-content:space-between"><button class="btn danger" type="button" onclick="deleteStudent($('esId').value)">Eliminar estudiante</button><div style="display:flex;gap:8px"><button class="btn ghost" type="button" onclick="studentDialog.close()">Cancelar</button><button class="btn primary" type="submit">Guardar cambios</button></div></div></form>
 </div></dialog>
 
 
@@ -3591,6 +3591,7 @@ async function openStudentDetail(id){
       <button class="btn ghost" onclick="studentDetailDialog.close()">Cerrar</button>
       ${currentSession?.role==="admin"?`<button class="btn primary" onclick="studentDetailDialog.close();openStudent('${s.id}')">Editar estudiante</button>`:""}
       ${["admin","teacher"].includes(currentSession?.role)?`<button class="btn secondary" onclick="studentDetailDialog.close();showSection('notas');selectedGradeStudentId='${s.id}';prepareGradesSection()">Ver notas</button>`:""}
+      ${currentSession?.role==="admin"?`<button class="btn danger" onclick="studentDetailDialog.close();deleteStudent('${s.id}')">Eliminar estudiante</button>`:""}
     </div>`;
   studentDetailDialog.showModal();
 }
@@ -4617,6 +4618,191 @@ async function updateStudent(e){
   }catch(err){
     console.error("Actualizar estudiante:",err);
     showToast("No se pudo actualizar el estudiante.","error");
+  }
+}
+
+
+async function deleteStudent(id){
+  if(currentSession?.role!=="admin"){
+    showAppMessage(
+      "Acción no permitida",
+      "Solo un administrador puede eliminar estudiantes.",
+      "warn"
+    );
+    return;
+  }
+
+  const s=
+    students.find(x=>x.id===id) ||
+    parentChildren.find(x=>x.id===id);
+
+  if(!s){
+    showAppMessage(
+      "Estudiante no encontrado",
+      "No se encontró el registro del estudiante seleccionado.",
+      "error"
+    );
+    return;
+  }
+
+  const ok=await appConfirm(
+    "Eliminar estudiante",
+    `Se eliminará definitivamente a ${s.name}. También se borrarán sus notas, su planificación de estudio y sus asociaciones con apoderados. Si tiene una cuenta de estudiante vinculada, también se eliminará. Esta acción no se puede deshacer.`,
+    "Eliminar definitivamente"
+  );
+
+  if(!ok) return;
+
+  try{
+    /*
+     * 1. Desvincular al estudiante de todos los apoderados
+     * y recalcular los cursos asociados a cada apoderado.
+     */
+    const parentsQuery=
+      FB.query(
+        FB.collection(db,"users"),
+        FB.where("studentIds","array-contains",id)
+      );
+
+    const parentSnap=
+      await FB.getDocs(parentsQuery);
+
+    for(const parentDoc of parentSnap.docs){
+      const parent=parentDoc.data();
+      const remainingIds=
+        (parent.studentIds||[])
+          .filter(studentId=>studentId!==id);
+
+      const remainingCourses=
+        [...new Set(
+          students
+            .filter(student=>remainingIds.includes(student.id))
+            .map(student=>student.course)
+            .filter(Boolean)
+        )];
+
+      await FB.updateDoc(
+        parentDoc.ref,
+        {
+          studentIds:remainingIds,
+          courses:remainingCourses,
+          updatedAt:FB.serverTimestamp()
+        }
+      );
+    }
+
+    /*
+     * 2. Eliminar todas las notas del estudiante.
+     */
+    const gradesQuery=
+      FB.query(
+        FB.collection(db,"grades"),
+        FB.where("studentId","==",id)
+      );
+
+    const gradeSnap=
+      await FB.getDocs(gradesQuery);
+
+    for(const gradeDoc of gradeSnap.docs){
+      await FB.deleteDoc(gradeDoc.ref);
+    }
+
+    /*
+     * 3. Eliminar planificación de estudio vinculada.
+     */
+    const plansQuery=
+      FB.query(
+        FB.collection(db,"studyPlans"),
+        FB.where("studentId","==",id)
+      );
+
+    const planSnap=
+      await FB.getDocs(plansQuery);
+
+    for(const planDoc of planSnap.docs){
+      await FB.deleteDoc(planDoc.ref);
+    }
+
+    /*
+     * 4. Buscar cuenta(s) de usuario estudiante vinculadas.
+     * La Cloud Function existente elimina también Firebase Auth.
+     */
+    const studentUsersQuery=
+      FB.query(
+        FB.collection(db,"users"),
+        FB.where("studentId","==",id)
+      );
+
+    const studentUserSnap=
+      await FB.getDocs(studentUsersQuery);
+
+    if(studentUserSnap.size>0){
+      if(!functions || !FB.httpsCallable){
+        throw new Error(
+          "No se pudo conectar con Cloud Functions para eliminar la cuenta de acceso vinculada."
+        );
+      }
+
+      const deleteUserAccount=
+        FB.httpsCallable(
+          functions,
+          "deleteUserAccount"
+        );
+
+      for(const userDoc of studentUserSnap.docs){
+        await deleteUserAccount({
+          uid:userDoc.id
+        });
+      }
+    }
+
+    /*
+     * 5. Eliminar finalmente el registro del estudiante.
+     */
+    await FB.deleteDoc(
+      FB.doc(
+        db,
+        "students",
+        id
+      )
+    );
+
+    await logAudit(
+      "delete",
+      "student",
+      id,
+      `${s.name} · ${s.course||"Sin curso"}`
+    );
+
+    try{
+      studentDialog.close();
+    }catch{}
+
+    try{
+      studentDetailDialog.close();
+    }catch{}
+
+    await loadStudents();
+    await loadUsers();
+
+    showToast(
+      `${s.name} fue eliminado de la plataforma.`,
+      "ok",
+      "Estudiante eliminado"
+    );
+
+  }catch(err){
+    console.error(
+      "Eliminar estudiante:",
+      err
+    );
+
+    showAppMessage(
+      "No se pudo eliminar el estudiante",
+      err?.message ||
+      "Ocurrió un error durante la eliminación. No se realizaron más cambios.",
+      "error"
+    );
   }
 }
 
