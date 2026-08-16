@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V29.8 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V30.0 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V29.8 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V30.0 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1477,7 +1477,7 @@
     }
 
   
-    /* ===== V29.8 · TUTOR/A DE CURSO ===== */
+    /* ===== V30.0 · TUTOR/A DE CURSO ===== */
     .course-tutor-line{
       display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
       border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
@@ -1687,7 +1687,7 @@
     }
 
   
-    /* ===== V29.8 · REGISTRO DE ASISTENCIA ===== */
+    /* ===== V30.0 · REGISTRO DE ASISTENCIA ===== */
     .attendance-summary{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
@@ -1764,7 +1764,7 @@
     }
 
   
-    /* ===== V29.8 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
+    /* ===== V30.0 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
     .parent-students-overview{
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     }
@@ -1838,7 +1838,7 @@
       }
     }
 
-  /* ===== V29.8 · CORRECCIÓN MÓVIL INTEGRAL ===== */
+  /* ===== V30.0 · CORRECCIÓN MÓVIL INTEGRAL ===== */
     *,*::before,*::after{box-sizing:border-box}
     html{
       -webkit-text-size-adjust:100%;
@@ -2356,7 +2356,7 @@
     }
 
   
-    /* ===== V29.8 · CALENDARIO MÓVIL RECONSTRUIDO ===== */
+    /* ===== V30.0 · CALENDARIO MÓVIL RECONSTRUIDO ===== */
     .calendar-mobile-head,
     .calendar-mobile-monthbar{
       display:none;
@@ -2721,7 +2721,7 @@
     }
 
   
-    /* ===== V29.8 · MOSTRAR / OCULTAR CONTRASEÑA ===== */
+    /* ===== V30.0 · MOSTRAR / OCULTAR CONTRASEÑA ===== */
     .password-field{position:relative;width:100%;min-width:0}
     .password-field input{width:100%;padding-right:104px!important}
     .password-toggle{
@@ -2740,7 +2740,7 @@
     }
 
   
-    /* ===== V29.8 · ICONOGRAFÍA SVG CLÁSICA ===== */
+    /* ===== V30.0 · ICONOGRAFÍA SVG CLÁSICA ===== */
     .mi-icon{
       width:1.08em;
       height:1.08em;
@@ -2763,7 +2763,7 @@
     .password-eye .mi-icon{width:1rem;height:1rem}
 
   
-    /* ===== V29.8 · EXPERIENCIA TIPO PLATAFORMA DE GESTIÓN ESCOLAR ===== */
+    /* ===== V30.0 · EXPERIENCIA TIPO PLATAFORMA DE GESTIÓN ESCOLAR ===== */
     .institutional-quick-access{
       display:grid;
       grid-template-columns:repeat(4,minmax(0,1fr));
@@ -2887,6 +2887,51 @@
       .libro-metric:nth-of-type(4){grid-column:1/-1}
     }
 
+  
+    /* ===== V30.0 · GESTIÓN ACADÉMICA INTEGRAL ===== */
+    .libro-tabs{display:flex;gap:7px;overflow-x:auto;margin:0 0 12px;padding-bottom:2px;scrollbar-width:none}
+    .libro-tabs::-webkit-scrollbar{display:none}
+    .libro-tab{border:1px solid var(--line);background:var(--panel);color:var(--brown2);border-radius:12px;padding:9px 12px;font-size:10px;font-weight:900;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer}
+    .libro-tab.active{background:var(--brown2);color:#fff;border-color:var(--brown2)}
+    .libro-panel{display:none}
+    .libro-panel.active{display:block}
+    .bulk-attendance-head{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0 12px}
+    .bulk-attendance-actions{display:flex;gap:7px;flex-wrap:wrap}
+    .bulk-attendance-list{display:grid;gap:7px}
+    .bulk-attendance-row{display:grid;grid-template-columns:minmax(180px,1fr) minmax(150px,220px) minmax(150px,1fr);gap:8px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:9px;background:#fff}
+    .bulk-attendance-row strong{font-size:11px;color:var(--brown2)}
+    .bulk-attendance-row select,.bulk-attendance-row input{min-width:0}
+    .mini-kpi-strip{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+    .mini-kpi{border:1px solid var(--line);border-radius:12px;background:#faf5ed;padding:8px 10px;min-width:92px}
+    .mini-kpi span{display:block;font-size:8px;text-transform:uppercase;color:var(--muted);font-weight:900}
+    .mini-kpi strong{display:block;font-size:18px;color:var(--brown2);margin-top:2px}
+    .record-badge{display:inline-flex;align-items:center;border-radius:999px;padding:3px 7px;font-size:8px;font-weight:900;background:#eee6da;color:#6b5038}
+    .record-badge.positive{background:#eee8da}
+    .record-badge.formative,.record-badge.academic{background:#f3e8d9}
+    .record-badge.coexistence,.record-badge.attention{background:#f3e2dc;color:#8a4c3c}
+    .record-badge.family{background:#ece4d6}
+    .compact-filters{display:flex;gap:8px;margin-bottom:10px}
+    .compact-filters select{max-width:240px}
+    .schedule-grid{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:8px;overflow-x:auto;padding-bottom:4px}
+    .schedule-day{min-width:150px;border:1px solid var(--line);border-radius:14px;background:#fbf7f0;padding:8px}
+    .schedule-day>strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--brown2);margin:3px 2px 8px}
+    .schedule-block{border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;margin-bottom:6px}
+    .schedule-block strong{display:block;font-size:10px;color:var(--brown2)}
+    .schedule-block small{display:block;font-size:8px;color:var(--muted);margin-top:2px}
+    .schedule-actions{display:flex;gap:4px;margin-top:6px;justify-content:flex-end}
+    .student-360-tabs{display:flex;gap:6px;overflow-x:auto;margin:10px 0 12px;padding-bottom:2px}
+    .student-360-tab{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 9px;font-size:8px;font-weight:900;color:var(--brown2);white-space:nowrap}
+    .student-360-section{margin-top:14px}
+    .alert-card{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:9px;background:#fbf5ed}
+    .alert-card.attention{background:#f6e7e1;border-color:#ead0c7}
+    .alert-card .mi-icon{width:17px;height:17px;margin-top:1px}
+    .adminpane#pane-settings{max-width:760px}
+    @media(max-width:720px){
+      .bulk-attendance-row{grid-template-columns:1fr}
+      .schedule-grid{grid-template-columns:repeat(5,170px)}
+      .staff-write-panel{order:2}
+    }
+
   </style>
 
 </head>
@@ -2916,6 +2961,11 @@
     <symbol id="mi-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V3h8v3M6 6l1 15h10l1-15M10 10v7M14 10v7"/></symbol>
     <symbol id="mi-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
     <symbol id="mi-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="mi-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M8 9h8M8 13h8M8 17h5"/></symbol>
+    <symbol id="mi-late" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2M5 4 3 6M19 4l2 2"/></symbol>
+    <symbol id="mi-note" viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+    <symbol id="mi-schedule" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M8 13h3M13 13h3M8 17h3"/></symbol>
+    <symbol id="mi-filter" viewBox="0 0 24 24"><path d="M4 5h16M7 12h10M10 19h4"/></symbol>
     <symbol id="mi-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M8 9h8M8 13h8M8 17h5"/></symbol>
   </defs>
 </svg>
@@ -3088,7 +3138,7 @@
         <div>
           <div class="eyebrow">Gestión académica diaria</div>
           <h1>Libro de clases</h1>
-          <p>Vista consolidada de estudiantes, asistencia, notas y evaluaciones por curso.</p>
+          <p>Asistencia, atrasos, observaciones, horario y seguimiento académico por curso.</p>
         </div>
         <div class="top-actions">
           <button class="btn ghost" onclick="renderLibroClases()">Actualizar</button>
@@ -3102,25 +3152,131 @@
           <select id="libroCourseSelect" onchange="renderLibroClases()"></select>
         </div>
         <div class="libro-period-label">
-          <span>Período</span>
-          <strong id="libroPeriodText">Año académico 2026</strong>
+          <span>Año académico</span>
+          <strong id="libroPeriodText">2026</strong>
         </div>
       </div>
 
-      <div id="libroSummary" class="libro-summary"></div>
+      <div class="libro-tabs">
+        <button class="libro-tab active" data-libro-panel="resumen" onclick="renderLibroPanel('resumen')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-clipboard"></use></svg> Resumen</button>
+        <button class="libro-tab" data-libro-panel="asistencia" onclick="renderLibroPanel('asistencia')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-check"></use></svg> Asistencia</button>
+        <button class="libro-tab" data-libro-panel="atrasos" onclick="renderLibroPanel('atrasos')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-late"></use></svg> Atrasos</button>
+        <button class="libro-tab" data-libro-panel="observaciones" onclick="renderLibroPanel('observaciones')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-note"></use></svg> Observaciones</button>
+        <button class="libro-tab" data-libro-panel="horario" onclick="renderLibroPanel('horario')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-schedule"></use></svg> Horario</button>
+      </div>
 
-      <div class="card panel">
-        <div class="title-row">
-          <div>
-            <h3>Estudiantes del curso</h3>
-            <p class="meta" id="libroCourseMeta">Selecciona un curso.</p>
+      <div id="libroPanelResumen" class="libro-panel active">
+        <div id="libroSummary" class="libro-summary"></div>
+
+        <div class="card panel">
+          <div class="title-row">
+            <div>
+              <h3>Estudiantes del curso</h3>
+              <p class="meta" id="libroCourseMeta">Selecciona un curso.</p>
+            </div>
+            <button class="textbtn" onclick="exportCourseSummaryCSV()">Exportar CSV</button>
+          </div>
+          <div id="libroStudents" class="libro-student-list"></div>
+        </div>
+      </div>
+
+      <div id="libroPanelAsistencia" class="libro-panel">
+        <div class="card panel">
+          <div class="title-row">
+            <div>
+              <h3>Pasar asistencia del curso</h3>
+              <p class="meta">Marca el estado de todos los estudiantes y guarda la jornada de una sola vez.</p>
+            </div>
+          </div>
+          <div class="bulk-attendance-head">
+            <div class="field">
+              <label>Fecha</label>
+              <input id="bulkAttendanceDate" type="date" onchange="renderBulkAttendance()">
+            </div>
+            <div class="bulk-attendance-actions">
+              <button class="btn ghost" type="button" onclick="markAllBulkAttendance('present')">Todos presentes</button>
+              <button class="btn primary" type="button" onclick="saveBulkAttendance()">Guardar asistencia</button>
+            </div>
+          </div>
+          <div id="bulkAttendanceList" class="bulk-attendance-list"></div>
+        </div>
+      </div>
+
+      <div id="libroPanelAtrasos" class="libro-panel">
+        <div class="grid">
+          <div class="card panel staff-write-panel">
+            <h3 style="margin-top:0">Registrar atraso</h3>
+            <form id="lateForm" class="formgrid" onsubmit="saveLateRecord(event)">
+              <div class="field full"><label>Estudiante</label><select id="lateStudent" required></select></div>
+              <div class="field"><label>Fecha</label><input id="lateDate" type="date" required></div>
+              <div class="field"><label>Hora de llegada</label><input id="lateTime" type="time" required></div>
+              <div class="field"><label>Minutos de atraso</label><input id="lateMinutes" type="number" min="1" max="240" value="5" required></div>
+              <div class="field"><label>Estado</label><select id="lateJustified"><option value="false">No justificado</option><option value="true">Justificado</option></select></div>
+              <div class="field full"><label>Observación</label><input id="lateNote" maxlength="250" placeholder="Opcional"></div>
+              <div class="form-actions"><button class="btn primary" type="submit">Registrar atraso</button></div>
+            </form>
+          </div>
+          <div class="card panel">
+            <div class="title-row"><h3>Historial de atrasos</h3><button class="textbtn" onclick="renderLateRecords()">Actualizar</button></div>
+            <div id="lateSummary" class="mini-kpi-strip"></div>
+            <div id="lateRecordsList" class="list"></div>
           </div>
         </div>
-        <div id="libroStudents" class="libro-student-list"></div>
+      </div>
+
+      <div id="libroPanelObservaciones" class="libro-panel">
+        <div class="grid">
+          <div class="card panel staff-write-panel">
+            <h3 style="margin-top:0">Nueva observación</h3>
+            <form id="observationForm" class="formgrid" onsubmit="saveObservation(event)">
+              <div class="field full"><label>Estudiante</label><select id="observationStudent" required></select></div>
+              <div class="field"><label>Fecha</label><input id="observationDate" type="date" required></div>
+              <div class="field"><label>Tipo</label>
+                <select id="observationType">
+                  <option value="positive">Positiva</option>
+                  <option value="formative">Formativa</option>
+                  <option value="academic">Académica</option>
+                  <option value="coexistence">Convivencia</option>
+                  <option value="other">Otra</option>
+                </select>
+              </div>
+              <div class="field full"><label>Visibilidad</label>
+                <select id="observationVisibility">
+                  <option value="internal">Solo equipo del colegio</option>
+                  <option value="family">Visible para estudiante y apoderado</option>
+                </select>
+              </div>
+              <div class="field full"><label>Observación</label><textarea id="observationText" rows="5" maxlength="1500" required placeholder="Escribe un registro claro y objetivo."></textarea></div>
+              <div class="form-actions"><button class="btn primary" type="submit">Guardar observación</button></div>
+            </form>
+          </div>
+          <div class="card panel">
+            <div class="title-row"><h3>Observaciones del curso</h3><button class="textbtn" onclick="renderObservations()">Actualizar</button></div>
+            <div id="observationFilters" class="compact-filters">
+              <select id="observationFilterType" onchange="renderObservations()">
+                <option value="">Todos los tipos</option>
+                <option value="positive">Positivas</option>
+                <option value="formative">Formativas</option>
+                <option value="academic">Académicas</option>
+                <option value="coexistence">Convivencia</option>
+                <option value="other">Otras</option>
+              </select>
+            </div>
+            <div id="observationsList" class="list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="libroPanelHorario" class="libro-panel">
+        <div class="card panel">
+          <div class="title-row">
+            <div><h3>Horario semanal</h3><p class="meta">Bloques, asignaturas, profesor/a y sala.</p></div>
+            <button class="btn primary admin-only-schedule hidden" onclick="openScheduleEditor()">+ Agregar bloque</button>
+          </div>
+          <div id="scheduleGrid" class="schedule-grid"></div>
+        </div>
       </div>
     </section>
-
-
 
     <section id="notas" class="section">
       <div class="topbar">
@@ -3173,7 +3329,7 @@
 
     <section id="administracion" class="section">
       <div class="topbar"><div><div class="eyebrow">Administración</div><h1>Personas y sistema</h1><p>Usuarios, estudiantes, asociaciones y trazabilidad.</p></div></div>
-      <div class="admin-tabs"><button class="tabbtn active" data-tab="users" onclick="adminTab('users')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-users"></use></svg> Usuarios</button><button class="tabbtn" data-tab="students" onclick="adminTab('students')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-school"></use></svg> Estudiantes</button><button class="tabbtn" data-tab="audit" onclick="adminTab('audit')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-clock"></use></svg> Auditoría</button></div>
+      <div class="admin-tabs"><button class="tabbtn active" data-tab="users" onclick="adminTab('users')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-users"></use></svg> Usuarios</button><button class="tabbtn" data-tab="students" onclick="adminTab('students')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-school"></use></svg> Estudiantes</button><button class="tabbtn" data-tab="audit" onclick="adminTab('audit')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-clock"></use></svg> Auditoría</button><button class="tabbtn" data-tab="settings" onclick="adminTab('settings')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-settings"></use></svg> Configuración</button></div>
 
       <div id="pane-users" class="adminpane active">
         <div class="admin-grid">
@@ -3213,7 +3369,22 @@
       <div id="pane-audit" class="adminpane">
         <div class="card panel"><div class="title-row"><h3>Actividad reciente</h3><button class="textbtn" onclick="loadAudit()">Actualizar</button></div><div id="auditList"></div></div>
       </div>
-    </section>
+    
+      <div id="pane-settings" class="adminpane">
+        <div class="card panel">
+          <div class="title-row">
+            <div><h3>Configuración académica</h3><p class="meta">Parámetros utilizados por los indicadores de seguimiento.</p></div>
+          </div>
+          <form id="academicSettingsForm" class="formgrid" onsubmit="saveAcademicSettings(event)">
+            <div class="field"><label>Año académico</label><input id="settingAcademicYear" type="number" min="2020" max="2100"></div>
+            <div class="field"><label>Asistencia de alerta (%)</label><input id="settingAttendanceAlert" type="number" min="1" max="100" step="1"></div>
+            <div class="field"><label>Nota de alerta</label><input id="settingGradeAlert" type="number" min="1" max="7" step="0.1"></div>
+            <div class="field"><label>Atrasos de alerta mensual</label><input id="settingLateAlert" type="number" min="1" max="30" step="1"></div>
+            <div class="form-actions"><button class="btn primary" type="submit">Guardar configuración</button></div>
+          </form>
+        </div>
+      </div>
+</section>
   </main>
 </div>
 
@@ -3551,7 +3722,7 @@ const COURSES=["7° Básico","8° Básico","I° Medio","II° Medio","III° Medio
 const SUBJECTS=["Arte","Física","Química","Lenguaje y Literatura","Historia","Matemática","Teatro"];
 
 let FB={},app,auth,db,messaging=null,functions=null,secondaryApp,secondaryAuth,currentUser=null,currentSession=null;
-let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false,evalRangeFilter="upcoming",studyPlans=[],studyUnsubscribe=null,currentStudent=null,grades=[],gradesUnsubscribe=null,selectedGradeStudentId="",calendarView="month",calendarCourseFilter="",pendingEvaluationId="",courseTutors={},selectedTutorCourse="";
+let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false,evalRangeFilter="upcoming",studyPlans=[],studyUnsubscribe=null,currentStudent=null,grades=[],gradesUnsubscribe=null,selectedGradeStudentId="",calendarView="month",calendarCourseFilter="",pendingEvaluationId="",courseTutors={},selectedTutorCourse="",academicSettings={academicYear:2026,attendanceAlert:85,gradeAlert:4,lateAlert:3},activeLibroPanel="resumen";
 
 const $=id=>document.getElementById(id);
 
@@ -3728,6 +3899,7 @@ async function handleAuth(user){
     applySession();
     await configureContext();
     await loadCourseTutors();
+  await loadAcademicSettings();
     if(currentSession.role==="teacher") await loadStudents();
     await logAudit("login","session",user.uid,"Inicio de sesión");
     subscribeEvaluations();
@@ -3743,6 +3915,7 @@ function applySession(){
   document.querySelectorAll(".admin-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="admin"));
   document.querySelectorAll(".student-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="student"));
   document.querySelectorAll(".staff-nav").forEach(x=>x.classList.toggle("hidden",!["admin","teacher"].includes(currentSession.role)));
+  document.querySelectorAll(".admin-only-schedule").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="admin"));
   document.querySelectorAll(".courses-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role==="student"));
   document.querySelectorAll(".grade-write").forEach(x=>x.classList.toggle("hidden",!["admin","teacher"].includes(currentSession.role)));
   document.querySelectorAll(".staff-write").forEach(x=>x.style.display=["admin","teacher"].includes(currentSession.role)?"":"none");
@@ -4633,6 +4806,436 @@ async function getCourseGradesForLibro(course,studentIds){
   }
 }
 
+
+function settingsAttendanceAlert(){
+  return Number(academicSettings?.attendanceAlert)||85;
+}
+function settingsGradeAlert(){
+  return Number(academicSettings?.gradeAlert)||4;
+}
+function settingsLateAlert(){
+  return Number(academicSettings?.lateAlert)||3;
+}
+
+async function loadAcademicSettings(){
+  try{
+    const snap=await FB.getDoc(FB.doc(db,"appSettings","general"));
+    if(snap.exists()){
+      academicSettings={...academicSettings,...snap.data()};
+    }
+  }catch(err){
+    console.warn("Configuración académica:",err);
+  }
+  if($("settingAcademicYear")) $("settingAcademicYear").value=academicSettings.academicYear||new Date().getFullYear();
+  if($("settingAttendanceAlert")) $("settingAttendanceAlert").value=settingsAttendanceAlert();
+  if($("settingGradeAlert")) $("settingGradeAlert").value=settingsGradeAlert();
+  if($("settingLateAlert")) $("settingLateAlert").value=settingsLateAlert();
+  if($("libroPeriodText")) $("libroPeriodText").textContent=academicSettings.academicYear||new Date().getFullYear();
+}
+
+async function saveAcademicSettings(e){
+  e.preventDefault();
+  if(currentSession?.role!=="admin") return;
+  const data={
+    academicYear:Math.max(2020,Number($("settingAcademicYear").value)||new Date().getFullYear()),
+    attendanceAlert:Math.min(100,Math.max(1,Number($("settingAttendanceAlert").value)||85)),
+    gradeAlert:Math.min(7,Math.max(1,Number($("settingGradeAlert").value)||4)),
+    lateAlert:Math.max(1,Number($("settingLateAlert").value)||3),
+    updatedAt:FB.serverTimestamp(),
+    updatedBy:currentSession.uid
+  };
+  await FB.setDoc(FB.doc(db,"appSettings","general"),data,{merge:true});
+  academicSettings={...academicSettings,...data};
+  showToast("Configuración académica actualizada.","ok","Configuración");
+  renderLibroClases();
+}
+
+function renderLibroPanel(panel="resumen"){
+  activeLibroPanel=panel;
+  document.querySelectorAll(".libro-tab").forEach(b=>b.classList.toggle("active",b.dataset.libroPanel===panel));
+  document.querySelectorAll(".libro-panel").forEach(p=>p.classList.toggle("active",p.id===`libroPanel${panel.charAt(0).toUpperCase()+panel.slice(1)}`));
+  if(panel==="asistencia") renderBulkAttendance();
+  if(panel==="atrasos") renderLateRecords();
+  if(panel==="observaciones") renderObservations();
+  if(panel==="horario") renderSchedule();
+}
+
+function currentLibroCourse(){
+  return $("libroCourseSelect")?.value||"";
+}
+
+function courseStudentsSorted(course=currentLibroCourse()){
+  return students.filter(s=>s.course===course).sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"));
+}
+
+async function getAttendanceByCourseDate(course,date){
+  if(!course||!date) return [];
+  const q=FB.query(
+    FB.collection(db,"attendanceRecords"),
+    FB.where("course","==",course),
+    FB.where("date","==",date)
+  );
+  const snap=await FB.getDocs(q);
+  return snap.docs.map(d=>({id:d.id,...d.data()}));
+}
+
+async function renderBulkAttendance(){
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+  const course=currentLibroCourse();
+  const list=$("bulkAttendanceList");
+  if(!list) return;
+  if(!$("bulkAttendanceDate").value) $("bulkAttendanceDate").value=iso();
+  const date=$("bulkAttendanceDate").value;
+  const courseStudents=courseStudentsSorted(course);
+  if(!courseStudents.length){
+    list.innerHTML='<div class="empty">No hay estudiantes registrados en este curso.</div>';
+    return;
+  }
+  let existing=[];
+  try{ existing=await getAttendanceByCourseDate(course,date); }catch(err){console.warn(err)}
+  const byStudent=new Map(existing.map(r=>[r.studentId,r]));
+  list.innerHTML=courseStudents.map(s=>{
+    const r=byStudent.get(s.id);
+    const status=r?.status||"present";
+    return `<div class="bulk-attendance-row" data-student-id="${s.id}">
+      <strong>${esc(s.name)}</strong>
+      <select class="bulk-status">
+        <option value="present" ${status==="present"?"selected":""}>Presente</option>
+        <option value="absent" ${status==="absent"?"selected":""}>Ausente</option>
+        <option value="justified" ${status==="justified"?"selected":""}>Ausencia justificada</option>
+      </select>
+      <input class="bulk-note" maxlength="180" placeholder="Observación opcional" value="${esc(r?.note||"")}">
+    </div>`;
+  }).join("");
+}
+
+function markAllBulkAttendance(status){
+  document.querySelectorAll("#bulkAttendanceList .bulk-status").forEach(s=>s.value=status);
+}
+
+async function saveBulkAttendance(){
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+  const course=currentLibroCourse();
+  const date=$("bulkAttendanceDate").value;
+  if(!course||!date) return;
+  const rows=[...document.querySelectorAll("#bulkAttendanceList .bulk-attendance-row")];
+  if(!rows.length) return;
+  const btn=document.querySelector('#libroPanelAsistencia .btn.primary');
+  if(btn){btn.disabled=true;btn.textContent="Guardando…";}
+  try{
+    for(const row of rows){
+      const studentId=row.dataset.studentId;
+      const student=students.find(s=>s.id===studentId);
+      if(!student||student.course!==course) continue;
+      const status=row.querySelector(".bulk-status").value;
+      const note=row.querySelector(".bulk-note").value.trim();
+      await FB.setDoc(
+        FB.doc(db,"attendanceRecords",attendanceDocId(studentId,date)),
+        {
+          studentId,
+          studentName:student.name||"",
+          course,
+          date,
+          status,
+          note,
+          updatedAt:FB.serverTimestamp(),
+          updatedBy:currentSession.uid
+        },
+        {merge:true}
+      );
+    }
+    for(const row of rows){
+      await recalculateAttendance(row.dataset.studentId);
+    }
+    await logAudit("update","attendance",`${course}_${date}`,`Asistencia de curso · ${course} · ${date}`);
+    showToast(`Asistencia de ${course} guardada correctamente.`,"ok","Asistencia");
+    renderLibroClases();
+  }catch(err){
+    console.error("Asistencia masiva:",err);
+    showAppMessage("No se pudo guardar","Revisa tu conexión y permisos para este curso.","error");
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="Guardar asistencia";}
+  }
+}
+
+async function getCourseLateRecords(course){
+  if(!course) return [];
+  const q=FB.query(FB.collection(db,"lateRecords"),FB.where("course","==",course));
+  const snap=await FB.getDocs(q);
+  return snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.time||"").localeCompare(a.time||""));
+}
+
+async function saveLateRecord(e){
+  e.preventDefault();
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+  const studentId=$("lateStudent").value;
+  const s=students.find(x=>x.id===studentId);
+  if(!s) return;
+  await FB.addDoc(FB.collection(db,"lateRecords"),{
+    studentId,
+    studentName:s.name||"",
+    course:s.course,
+    date:$("lateDate").value,
+    time:$("lateTime").value,
+    minutes:Math.max(1,Number($("lateMinutes").value)||1),
+    justified:$("lateJustified").value==="true",
+    note:$("lateNote").value.trim(),
+    createdAt:FB.serverTimestamp(),
+    createdBy:currentSession.uid,
+    createdByName:currentSession.name||currentSession.email||""
+  });
+  await logAudit("create","lateRecord",studentId,`${s.name} · ${$("lateDate").value} · ${$("lateMinutes").value} min`);
+  $("lateForm").reset();
+  $("lateDate").value=iso();
+  $("lateTime").value=new Date().toTimeString().slice(0,5);
+  showToast("Atraso registrado.","ok","Atrasos");
+  renderLateRecords();
+}
+
+async function deleteLateRecord(id){
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+  if(!await appConfirm("Eliminar atraso","Se eliminará este registro de atraso.","Eliminar")) return;
+  await FB.deleteDoc(FB.doc(db,"lateRecords",id));
+  showToast("Registro eliminado.","ok","Atrasos");
+  renderLateRecords();
+}
+
+async function renderLateRecords(){
+  const course=currentLibroCourse();
+  const list=$("lateRecordsList");
+  if(!list) return;
+  const courseStudents=courseStudentsSorted(course);
+  $("lateStudent").innerHTML=courseStudents.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
+  if(!$("lateDate").value) $("lateDate").value=iso();
+  if(!$("lateTime").value) $("lateTime").value=new Date().toTimeString().slice(0,5);
+  try{
+    const records=await getCourseLateRecords(course);
+    const month=iso().slice(0,7);
+    const monthRecords=records.filter(r=>(r.date||"").startsWith(month));
+    const unjustified=monthRecords.filter(r=>!r.justified).length;
+    const studentsWithAlert=new Set();
+    courseStudents.forEach(s=>{
+      if(monthRecords.filter(r=>r.studentId===s.id).length>=settingsLateAlert()) studentsWithAlert.add(s.id);
+    });
+    $("lateSummary").innerHTML=`
+      <div class="mini-kpi"><span>Este mes</span><strong>${monthRecords.length}</strong></div>
+      <div class="mini-kpi"><span>No justificados</span><strong>${unjustified}</strong></div>
+      <div class="mini-kpi"><span>En alerta</span><strong>${studentsWithAlert.size}</strong></div>`;
+    list.innerHTML=records.length?records.slice(0,100).map(r=>`
+      <div class="rowcard">
+        <div>
+          <strong>${esc(r.studentName||"Estudiante")}</strong>
+          <small>${r.date?fmt(r.date):"Sin fecha"} · ${esc(r.time||"—")} · ${Number(r.minutes)||0} min · ${r.justified?"Justificado":"No justificado"}</small>
+          ${r.note?`<small>${esc(r.note)}</small>`:""}
+        </div>
+        ${["admin","teacher"].includes(currentSession?.role)?`<button class="iconbtn" title="Eliminar" onclick="deleteLateRecord('${r.id}')">${miIcon("trash","mi-icon icon-only")}</button>`:""}
+      </div>`).join(""):'<div class="empty">No hay atrasos registrados para este curso.</div>';
+  }catch(err){
+    console.error("Atrasos:",err);
+    list.innerHTML='<div class="empty">No se pudieron cargar los atrasos.</div>';
+  }
+}
+
+const observationTypeLabels={
+  positive:"Positiva",
+  formative:"Formativa",
+  academic:"Académica",
+  coexistence:"Convivencia",
+  other:"Otra"
+};
+
+async function getCourseObservations(course){
+  if(!course) return [];
+  const q=FB.query(FB.collection(db,"observations"),FB.where("course","==",course));
+  const snap=await FB.getDocs(q);
+  return snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.date||"").localeCompare(a.date||"")||tsMillis(b.createdAt)-tsMillis(a.createdAt));
+}
+
+async function saveObservation(e){
+  e.preventDefault();
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+  const studentId=$("observationStudent").value;
+  const s=students.find(x=>x.id===studentId);
+  if(!s) return;
+  const text=$("observationText").value.trim();
+  if(!text) return;
+  await FB.addDoc(FB.collection(db,"observations"),{
+    studentId,
+    studentName:s.name||"",
+    course:s.course,
+    date:$("observationDate").value,
+    type:$("observationType").value,
+    visibility:$("observationVisibility").value,
+    text,
+    createdAt:FB.serverTimestamp(),
+    createdBy:currentSession.uid,
+    createdByName:currentSession.name||currentSession.email||""
+  });
+  await logAudit("create","observation",studentId,`${s.name} · ${observationTypeLabels[$("observationType").value]||"Observación"}`);
+  $("observationText").value="";
+  showToast("Observación guardada.","ok","Observaciones");
+  renderObservations();
+}
+
+async function deleteObservation(id){
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+  if(!await appConfirm("Eliminar observación","Se eliminará este registro.","Eliminar")) return;
+  await FB.deleteDoc(FB.doc(db,"observations",id));
+  showToast("Observación eliminada.","ok","Observaciones");
+  renderObservations();
+}
+
+async function renderObservations(){
+  const course=currentLibroCourse();
+  const list=$("observationsList");
+  if(!list) return;
+  const courseStudents=courseStudentsSorted(course);
+  $("observationStudent").innerHTML=courseStudents.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
+  if(!$("observationDate").value) $("observationDate").value=iso();
+  try{
+    let records=await getCourseObservations(course);
+    const filter=$("observationFilterType")?.value||"";
+    if(filter) records=records.filter(r=>r.type===filter);
+    list.innerHTML=records.length?records.slice(0,100).map(r=>`
+      <div class="rowcard">
+        <div>
+          <strong>${esc(r.studentName||"Estudiante")} · <span class="record-badge ${esc(r.type||"other")}">${esc(observationTypeLabels[r.type]||"Otra")}</span></strong>
+          <small>${r.date?fmt(r.date):"Sin fecha"} · ${esc(r.createdByName||"Equipo escolar")} · ${r.visibility==="family"?"Visible para familia":"Uso interno"}</small>
+          <small style="margin-top:5px">${esc(r.text||"")}</small>
+        </div>
+        ${["admin","teacher"].includes(currentSession?.role)?`<button class="iconbtn" title="Eliminar" onclick="deleteObservation('${r.id}')">${miIcon("trash","mi-icon icon-only")}</button>`:""}
+      </div>`).join(""):'<div class="empty">No hay observaciones registradas para este curso.</div>';
+  }catch(err){
+    console.error("Observaciones:",err);
+    list.innerHTML='<div class="empty">No se pudieron cargar las observaciones.</div>';
+  }
+}
+
+async function getSchedule(course){
+  if(!course) return [];
+  const q=FB.query(FB.collection(db,"schedules"),FB.where("course","==",course));
+  const snap=await FB.getDocs(q);
+  return snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(Number(a.day)||0)-(Number(b.day)||0)||(a.start||"").localeCompare(b.start||""));
+}
+
+function openScheduleEditor(block=null){
+  if(currentSession?.role!=="admin") return;
+  const course=currentLibroCourse();
+  $("scheduleId").value=block?.id||"";
+  $("scheduleCourse").value=course;
+  $("scheduleDay").value=String(block?.day||1);
+  $("scheduleSubject").innerHTML=SUBJECTS.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join("");
+  $("scheduleSubject").value=block?.subject||SUBJECTS[0];
+  $("scheduleStart").value=block?.start||"08:00";
+  $("scheduleEnd").value=block?.end||"08:45";
+  $("scheduleTeacher").value=block?.teacher||"";
+  $("scheduleRoom").value=block?.room||"";
+  scheduleDialog.showModal();
+}
+
+async function saveScheduleBlock(e){
+  e.preventDefault();
+  if(currentSession?.role!=="admin") return;
+  const id=$("scheduleId").value;
+  const data={
+    course:$("scheduleCourse").value,
+    day:Number($("scheduleDay").value),
+    subject:$("scheduleSubject").value,
+    start:$("scheduleStart").value,
+    end:$("scheduleEnd").value,
+    teacher:$("scheduleTeacher").value.trim(),
+    room:$("scheduleRoom").value.trim(),
+    updatedAt:FB.serverTimestamp(),
+    updatedBy:currentSession.uid
+  };
+  if(id) await FB.setDoc(FB.doc(db,"schedules",id),data,{merge:true});
+  else await FB.addDoc(FB.collection(db,"schedules"),{...data,createdAt:FB.serverTimestamp(),createdBy:currentSession.uid});
+  scheduleDialog.close();
+  showToast("Horario actualizado.","ok","Horario");
+  renderSchedule();
+}
+
+async function editScheduleBlock(id){
+  const blocks=await getSchedule(currentLibroCourse());
+  const b=blocks.find(x=>x.id===id);
+  if(b) openScheduleEditor(b);
+}
+
+async function deleteScheduleBlock(id){
+  if(currentSession?.role!=="admin") return;
+  if(!await appConfirm("Eliminar bloque","Se quitará este bloque del horario.","Eliminar")) return;
+  await FB.deleteDoc(FB.doc(db,"schedules",id));
+  renderSchedule();
+}
+
+async function renderSchedule(){
+  const course=currentLibroCourse();
+  const box=$("scheduleGrid");
+  if(!box) return;
+  const days=[["1","Lunes"],["2","Martes"],["3","Miércoles"],["4","Jueves"],["5","Viernes"]];
+  try{
+    const blocks=await getSchedule(course);
+    box.innerHTML=days.map(([day,label])=>{
+      const own=blocks.filter(b=>String(b.day)===day);
+      return `<div class="schedule-day">
+        <strong>${label}</strong>
+        ${own.length?own.map(b=>`<div class="schedule-block">
+          <strong>${esc(b.subject)}</strong>
+          <small>${esc(b.start)}–${esc(b.end)}</small>
+          <small>${esc(b.teacher||"Sin profesor")}${b.room?` · ${esc(b.room)}`:""}</small>
+          ${currentSession?.role==="admin"?`<div class="schedule-actions">
+            <button class="iconbtn" onclick="editScheduleBlock('${b.id}')">${miIcon("edit","mi-icon icon-only")}</button>
+            <button class="iconbtn" onclick="deleteScheduleBlock('${b.id}')">${miIcon("trash","mi-icon icon-only")}</button>
+          </div>`:""}
+        </div>`).join(""):'<div class="meta">Sin bloques</div>'}
+      </div>`;
+    }).join("");
+  }catch(err){
+    console.error("Horario:",err);
+    box.innerHTML='<div class="empty">No se pudo cargar el horario.</div>';
+  }
+}
+
+async function getStudentLateRecords(studentId){
+  const q=FB.query(FB.collection(db,"lateRecords"),FB.where("studentId","==",studentId));
+  const snap=await FB.getDocs(q);
+  return snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+}
+
+async function getStudentObservations(studentId){
+  const staff=["admin","teacher"].includes(currentSession?.role);
+  const q=staff
+    ? FB.query(
+        FB.collection(db,"observations"),
+        FB.where("studentId","==",studentId)
+      )
+    : FB.query(
+        FB.collection(db,"observations"),
+        FB.where("studentId","==",studentId),
+        FB.where("visibility","==","family")
+      );
+  const snap=await FB.getDocs(q);
+  return snap.docs
+    .map(d=>({id:d.id,...d.data()}))
+    .sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+}
+
+function exportCourseSummaryCSV(){
+  const course=currentLibroCourse();
+  const courseStudents=courseStudentsSorted(course);
+  if(!courseStudents.length) return;
+  const rows=[["Estudiante","Curso","Asistencia %","Presentes","Días registrados"]];
+  courseStudents.forEach(s=>rows.push([
+    s.name||"",
+    s.course||"",
+    hasAttendanceSummary(s)?formatAttendance(s.attendancePercentage):"",
+    s.attendancePresent||0,
+    s.attendanceTotal||0
+  ]));
+  const csv=rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");
+  downloadBlob(`resumen_${course.replace(/\s+/g,"_")}.csv`,csv,"text/csv;charset=utf-8");
+}
+
 async function renderLibroClases(){
   if(!["admin","teacher"].includes(currentSession?.role)) return;
 
@@ -4650,7 +5253,7 @@ async function renderLibroClases(){
     return;
   }
 
-  $("libroPeriodText").textContent=`Año académico ${new Date().getFullYear()}`;
+  $("libroPeriodText").textContent=academicSettings.academicYear||new Date().getFullYear();
 
   const courseStudents=students
     .filter(s=>s.course===course)
@@ -4687,7 +5290,7 @@ async function renderLibroClases(){
   const attentionCount=courseStudents.filter(s=>{
     const avg=averages.get(s.id);
     const attendance=Number(s.attendanceTotal||0)>0?Number(s.attendancePercentage):null;
-    return (avg!=null && avg<4) || (attendance!=null && attendance<85);
+    return (avg!=null && avg<settingsGradeAlert()) || (attendance!=null && attendance<settingsAttendanceAlert());
   }).length;
 
   summary.innerHTML=`
@@ -4725,7 +5328,7 @@ async function renderLibroClases(){
     const avg=averages.get(s.id);
     const hasAttendance=Number(s.attendanceTotal||0)>0;
     const attendance=hasAttendance?Number(s.attendancePercentage):null;
-    const needsAttention=(avg!=null && avg<4)||(attendance!=null && attendance<85);
+    const needsAttention=(avg!=null && avg<settingsGradeAlert())||(attendance!=null && attendance<settingsAttendanceAlert());
 
     return `
       <div class="libro-student-row">
@@ -4752,6 +5355,8 @@ async function renderLibroClases(){
         </div>
       </div>`;
   }).join("");
+
+  renderLibroPanel(activeLibroPanel);
 }
 
 function renderDashboard(){
@@ -6366,6 +6971,11 @@ async function openStudentDetail(id){
     console.warn("No se pudo leer la asistencia del estudiante:",err);
   }
 
+  let lateRecords=[];
+  let studentObservations=[];
+  try{ lateRecords=await getStudentLateRecords(id); }catch(err){ console.warn("Atrasos estudiante:",err); }
+  try{ studentObservations=await getStudentObservations(id); }catch(err){ console.warn("Observaciones estudiante:",err); }
+
   const attendanceTotal=attendanceRecords.length;
   const attendancePresent=attendanceRecords.filter(r=>r.status==="present").length;
   const attendancePercentage=attendanceTotal?(attendancePresent/attendanceTotal)*100:null;
@@ -6395,7 +7005,25 @@ async function openStudentDetail(id){
       <div class="entity-box"><span>Asistencia</span><strong class="${attendanceClass(attendancePercentage)}">${attendanceTotal?`${formatAttendance(attendancePercentage)}%`:"Sin registros"}</strong><small>${attendanceTotal?`${attendancePresent} de ${attendanceTotal} días presentes`:""}</small></div>
       <div class="entity-box"><span>Notas registradas</span><strong>${studentGrades.length}</strong></div>
       <div class="entity-box"><span>Apoderados asociados</span><strong>${guardians.length || (s.guardianUids||[]).length}</strong></div>
+      <div class="entity-box"><span>Atrasos registrados</span><strong>${lateRecords.length}</strong></div>
+      <div class="entity-box"><span>Observaciones</span><strong>${studentObservations.length}</strong></div>
     </div>
+
+    <div class="student-360-tabs">
+      <span class="student-360-tab">Resumen</span>
+      <span class="student-360-tab">Notas</span>
+      <span class="student-360-tab">Asistencia</span>
+      <span class="student-360-tab">Atrasos</span>
+      <span class="student-360-tab">Observaciones</span>
+      <span class="student-360-tab">Evaluaciones</span>
+      <span class="student-360-tab">Apoderados</span>
+    </div>
+
+    ${((avg!=null&&avg<settingsGradeAlert())||(attendancePercentage!=null&&attendancePercentage<settingsAttendanceAlert())||lateRecords.filter(r=>(r.date||"").startsWith(iso().slice(0,7))).length>=settingsLateAlert())?`
+      <div class="alert-card attention">
+        ${miIcon("alert")}
+        <div><strong>Requiere seguimiento</strong><small>La ficha presenta uno o más indicadores bajo los parámetros configurados por el colegio.</small></div>
+      </div>`:""}
 
 
     <div class="entity-section">
@@ -6446,6 +7074,24 @@ async function openStudentDetail(id){
               .map(g=>`<div class="entity-list-item"><strong>${esc(g.subject||"Asignatura")} · ${gradeDisplay(g.grade)}</strong><small>${g.title?`${esc(g.title)} · `:""}${g.date?fmt(g.date):"Sin fecha"}</small></div>`)
               .join("")
           : '<div class="meta">Sin calificaciones registradas.</div>'}
+      </div>
+    </div>
+
+    <div class="entity-section student-360-section">
+      <h4>Atrasos recientes</h4>
+      <div class="entity-list">
+        ${lateRecords.length
+          ? lateRecords.slice(0,10).map(r=>`<div class="entity-list-item"><strong>${r.date?fmt(r.date):"Sin fecha"} · ${esc(r.time||"—")} · ${Number(r.minutes)||0} min</strong><small>${r.justified?"Justificado":"No justificado"}${r.note?` · ${esc(r.note)}`:""}</small></div>`).join("")
+          : '<div class="meta">Sin atrasos registrados.</div>'}
+      </div>
+    </div>
+
+    <div class="entity-section student-360-section">
+      <h4>Observaciones</h4>
+      <div class="entity-list">
+        ${studentObservations.length
+          ? studentObservations.slice(0,10).map(r=>`<div class="entity-list-item"><strong>${esc(observationTypeLabels[r.type]||"Observación")} · ${r.date?fmt(r.date):"Sin fecha"}</strong><small>${esc(r.text||"")}</small></div>`).join("")
+          : '<div class="meta">Sin observaciones visibles.</div>'}
       </div>
     </div>
 
@@ -7868,5 +8514,33 @@ window.addEventListener("resize",()=>{
 });
 
 </script>
+
+<dialog id="scheduleDialog">
+  <div class="dialog">
+    <div class="dialoghead">
+      <h3>Bloque de horario</h3>
+      <button class="iconbtn" type="button" onclick="scheduleDialog.close()">×</button>
+    </div>
+    <form id="scheduleForm" class="formgrid" onsubmit="saveScheduleBlock(event)">
+      <input id="scheduleId" type="hidden">
+      <input id="scheduleCourse" type="hidden">
+      <div class="field"><label>Día</label>
+        <select id="scheduleDay" required>
+          <option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option>
+        </select>
+      </div>
+      <div class="field"><label>Asignatura</label><select id="scheduleSubject" required></select></div>
+      <div class="field"><label>Inicio</label><input id="scheduleStart" type="time" required></div>
+      <div class="field"><label>Término</label><input id="scheduleEnd" type="time" required></div>
+      <div class="field full"><label>Profesor/a</label><input id="scheduleTeacher" maxlength="120" required></div>
+      <div class="field full"><label>Sala / espacio</label><input id="scheduleRoom" maxlength="80" placeholder="Opcional"></div>
+      <div class="form-actions">
+        <button class="btn ghost" type="button" onclick="scheduleDialog.close()">Cancelar</button>
+        <button class="btn primary" type="submit">Guardar bloque</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
 </body>
 </html>

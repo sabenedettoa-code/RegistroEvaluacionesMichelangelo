@@ -1,4 +1,4 @@
-const CACHE="michelangelo-evaluaciones-v29-7";
+const CACHE="michelangelo-evaluaciones-v30-0";
 
 const ASSETS=[
   "./",
@@ -74,7 +74,12 @@ self.addEventListener("fetch",event=>{
         const copy=response.clone();
 
         caches.open(CACHE)
-          .then(cache=>cache.put(event.request,copy));
+          .then(cache=>
+            cache.put(
+              event.request,
+              copy
+            )
+          );
 
         return response;
       })
