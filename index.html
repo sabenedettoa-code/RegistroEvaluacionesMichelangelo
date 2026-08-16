@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V29.3 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V29.4 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V29.3 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V29.4 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1477,7 +1477,7 @@
     }
 
   
-    /* ===== V29.3 · TUTOR/A DE CURSO ===== */
+    /* ===== V29.4 · TUTOR/A DE CURSO ===== */
     .course-tutor-line{
       display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
       border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
@@ -1687,7 +1687,7 @@
     }
 
   
-    /* ===== V29.3 · REGISTRO DE ASISTENCIA ===== */
+    /* ===== V29.4 · REGISTRO DE ASISTENCIA ===== */
     .attendance-summary{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
@@ -1764,7 +1764,7 @@
     }
 
   
-    /* ===== V29.3 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
+    /* ===== V29.4 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
     .parent-students-overview{
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     }
@@ -1838,7 +1838,7 @@
       }
     }
 
-  /* ===== V29.3 · CORRECCIÓN MÓVIL INTEGRAL ===== */
+  /* ===== V29.4 · CORRECCIÓN MÓVIL INTEGRAL ===== */
     *,*::before,*::after{box-sizing:border-box}
     html{
       -webkit-text-size-adjust:100%;
@@ -2355,6 +2355,371 @@
       }
     }
 
+  
+    /* ===== V29.4 · CALENDARIO MÓVIL RECONSTRUIDO ===== */
+    .calendar-mobile-head,
+    .calendar-mobile-monthbar{
+      display:none;
+    }
+    .calendar-filter-wrap label{
+      display:none;
+    }
+
+    @media(max-width:700px){
+      #calendario{
+        width:100%;
+        min-width:0;
+        overflow:visible;
+      }
+
+      #calendario .calendar-desktop-head{
+        display:none!important;
+      }
+
+      #calendario .calendar-mobile-head{
+        display:flex!important;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        width:100%;
+        margin-bottom:10px;
+      }
+
+      .calendar-mobile-title{
+        min-width:0;
+        flex:1 1 auto;
+      }
+
+      .calendar-mobile-title span{
+        display:block;
+        font-size:9px;
+        font-weight:900;
+        text-transform:uppercase;
+        letter-spacing:.08em;
+        color:var(--muted);
+        margin-bottom:3px;
+      }
+
+      .calendar-mobile-title strong{
+        display:block;
+        max-width:100%;
+        font-size:24px;
+        line-height:1.1;
+        color:var(--brown2);
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
+
+      .calendar-mobile-nav{
+        display:grid;
+        grid-template-columns:42px auto 42px;
+        gap:5px;
+        flex:0 0 auto;
+      }
+
+      .calendar-mobile-arrow,
+      .calendar-mobile-today{
+        min-height:42px;
+        border:1px solid var(--line);
+        border-radius:12px;
+        background:var(--panel);
+        color:var(--brown2);
+        font-weight:900;
+        box-shadow:none;
+      }
+
+      .calendar-mobile-arrow{
+        width:42px;
+        padding:0;
+        font-size:25px;
+        line-height:1;
+      }
+
+      .calendar-mobile-today{
+        padding:0 10px;
+        font-size:10px;
+      }
+
+      #calendario>.card.panel{
+        padding:12px!important;
+        border-radius:17px!important;
+        overflow:visible!important;
+      }
+
+      #calendario .calendar-summary{
+        display:grid!important;
+        grid-template-columns:repeat(4,minmax(0,1fr))!important;
+        gap:5px!important;
+        margin-bottom:10px;
+      }
+
+      #calendario .calendar-summary .stat{
+        padding:8px 4px!important;
+        border-radius:12px!important;
+        text-align:center;
+      }
+
+      #calendario .calendar-summary .stat .label{
+        font-size:7px!important;
+        line-height:1.2!important;
+        min-height:17px;
+      }
+
+      #calendario .calendar-summary .stat .value{
+        font-size:19px!important;
+        line-height:1.1!important;
+        margin-top:2px;
+      }
+
+      #calendario .calendar-summary .stat .sub{
+        display:none!important;
+      }
+
+      .calendar-mobile-monthbar{
+        display:flex!important;
+        align-items:baseline;
+        justify-content:space-between;
+        gap:8px;
+        padding:1px 1px 10px;
+        border-bottom:1px solid var(--line);
+        margin-bottom:10px;
+      }
+
+      .calendar-mobile-monthbar strong{
+        min-width:0;
+        font-size:15px;
+        color:var(--brown2);
+        text-transform:capitalize;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
+
+      .calendar-mobile-monthbar small{
+        flex:0 0 auto;
+        font-size:9px;
+        color:var(--muted);
+        font-weight:800;
+      }
+
+      #calendario .calendar-controls{
+        display:block!important;
+        margin:0 0 10px!important;
+      }
+
+      #calendario .calendar-view-switch{
+        display:none!important;
+      }
+
+      #calendario .calendar-filter-wrap{
+        width:100%;
+        min-width:0;
+      }
+
+      #calendario .calendar-filter-wrap label{
+        display:block;
+        margin:0 0 5px;
+        font-size:9px;
+        font-weight:900;
+        text-transform:uppercase;
+        letter-spacing:.06em;
+        color:var(--muted);
+      }
+
+      #calendario .calendar-filter{
+        display:block;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        height:44px!important;
+        min-height:44px!important;
+        padding:0 36px 0 12px!important;
+        font-size:16px!important;
+        line-height:44px!important;
+      }
+
+      #calendario .calendar-legend{
+        display:none!important;
+      }
+
+      #calendarGrid.mobile-agenda{
+        display:block!important;
+        width:100%!important;
+        min-width:0!important;
+        max-width:100%!important;
+        overflow:visible!important;
+      }
+
+      #calendarGrid .agenda-empty{
+        width:100%;
+        padding:28px 12px;
+        border:1px dashed var(--line);
+        border-radius:14px;
+        background:var(--paper);
+        text-align:center;
+        line-height:1.5;
+      }
+
+      #calendarGrid .agenda-day{
+        display:block!important;
+        width:100%!important;
+        min-width:0!important;
+        max-width:100%!important;
+        padding:0!important;
+        margin:0 0 10px!important;
+        border:1px solid var(--line)!important;
+        border-radius:15px!important;
+        overflow:hidden!important;
+        background:var(--panel)!important;
+        box-shadow:none!important;
+      }
+
+      #calendarGrid .agenda-day.today{
+        border-color:#a7855f!important;
+        box-shadow:0 0 0 2px rgba(167,133,95,.10)!important;
+      }
+
+      #calendarGrid .agenda-date{
+        display:flex!important;
+        align-items:center!important;
+        justify-content:flex-start!important;
+        gap:6px!important;
+        width:100%!important;
+        min-width:0!important;
+        min-height:0!important;
+        height:auto!important;
+        padding:9px 11px!important;
+        border:0!important;
+        border-bottom:1px solid var(--line)!important;
+        border-radius:0!important;
+        background:var(--paper)!important;
+        text-align:left!important;
+      }
+
+      #calendarGrid .agenda-date strong{
+        display:inline!important;
+        font-size:18px!important;
+        line-height:1!important;
+      }
+
+      #calendarGrid .agenda-date small{
+        display:inline!important;
+        margin:0!important;
+        font-size:9px!important;
+        letter-spacing:.05em!important;
+      }
+
+      #calendarGrid .agenda-items{
+        display:block!important;
+        width:100%!important;
+        min-width:0!important;
+        padding:8px!important;
+      }
+
+      #calendarGrid .agenda-items>.meta{
+        display:flex!important;
+        align-items:center;
+        justify-content:space-between;
+        gap:6px;
+        width:100%;
+        padding:0 2px 6px;
+        font-size:9px!important;
+        line-height:1.3;
+      }
+
+      #calendarGrid .agenda-items>.meta .agenda-badge{
+        margin:0!important;
+        flex:0 0 auto;
+      }
+
+      #calendarGrid .agenda-item{
+        display:block!important;
+        width:100%!important;
+        min-width:0!important;
+        max-width:100%!important;
+        padding:10px!important;
+        margin:0 0 7px!important;
+        border-radius:11px!important;
+        overflow:hidden!important;
+        cursor:pointer;
+      }
+
+      #calendarGrid .agenda-item:last-child{
+        margin-bottom:0!important;
+      }
+
+      #calendarGrid .agenda-item strong,
+      #calendarGrid .agenda-item small{
+        display:block!important;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        white-space:normal!important;
+        overflow:visible!important;
+        text-overflow:clip!important;
+        overflow-wrap:anywhere!important;
+        word-break:normal!important;
+      }
+
+      #calendarGrid .agenda-item strong{
+        font-size:12px!important;
+        line-height:1.35!important;
+      }
+
+      #calendarGrid .agenda-item small{
+        margin-top:3px!important;
+        font-size:10px!important;
+        line-height:1.45!important;
+      }
+
+      #calendarGrid .agenda-badge{
+        display:inline-flex!important;
+        max-width:100%;
+        margin-top:6px!important;
+        white-space:normal!important;
+        overflow-wrap:anywhere;
+      }
+    }
+
+    @media(max-width:390px){
+      #calendario .calendar-mobile-head{
+        align-items:flex-start;
+      }
+
+      .calendar-mobile-title strong{
+        font-size:21px;
+      }
+
+      .calendar-mobile-nav{
+        grid-template-columns:38px 42px 38px;
+        gap:4px;
+      }
+
+      .calendar-mobile-arrow{
+        width:38px;
+        min-height:38px;
+      }
+
+      .calendar-mobile-today{
+        min-height:38px;
+        padding:0 5px;
+        font-size:9px;
+      }
+
+      #calendario .calendar-summary .stat{
+        padding:7px 2px!important;
+      }
+
+      #calendario .calendar-summary .stat .label{
+        font-size:6.5px!important;
+      }
+
+      #calendario .calendar-summary .stat .value{
+        font-size:17px!important;
+      }
+    }
+
   </style>
 
 </head>
@@ -2450,18 +2815,49 @@
     </section>
 
     <section id="calendario" class="section">
-      <div class="topbar"><div><div class="eyebrow">Planificación</div><h1>Calendario</h1><p id="calendarTitle"></p></div><div class="top-actions"><button class="btn ghost" onclick="changeMonth(-1)">←</button><button class="btn ghost" onclick="goToday()">Hoy</button><button class="btn ghost" onclick="changeMonth(1)">→</button></div></div>
+      <div class="topbar calendar-desktop-head">
+        <div>
+          <div class="eyebrow">Planificación</div>
+          <h1>Calendario</h1>
+          <p id="calendarTitle"></p>
+        </div>
+        <div class="top-actions">
+          <button class="btn ghost" onclick="changeMonth(-1)">←</button>
+          <button class="btn ghost" onclick="goToday()">Hoy</button>
+          <button class="btn ghost" onclick="changeMonth(1)">→</button>
+        </div>
+      </div>
+
+      <div class="calendar-mobile-head">
+        <div class="calendar-mobile-title">
+          <span>Planificación</span>
+          <strong id="calendarMobileTitle">Calendario</strong>
+        </div>
+        <div class="calendar-mobile-nav">
+          <button type="button" class="calendar-mobile-arrow" onclick="changeMonth(-1)" aria-label="Mes anterior">‹</button>
+          <button type="button" class="calendar-mobile-today" onclick="goToday()">Hoy</button>
+          <button type="button" class="calendar-mobile-arrow" onclick="changeMonth(1)" aria-label="Mes siguiente">›</button>
+        </div>
+      </div>
       <div class="card panel">
         <div id="calendarSummary" class="calendar-summary"></div>
+
+        <div class="calendar-mobile-monthbar">
+          <strong id="calendarMobileMonth"></strong>
+          <small id="calendarMobileCount"></small>
+        </div>
 
         <div class="calendar-controls">
           <div class="calendar-view-switch">
             <button id="calendarMonthBtn" class="active" onclick="setCalendarView('month')">Mes</button>
             <button id="calendarAgendaBtn" onclick="setCalendarView('agenda')">Agenda</button>
           </div>
-          <select id="calendarCourseFilter" class="calendar-filter" onchange="setCalendarCourseFilter(this.value)">
-            <option value="">Todos los cursos</option>
-          </select>
+          <div class="calendar-filter-wrap">
+            <label for="calendarCourseFilter">Curso</label>
+            <select id="calendarCourseFilter" class="calendar-filter" onchange="setCalendarCourseFilter(this.value)">
+              <option value="">Todos los cursos</option>
+            </select>
+          </div>
         </div>
 
         <div class="calendar-legend">
@@ -4661,149 +5057,430 @@ function populateCalendarCourseFilter(){
 }
 
 function renderCalendar(){
-  const y=calendarDate.getFullYear(),m=calendarDate.getMonth();
-  const monthLabel=calendarDate.toLocaleDateString("es-CL",{month:"long",year:"numeric"});
-  $("calendarTitle").textContent=monthLabel.charAt(0).toUpperCase()+monthLabel.slice(1);
+  const y=calendarDate.getFullYear();
+  const m=calendarDate.getMonth();
+
+  const monthLabel=calendarDate.toLocaleDateString(
+    "es-CL",
+    {month:"long",year:"numeric"}
+  );
+
+  const prettyMonth=
+    monthLabel.charAt(0).toUpperCase()+
+    monthLabel.slice(1);
+
+  $("calendarTitle").textContent=prettyMonth;
+
+  if($("calendarMobileTitle")){
+    $("calendarMobileTitle").textContent=prettyMonth;
+  }
+
+  if($("calendarMobileMonth")){
+    $("calendarMobileMonth").textContent=prettyMonth;
+  }
 
   populateCalendarCourseFilter();
 
   let data=visibleEvaluations();
 
   if(calendarCourseFilter){
-    data=data.filter(e=>e.course===calendarCourseFilter);
+    data=data.filter(
+      e=>e.course===calendarCourseFilter
+    );
   }
 
   const monthData=data.filter(e=>{
     if(!e.date) return false;
-    const d=new Date(e.date+"T12:00:00");
-    return d.getFullYear()===y && d.getMonth()===m;
+
+    const d=new Date(
+      e.date+"T12:00:00"
+    );
+
+    return (
+      d.getFullYear()===y &&
+      d.getMonth()===m
+    );
   });
 
-  const activeMonth=monthData.filter(e=>e.status!=="Cancelada");
-  const changed=monthData.filter(e=>e.status==="Modificada").length;
-  const cancelled=monthData.filter(e=>e.status==="Cancelada").length;
+  const activeMonth=monthData.filter(
+    e=>e.status!=="Cancelada"
+  );
+
+  const changed=monthData.filter(
+    e=>e.status==="Modificada"
+  ).length;
+
+  const cancelled=monthData.filter(
+    e=>e.status==="Cancelada"
+  ).length;
 
   const countsByDay={};
-  activeMonth.forEach(e=>countsByDay[e.date]=(countsByDay[e.date]||0)+1);
-  const overloadedDays=Object.values(countsByDay).filter(n=>n>=2).length;
+
+  activeMonth.forEach(e=>{
+    countsByDay[e.date]=
+      (countsByDay[e.date]||0)+1;
+  });
+
+  const overloadedDays=
+    Object.values(countsByDay)
+      .filter(n=>n>=2)
+      .length;
 
   if($("calendarSummary")){
     $("calendarSummary").innerHTML=`
-      <div class="card stat"><div class="label">Evaluaciones</div><div class="value">${activeMonth.length}</div><div class="sub">durante el mes</div></div>
-      <div class="card stat"><div class="label">Modificadas</div><div class="value">${changed}</div><div class="sub">cambios de fecha/datos</div></div>
-      <div class="card stat"><div class="label">Canceladas</div><div class="value">${cancelled}</div><div class="sub">durante el mes</div></div>
-      <div class="card stat"><div class="label">Carga alta</div><div class="value">${overloadedDays}</div><div class="sub">días con 2 o más</div></div>`;
+      <div class="card stat">
+        <div class="label">Evaluaciones</div>
+        <div class="value">${activeMonth.length}</div>
+        <div class="sub">durante el mes</div>
+      </div>
+
+      <div class="card stat">
+        <div class="label">Modificadas</div>
+        <div class="value">${changed}</div>
+        <div class="sub">cambios de fecha/datos</div>
+      </div>
+
+      <div class="card stat">
+        <div class="label">Canceladas</div>
+        <div class="value">${cancelled}</div>
+        <div class="sub">durante el mes</div>
+      </div>
+
+      <div class="card stat">
+        <div class="label">Carga alta</div>
+        <div class="value">${overloadedDays}</div>
+        <div class="sub">días con 2 o más</div>
+      </div>`;
   }
 
-  $("calendarMonthBtn")?.classList.toggle("active",calendarView==="month");
-  $("calendarAgendaBtn")?.classList.toggle("active",calendarView==="agenda");
+  if($("calendarMobileCount")){
+    $("calendarMobileCount").textContent=
+      `${activeMonth.length} evaluación${activeMonth.length===1?"":"es"}`;
+  }
 
-  // En celular siempre usamos agenda, aunque el botón Mes esté seleccionado.
-  const mobile=window.matchMedia("(max-width:650px)").matches;
+  const mobile=
+    window.matchMedia(
+      "(max-width:700px)"
+    ).matches;
 
-  if(calendarView==="agenda" || mobile){
-    $("calendarGrid").className=mobile?"mobile-agenda":"calendar-agenda-desktop";
+  /*
+   * CELULAR:
+   * siempre renderizamos una agenda vertical real.
+   * Nunca construimos la grilla mensual.
+   */
+  if(mobile){
+    $("calendarMonthBtn")?.classList.remove("active");
+    $("calendarAgendaBtn")?.classList.add("active");
+
+    const grid=$("calendarGrid");
+    grid.className="mobile-agenda";
 
     const ordered=monthData
       .slice()
-      .sort((a,b)=>a.date.localeCompare(b.date)||(a.subject||"").localeCompare(b.subject||"","es"));
+      .sort(
+        (a,b)=>
+          (a.date||"").localeCompare(b.date||"") ||
+          (a.subject||"").localeCompare(b.subject||"","es")
+      );
 
     if(!ordered.length){
-      $("calendarGrid").innerHTML='<div class="agenda-empty">No hay evaluaciones para este mes con los filtros seleccionados.</div>';
-      return;
-    }
-
-    if(mobile){
-      const groups={};
-      ordered.forEach(e=>(groups[e.date]??=[]).push(e));
-      const today=iso();
-
-      $("calendarGrid").innerHTML=Object.entries(groups).map(([date,items])=>{
-        const d=new Date(date+"T12:00:00");
-        const day=d.getDate();
-        const mon=d.toLocaleDateString("es-CL",{month:"short"}).replace(".","");
-        const weekday=d.toLocaleDateString("es-CL",{weekday:"long"});
-        const activeCount=items.filter(e=>e.status!=="Cancelada").length;
-
-        return `<div class="agenda-day ${date===today?"today":""} ${activeCount>=2?"busy":""}">
-          <div class="agenda-date"><strong>${day}</strong><small>${esc(mon)}</small></div>
-          <div class="agenda-items">
-            <div class="meta" style="font-weight:850;text-transform:capitalize">
-              ${esc(weekday)}
-              ${activeCount>=2?`<span class="agenda-badge">${activeCount} evaluaciones</span>`:""}
-            </div>
-            ${items.map(e=>{
-              const cls=e.status==="Modificada"?"changed":e.status==="Cancelada"?"cancelled":"";
-              return `<div class="agenda-item ${cls}" onclick="openEvalDetail('${e.id}')">
-                <strong>${esc(e.subject)} · ${esc(e.course)}</strong>
-                <small>${esc(e.title)}${e.type?` · ${esc(e.type)}`:""}</small>
-                <span class="agenda-badge">${esc(e.status||"Programada")}</span>
-              </div>`;
-            }).join("")}
-          </div>
+      grid.innerHTML=`
+        <div class="agenda-empty">
+          No hay evaluaciones para ${esc(prettyMonth.toLowerCase())}
+          ${calendarCourseFilter?` en ${esc(calendarCourseFilter)}`:""}.
         </div>`;
-      }).join("");
       return;
     }
 
-    $("calendarGrid").innerHTML=ordered.map(e=>{
-      const d=new Date(e.date+"T12:00:00");
-      const statusClass=e.status==="Modificada"?"modified":e.status==="Cancelada"?"cancelled":e.status==="Realizada"?"done":"";
-      return `<div class="calendar-agenda-row" onclick="openEvalDetail('${e.id}')">
-        <div class="calendar-agenda-date">
-          <strong>${d.toLocaleDateString("es-CL",{day:"2-digit",month:"short"}).replace(".","")}</strong>
-          <small>${d.toLocaleDateString("es-CL",{weekday:"long"})}</small>
-        </div>
-        <div class="calendar-agenda-main">
-          <strong>${esc(e.subject)} · ${esc(e.course)}</strong>
-          <small>${esc(e.title)}${e.type?` · ${esc(e.type)}`:""}${e.teacher?` · ${esc(e.teacher)}`:""}</small>
-        </div>
-        <span class="calendar-status ${statusClass}">${esc(e.status||"Programada")}</span>
-      </div>`;
-    }).join("");
+    const groups={};
+
+    ordered.forEach(e=>{
+      if(!groups[e.date]){
+        groups[e.date]=[];
+      }
+      groups[e.date].push(e);
+    });
+
+    const today=iso();
+
+    grid.innerHTML=
+      Object.entries(groups)
+        .map(([date,items])=>{
+          const d=new Date(
+            date+"T12:00:00"
+          );
+
+          const day=d.getDate();
+
+          const mon=d
+            .toLocaleDateString(
+              "es-CL",
+              {month:"short"}
+            )
+            .replace(".","");
+
+          const weekday=d
+            .toLocaleDateString(
+              "es-CL",
+              {weekday:"long"}
+            );
+
+          const activeCount=
+            items.filter(
+              e=>e.status!=="Cancelada"
+            ).length;
+
+          return `
+            <div class="agenda-day ${date===today?"today":""}">
+              <div class="agenda-date">
+                <strong>${day}</strong>
+                <small>${esc(mon)}</small>
+              </div>
+
+              <div class="agenda-items">
+                <div class="meta">
+                  <span>${esc(weekday)}</span>
+                  ${
+                    activeCount>=2
+                      ? `<span class="agenda-badge">${activeCount} evaluaciones</span>`
+                      : ""
+                  }
+                </div>
+
+                ${items.map(e=>{
+                  const cls=
+                    e.status==="Modificada"
+                      ? "changed"
+                      : e.status==="Cancelada"
+                        ? "cancelled"
+                        : "";
+
+                  return `
+                    <div
+                      class="agenda-item ${cls}"
+                      role="button"
+                      tabindex="0"
+                      onclick="openEvalDetail('${e.id}')"
+                      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openEvalDetail('${e.id}')}"
+                    >
+                      <strong>${esc(e.subject)} · ${esc(e.course)}</strong>
+                      <small>
+                        ${esc(e.title)}
+                        ${e.type?` · ${esc(e.type)}`:""}
+                      </small>
+                      <span class="agenda-badge">
+                        ${esc(e.status||"Programada")}
+                      </span>
+                    </div>`;
+                }).join("")}
+              </div>
+            </div>`;
+        })
+        .join("");
+
+    return;
+  }
+
+  /*
+   * ESCRITORIO:
+   * conserva Mes / Agenda.
+   */
+  $("calendarMonthBtn")?.classList.toggle(
+    "active",
+    calendarView==="month"
+  );
+
+  $("calendarAgendaBtn")?.classList.toggle(
+    "active",
+    calendarView==="agenda"
+  );
+
+  if(calendarView==="agenda"){
+    $("calendarGrid").className=
+      "calendar-agenda-desktop";
+
+    const ordered=monthData
+      .slice()
+      .sort(
+        (a,b)=>
+          a.date.localeCompare(b.date) ||
+          (a.subject||"").localeCompare(b.subject||"","es")
+      );
+
+    if(!ordered.length){
+      $("calendarGrid").innerHTML=
+        '<div class="agenda-empty">No hay evaluaciones para este mes con los filtros seleccionados.</div>';
+      return;
+    }
+
+    $("calendarGrid").innerHTML=
+      ordered.map(e=>{
+        const d=new Date(
+          e.date+"T12:00:00"
+        );
+
+        const statusClass=
+          e.status==="Modificada"
+            ? "modified"
+            : e.status==="Cancelada"
+              ? "cancelled"
+              : e.status==="Realizada"
+                ? "done"
+                : "";
+
+        return `
+          <div
+            class="calendar-agenda-row"
+            onclick="openEvalDetail('${e.id}')"
+          >
+            <div class="calendar-agenda-date">
+              <strong>
+                ${d.toLocaleDateString(
+                  "es-CL",
+                  {day:"2-digit",month:"short"}
+                ).replace(".","")}
+              </strong>
+              <small>
+                ${d.toLocaleDateString(
+                  "es-CL",
+                  {weekday:"long"}
+                )}
+              </small>
+            </div>
+
+            <div class="calendar-agenda-main">
+              <strong>
+                ${esc(e.subject)} · ${esc(e.course)}
+              </strong>
+              <small>
+                ${esc(e.title)}
+                ${e.type?` · ${esc(e.type)}`:""}
+                ${e.teacher?` · ${esc(e.teacher)}`:""}
+              </small>
+            </div>
+
+            <span class="calendar-status ${statusClass}">
+              ${esc(e.status||"Programada")}
+            </span>
+          </div>`;
+      }).join("");
+
     return;
   }
 
   $("calendarGrid").className="calendar";
+
   const today=iso();
 
-  const first=new Date(y,m,1);
-  const gridStart=new Date(y,m,1-((first.getDay()+6)%7));
+  const first=
+    new Date(y,m,1);
 
-  let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"]
-    .map(x=>`<div class="dayhead">${x}</div>`)
-    .join("");
+  const gridStart=
+    new Date(
+      y,
+      m,
+      1-((first.getDay()+6)%7)
+    );
+
+  let h=
+    ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"]
+      .map(
+        x=>`<div class="dayhead">${x}</div>`
+      )
+      .join("");
 
   for(let i=0;i<42;i++){
-    const d=new Date(gridStart);
-    d.setDate(gridStart.getDate()+i);
+    const d=
+      new Date(gridStart);
+
+    d.setDate(
+      gridStart.getDate()+i
+    );
 
     const ds=[
       d.getFullYear(),
-      String(d.getMonth()+1).padStart(2,"0"),
-      String(d.getDate()).padStart(2,"0")
+      String(
+        d.getMonth()+1
+      ).padStart(2,"0"),
+      String(
+        d.getDate()
+      ).padStart(2,"0")
     ].join("-");
 
     const items=data
       .filter(e=>e.date===ds)
-      .sort((a,b)=>(a.subject||"").localeCompare(b.subject||"","es"));
+      .sort(
+        (a,b)=>
+          (a.subject||"")
+            .localeCompare(
+              b.subject||"",
+              "es"
+            )
+      );
 
-    const activeCount=items.filter(e=>e.status!=="Cancelada").length;
+    const activeCount=
+      items.filter(
+        e=>e.status!=="Cancelada"
+      ).length;
 
-    h+=`<div class="day ${d.getMonth()!==m?"dim":""} ${ds===today?"today":""} ${activeCount>=2?"has-many":""}">
-      <div class="daynum">${d.getDate()}</div>
-      ${activeCount?`<div class="day-load ${activeCount>=2?"busy":""}">${activeCount}</div>`:""}
-      <div class="calitems">
-        ${items.slice(0,3).map(e=>{
-          const cls=e.status==="Modificada"?"changed":e.status==="Cancelada"?"cancelled":"";
-          return `<div class="calitem ${cls}" onclick="openEvalDetail('${e.id}')">
-            <strong>${esc(e.subject)}</strong>
-            <small>${esc(e.course)} · ${esc(e.title)}</small>
-          </div>`;
-        }).join("")}
-      </div>
-      ${items.length>3?`<div class="calmore" onclick="openDayEvaluations('${ds}')">+${items.length-3} más</div>`:""}
-    </div>`;
+    h+=`
+      <div class="day ${
+        d.getMonth()!==m
+          ? "dim"
+          : ""
+      } ${
+        ds===today
+          ? "today"
+          : ""
+      } ${
+        activeCount>=2
+          ? "has-many"
+          : ""
+      }">
+
+        <div class="daynum">
+          ${d.getDate()}
+        </div>
+
+        ${
+          activeCount
+            ? `<div class="day-load ${activeCount>=2?"busy":""}">${activeCount}</div>`
+            : ""
+        }
+
+        <div class="calitems">
+          ${
+            items
+              .slice(0,3)
+              .map(e=>{
+                const cls=
+                  e.status==="Modificada"
+                    ? "changed"
+                    : e.status==="Cancelada"
+                      ? "cancelled"
+                      : "";
+
+                return `
+                  <div
+                    class="calitem ${cls}"
+                    onclick="openEvalDetail('${e.id}')"
+                  >
+                    <strong>${esc(e.subject)}</strong>
+                    <small>
+                      ${esc(e.course)} · ${esc(e.title)}
+                    </small>
+                  </div>`;
+              })
+              .join("")
+          }
+        </div>
+
+        ${
+          items.length>3
+            ? `<div class="calmore" onclick="openDayEvaluations('${ds}')">+${items.length-3} más</div>`
+            : ""
+        }
+      </div>`;
   }
 
   $("calendarGrid").innerHTML=h;

@@ -1,4 +1,4 @@
-const CACHE="michelangelo-evaluaciones-v29-3";
+const CACHE="michelangelo-evaluaciones-v29-4";
 
 const ASSETS=[
   "./",
@@ -26,12 +26,6 @@ firebase.initializeApp({
 
 const messaging=firebase.messaging();
 
-/*
- * No llamamos showNotification() aquí.
- * El backend envía notification + webpush.fcmOptions.link,
- * por lo que FCM muestra automáticamente el aviso
- * cuando la app está en segundo plano o cerrada.
- */
 messaging.onBackgroundMessage(payload=>{
   console.log(
     "[FCM] Mensaje recibido en segundo plano:",
