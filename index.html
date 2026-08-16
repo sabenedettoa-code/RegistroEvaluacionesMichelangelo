@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V29.1 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V29.2 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V29.1 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V29.2 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1477,7 +1477,7 @@
     }
 
   
-    /* ===== V29.1 · TUTOR/A DE CURSO ===== */
+    /* ===== V29.2 · TUTOR/A DE CURSO ===== */
     .course-tutor-line{
       display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
       border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
@@ -1687,7 +1687,7 @@
     }
 
   
-    /* ===== V29.1 · REGISTRO DE ASISTENCIA ===== */
+    /* ===== V29.2 · REGISTRO DE ASISTENCIA ===== */
     .attendance-summary{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
@@ -1761,6 +1761,81 @@
       .attendance-summary-card strong{font-size:18px}
       .attendance-row{grid-template-columns:1fr}
       .attendance-row .actions{justify-content:flex-end}
+    }
+
+  
+    /* ===== V29.2 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
+    .parent-students-overview{
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    }
+    .parent-student-card{
+      cursor:pointer;
+      position:relative;
+      transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+    }
+    .parent-student-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 26px rgba(70,49,32,.10);
+      border-color:#c8aa82;
+    }
+    .parent-student-card:focus-visible{
+      outline:3px solid rgba(139,99,61,.24);
+      outline-offset:2px;
+    }
+    .parent-student-top{
+      display:flex;
+      gap:11px;
+      align-items:center;
+      min-width:0;
+    }
+    .parent-student-avatar{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      flex:none;
+      background:linear-gradient(135deg,#8a6445,#4e3524);
+      color:#fff;
+      font-weight:900;
+      font-size:18px;
+    }
+    .parent-student-copy{
+      min-width:0;
+      flex:1;
+    }
+    .parent-student-copy strong{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .parent-student-metrics{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:13px;
+    }
+    .parent-student-metric{
+      border-top:1px solid var(--line);
+      padding-top:9px;
+    }
+    .parent-student-metric span{
+      font-size:8px;
+      margin-bottom:3px;
+    }
+    .parent-student-metric strong{
+      font-size:15px;
+    }
+    .parent-student-open{
+      margin-top:12px;
+      font-size:10px;
+      font-weight:900;
+      color:var(--brown);
+    }
+    @media(max-width:560px){
+      .parent-students-overview{
+        grid-template-columns:1fr!important;
+      }
     }
 
   </style>
@@ -2689,7 +2764,7 @@ async function configureContext(){
 
     if(parentChildren.length){
       $("contextText").innerHTML=
-        "<strong>Apoderado/a:</strong> selecciona el estudiante que deseas revisar.";
+        "<strong>Apoderado/a:</strong> selecciona un estudiante aquí o abre su ficha desde “Mis estudiantes”.";
       $("contextSelect").innerHTML=
         '<option value="all">Todos mis estudiantes</option>'+
         parentChildren.map(
@@ -3243,7 +3318,11 @@ function renderDashboard(){
     renderStudentOverview();
     loadStudentDashboardGrades();
   }else{
-    $("studentOverview")?.classList.add("hidden");
+    if(currentSession?.role==="parent"){
+      renderParentStudentsOverview();
+    }else{
+      $("studentOverview")?.classList.add("hidden");
+    }
     $("sWeekLabel").textContent="Próximos 7 días";
     $("sWeekSub").textContent="evaluaciones";
     $("sMonthLabel").textContent="Este mes";
@@ -3365,6 +3444,7 @@ function renderStudentOverview(){
   }
 
   box.classList.remove("hidden");
+  box.classList.remove("parent-students-overview");
 
   const student=currentStudent;
   const course=student?.course || currentSession.courses?.[0] || "Sin curso";
@@ -3674,6 +3754,72 @@ async function deleteAttendanceRecord(studentId,date){
     );
   }
 }
+
+function renderParentStudentsOverview(){
+  const box=$("studentOverview");
+
+  if(!box || currentSession?.role!=="parent"){
+    return;
+  }
+
+  box.classList.remove("hidden");
+  box.classList.add("parent-students-overview");
+
+  if(!parentChildren.length){
+    box.innerHTML=`
+      <div class="student-overview-card" style="grid-column:1/-1">
+        <span>Mis estudiantes</span>
+        <strong>No hay estudiantes asociados</strong>
+        <small>La cuenta de apoderado todavía no tiene estudiantes vinculados.</small>
+      </div>`;
+    return;
+  }
+
+  box.innerHTML=parentChildren
+    .slice()
+    .sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"))
+    .map(s=>{
+      const hasAttendance=hasAttendanceSummary(s);
+      const attendance=hasAttendance?s.attendancePercentage:null;
+      const upcoming=evaluations
+        .filter(e=>e.course===s.course && e.status!=="Cancelada" && e.date>=iso())
+        .sort((a,b)=>a.date.localeCompare(b.date))[0];
+
+      return `
+        <div
+          class="student-overview-card parent-student-card"
+          role="button"
+          tabindex="0"
+          onclick="openStudentDetail('${s.id}')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openStudentDetail('${s.id}')}"
+          aria-label="Ver ficha de ${esc(s.name)}"
+        >
+          <div class="parent-student-top">
+            <div class="parent-student-avatar">${esc((s.name||"E").charAt(0).toUpperCase())}</div>
+            <div class="parent-student-copy">
+              <span>Mi estudiante</span>
+              <strong>${esc(s.name||"Estudiante")}</strong>
+              <small>${esc(s.course||"Sin curso")}</small>
+            </div>
+          </div>
+
+          <div class="parent-student-metrics">
+            <div class="parent-student-metric">
+              <span>Asistencia</span>
+              <strong class="${attendanceClass(attendance)}">${hasAttendance?`${formatAttendance(attendance)}%`:"—"}</strong>
+            </div>
+            <div class="parent-student-metric">
+              <span>Próxima evaluación</span>
+              <strong>${upcoming?fmt(upcoming.date,{day:"2-digit",month:"short"}):"—"}</strong>
+            </div>
+          </div>
+
+          <div class="parent-student-open">Ver ficha académica →</div>
+        </div>`;
+    })
+    .join("");
+}
+
 async function loadStudentDashboardGrades(){
   if(currentSession?.role!=="student" || !currentSession.studentId) return;
 
@@ -4427,6 +4573,24 @@ function gradeEvaluationsAvailable(){
 
 
 async function openStudentDetail(id){
+  if(currentSession?.role==="parent" && !parentChildren.some(s=>s.id===id)){
+    showAppMessage(
+      "Acceso restringido",
+      "Solo puedes consultar la ficha de estudiantes asociados a tu cuenta.",
+      "warn"
+    );
+    return;
+  }
+
+  if(currentSession?.role==="student" && currentSession.studentId!==id){
+    showAppMessage(
+      "Acceso restringido",
+      "Solo puedes consultar tu propia ficha académica.",
+      "warn"
+    );
+    return;
+  }
+
   let s=students.find(x=>x.id===id) || parentChildren.find(x=>x.id===id) || (currentStudent?.id===id?currentStudent:null);
   if(!s){
     try{
@@ -4521,6 +4685,23 @@ async function openStudentDetail(id){
     </div>
 
     <div class="entity-section">
+      <div class="title-row">
+        <h4>Últimas notas</h4>
+        ${["admin","teacher","parent","student"].includes(currentSession?.role)?`<button class="textbtn" onclick="studentDetailDialog.close();showSection('notas');selectedGradeStudentId='${s.id}';prepareGradesSection()">Ver todas</button>`:""}
+      </div>
+      <div class="entity-list">
+        ${studentGrades.length
+          ? studentGrades
+              .slice()
+              .sort((a,b)=>(b.date||"").localeCompare(a.date||""))
+              .slice(0,8)
+              .map(g=>`<div class="entity-list-item"><strong>${esc(g.subject||"Asignatura")} · ${gradeDisplay(g.grade)}</strong><small>${g.title?`${esc(g.title)} · `:""}${g.date?fmt(g.date):"Sin fecha"}</small></div>`)
+              .join("")
+          : '<div class="meta">Sin calificaciones registradas.</div>'}
+      </div>
+    </div>
+
+    <div class="entity-section">
       <h4>Próximas evaluaciones</h4>
       <div class="entity-list">
         ${upcoming.length
@@ -4540,7 +4721,7 @@ async function openStudentDetail(id){
     <div class="entity-actions">
       <button class="btn ghost" onclick="studentDetailDialog.close()">Cerrar</button>
       ${currentSession?.role==="admin"?`<button class="btn primary" onclick="studentDetailDialog.close();openStudent('${s.id}')">Editar estudiante</button>`:""}
-      ${["admin","teacher"].includes(currentSession?.role)?`<button class="btn secondary" onclick="studentDetailDialog.close();showSection('notas');selectedGradeStudentId='${s.id}';prepareGradesSection()">Ver notas</button>`:""}
+      ${["admin","teacher","parent","student"].includes(currentSession?.role)?`<button class="btn secondary" onclick="studentDetailDialog.close();showSection('notas');selectedGradeStudentId='${s.id}';prepareGradesSection()">Ver notas</button>`:""}
       ${currentSession?.role==="admin"?`<button class="btn danger" onclick="studentDetailDialog.close();deleteStudent('${s.id}')">Eliminar estudiante</button>`:""}
     </div>`;
   studentDetailDialog.showModal();
