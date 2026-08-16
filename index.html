@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#4e3524">
-  <meta name="description" content="Plataforma de evaluaciones del Colegio Waldorf Michelangelo">
-  <title>Evaluaciones · Colegio Waldorf Michelangelo</title>
+  <meta name="description" content="Plataforma Académica del Colegio Waldorf Michelangelo">
+  <title>Plataforma Académica · Colegio Waldorf Michelangelo</title>
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png?v=284">
   <link rel="shortcut icon" type="image/png" href="./favicon.png?v=284">
 <link rel="apple-touch-icon" href="./favicon.png?v=284">
@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V30.0 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V30.1 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V30.0 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V30.1 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1477,7 +1477,7 @@
     }
 
   
-    /* ===== V30.0 · TUTOR/A DE CURSO ===== */
+    /* ===== V30.1 · TUTOR/A DE CURSO ===== */
     .course-tutor-line{
       display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
       border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
@@ -1687,7 +1687,7 @@
     }
 
   
-    /* ===== V30.0 · REGISTRO DE ASISTENCIA ===== */
+    /* ===== V30.1 · REGISTRO DE ASISTENCIA ===== */
     .attendance-summary{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
@@ -1764,7 +1764,7 @@
     }
 
   
-    /* ===== V30.0 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
+    /* ===== V30.1 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
     .parent-students-overview{
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     }
@@ -1838,7 +1838,7 @@
       }
     }
 
-  /* ===== V30.0 · CORRECCIÓN MÓVIL INTEGRAL ===== */
+  /* ===== V30.1 · CORRECCIÓN MÓVIL INTEGRAL ===== */
     *,*::before,*::after{box-sizing:border-box}
     html{
       -webkit-text-size-adjust:100%;
@@ -2356,7 +2356,7 @@
     }
 
   
-    /* ===== V30.0 · CALENDARIO MÓVIL RECONSTRUIDO ===== */
+    /* ===== V30.1 · CALENDARIO MÓVIL RECONSTRUIDO ===== */
     .calendar-mobile-head,
     .calendar-mobile-monthbar{
       display:none;
@@ -2721,7 +2721,7 @@
     }
 
   
-    /* ===== V30.0 · MOSTRAR / OCULTAR CONTRASEÑA ===== */
+    /* ===== V30.1 · MOSTRAR / OCULTAR CONTRASEÑA ===== */
     .password-field{position:relative;width:100%;min-width:0}
     .password-field input{width:100%;padding-right:104px!important}
     .password-toggle{
@@ -2740,7 +2740,7 @@
     }
 
   
-    /* ===== V30.0 · ICONOGRAFÍA SVG CLÁSICA ===== */
+    /* ===== V30.1 · ICONOGRAFÍA SVG CLÁSICA ===== */
     .mi-icon{
       width:1.08em;
       height:1.08em;
@@ -2763,7 +2763,7 @@
     .password-eye .mi-icon{width:1rem;height:1rem}
 
   
-    /* ===== V30.0 · EXPERIENCIA TIPO PLATAFORMA DE GESTIÓN ESCOLAR ===== */
+    /* ===== V30.1 · EXPERIENCIA TIPO PLATAFORMA DE GESTIÓN ESCOLAR ===== */
     .institutional-quick-access{
       display:grid;
       grid-template-columns:repeat(4,minmax(0,1fr));
@@ -2888,7 +2888,7 @@
     }
 
   
-    /* ===== V30.0 · GESTIÓN ACADÉMICA INTEGRAL ===== */
+    /* ===== V30.1 · GESTIÓN ACADÉMICA INTEGRAL ===== */
     .libro-tabs{display:flex;gap:7px;overflow-x:auto;margin:0 0 12px;padding-bottom:2px;scrollbar-width:none}
     .libro-tabs::-webkit-scrollbar{display:none}
     .libro-tab{border:1px solid var(--line);background:var(--panel);color:var(--brown2);border-radius:12px;padding:9px 12px;font-size:10px;font-weight:900;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer}
@@ -2932,12 +2932,104 @@
       .staff-write-panel{order:2}
     }
 
+  
+    /* ===== V30.1 · ESTABILIZACIÓN PREPRODUCCIÓN ===== */
+    :root{--content-max:1440px}
+    main{max-width:var(--content-max);margin-inline:auto}
+    .section{min-width:0}
+    .card,.panel,.rowcard,.entity-list-item,.quick-module,.libro-student-row{min-width:0}
+    .topbar h1,.topbar p,.rowcard strong,.rowcard small,.entity-list-item strong,.entity-list-item small{
+      overflow-wrap:anywhere;
+      word-break:normal;
+    }
+    .iconbtn svg,.btn svg,.textbtn svg,.tabbtn svg,.libro-tab svg{pointer-events:none}
+    button:disabled,.btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+    .libro-loading{
+      padding:18px;border:1px dashed var(--line);border-radius:14px;
+      text-align:center;color:var(--muted);font-size:10px;background:#fbf7f0
+    }
+    .libro-tabs{scroll-padding-inline:10px}
+    .bulk-attendance-row select,.bulk-attendance-row input{width:100%;max-width:100%}
+    .schedule-grid{scroll-snap-type:x proximity}
+    .schedule-day{scroll-snap-align:start}
+    .schedule-block{overflow:hidden}
+    .schedule-block strong,.schedule-block small{overflow-wrap:anywhere}
+    .presentation-badge{
+      display:inline-flex;align-items:center;gap:5px;
+      padding:4px 8px;border:1px solid var(--line);border-radius:999px;
+      background:#f6eee3;color:var(--brown2);font-size:8px;font-weight:900
+    }
+    dialog::backdrop{background:rgba(42,31,23,.48);backdrop-filter:blur(2px)}
+    dialog .dialog,dialog .dialog-inner,dialog .app-modal-shell{
+      max-height:min(88dvh,850px);overflow:auto;overscroll-behavior:contain
+    }
+    @media(max-width:980px){
+      body.role-admin .mobile-nav,
+      body.role-teacher .mobile-nav{
+        display:flex!important;
+        overflow-x:auto!important;
+        overflow-y:hidden!important;
+        justify-content:flex-start!important;
+        scrollbar-width:none;
+        -webkit-overflow-scrolling:touch;
+        scroll-snap-type:x proximity
+      }
+      body.role-admin .mobile-nav::-webkit-scrollbar,
+      body.role-teacher .mobile-nav::-webkit-scrollbar{display:none}
+      body.role-admin .mobile-nav button,
+      body.role-teacher .mobile-nav button{
+        flex:0 0 78px!important;
+        width:78px!important;
+        scroll-snap-align:center
+      }
+      .libro-tabs{
+        position:sticky;
+        top:0;
+        z-index:20;
+        background:var(--bg);
+        padding:7px 0;
+      }
+    }
+    @media(max-width:700px){
+      main{padding-bottom:calc(88px + env(safe-area-inset-bottom))!important}
+      .institutional-quick-access{grid-template-columns:1fr 1fr}
+      .libro-summary{grid-template-columns:1fr 1fr}
+      .bulk-attendance-head{align-items:stretch}
+      .bulk-attendance-head>.field{width:100%}
+      .bulk-attendance-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}
+      .bulk-attendance-actions .btn{width:100%}
+      .compact-filters select{max-width:none;width:100%}
+      .schedule-grid{grid-template-columns:repeat(5,82vw)}
+      .schedule-day{min-width:82vw}
+      dialog{
+        width:100vw!important;
+        max-width:100vw!important;
+        margin:auto 0 0!important;
+        border-radius:20px 20px 0 0!important;
+      }
+      dialog .dialog,dialog .dialog-inner,dialog .app-modal-shell{
+        width:100%!important;
+        max-width:100%!important;
+        max-height:88dvh!important;
+        border-radius:20px 20px 0 0!important;
+        padding-bottom:calc(18px + env(safe-area-inset-bottom))!important
+      }
+    }
+    @media(max-width:420px){
+      .institutional-quick-access{grid-template-columns:1fr}
+      .libro-summary{grid-template-columns:1fr 1fr}
+      .libro-kpi{padding:10px}
+      .libro-kpi strong{font-size:20px}
+      .schedule-grid{grid-template-columns:repeat(5,88vw)}
+      .schedule-day{min-width:88vw}
+    }
+
   </style>
 
 </head>
 <body>
 
-<!-- ICONOS SVG CLÁSICOS · Evaluaciones Michelangelo v29.6 -->
+<!-- ICONOS SVG CLÁSICOS · Plataforma Académica Michelangelo V30.1 -->
 <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
   <defs>
     <symbol id="mi-home" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></symbol>
@@ -2966,7 +3058,7 @@
     <symbol id="mi-note" viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
     <symbol id="mi-schedule" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M8 13h3M13 13h3M8 17h3"/></symbol>
     <symbol id="mi-filter" viewBox="0 0 24 24"><path d="M4 5h16M7 12h10M10 19h4"/></symbol>
-    <symbol id="mi-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M8 9h8M8 13h8M8 17h5"/></symbol>
+    
   </defs>
 </svg>
 
@@ -2981,7 +3073,7 @@
       <div class="bottomcopy" style="font-size:10px;color:#e4d4c0">Acceso protegido · Firebase Authentication · Firestore</div>
     </div>
     <div class="authform">
-      <div class="eyebrow">Plataforma de evaluaciones</div>
+      <div class="eyebrow">Plataforma Académica</div>
       <h1>Iniciar sesión</h1>
       <p>Ingresa con la cuenta autorizada por el colegio.</p>
       <form id="loginForm">
@@ -3015,7 +3107,7 @@
 
 <div class="app">
   <aside>
-    <div class="brand"><div class="logo"><img src="./logo.png"></div><div><strong>Colegio Waldorf<br>Michelangelo</strong><small>Registro de Evaluaciones</small></div></div>
+    <div class="brand"><div class="logo"><img src="./logo.png"></div><div><strong>Colegio Waldorf<br>Michelangelo</strong><small>Plataforma Académica</small></div></div>
     <nav>
       <button class="nav-btn active" data-section="inicio"><svg class="mi-icon" aria-hidden="true"><use href="#mi-home"></use></svg> Inicio</button>
       <button class="nav-btn" data-section="evaluaciones"><svg class="mi-icon" aria-hidden="true"><use href="#mi-file"></use></svg> Evaluaciones</button>
@@ -3406,7 +3498,7 @@
 
 <dialog id="appMessageDialog">
   <div class="app-modal-shell">
-    <div id="appMessageIcon" class="app-modal-icon">ℹ️</div>
+    <div id="appMessageIcon" class="app-modal-icon"><svg class="mi-icon" aria-hidden="true"><use href="#mi-info"></use></svg></div>
     <h3 id="appMessageTitle" class="app-modal-title">Mensaje</h3>
     <p id="appMessageText" class="app-modal-text"></p>
     <div class="app-modal-actions">
@@ -3456,7 +3548,7 @@
   <div class="dialog-inner">
     <div class="dialog-head">
       <h3 id="studyTaskTitle">Agregar tarea de estudio</h3>
-      <button class="close" onclick="studyTaskDialog.close()">×</button>
+      <button class="close" onclick="studyTaskDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
     </div>
     <form id="studyTaskForm">
       <input type="hidden" id="studyTaskId">
@@ -3490,21 +3582,21 @@
 
 <dialog id="studentDetailDialog" class="entity-wide">
   <div class="dialog">
-    <div class="dialoghead"><h3>Ficha del estudiante</h3><button class="iconbtn" onclick="studentDetailDialog.close()">×</button></div>
+    <div class="dialoghead"><h3>Ficha del estudiante</h3><button class="iconbtn" aria-label="Cerrar" onclick="studentDetailDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
     <div id="studentDetailContent"></div>
   </div>
 </dialog>
 
 <dialog id="userDetailDialog" class="entity-wide">
   <div class="dialog">
-    <div class="dialoghead"><h3>Ficha de usuario</h3><button class="iconbtn" onclick="userDetailDialog.close()">×</button></div>
+    <div class="dialoghead"><h3>Ficha de usuario</h3><button class="iconbtn" aria-label="Cerrar" onclick="userDetailDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
     <div id="userDetailContent"></div>
   </div>
 </dialog>
 
 <dialog id="courseDetailDialog" class="entity-wide">
   <div class="dialog">
-    <div class="dialoghead"><h3>Resumen del curso</h3><button class="iconbtn" onclick="courseDetailDialog.close()">×</button></div>
+    <div class="dialoghead"><h3>Resumen del curso</h3><button class="iconbtn" aria-label="Cerrar" onclick="courseDetailDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
     <div id="courseDetailContent"></div>
   </div>
 </dialog>
@@ -3513,7 +3605,7 @@
   <div class="dialog">
     <div class="dialoghead">
       <h3>Detalle de calificación</h3>
-      <button class="iconbtn" onclick="gradeDetailDialog.close()">×</button>
+      <button class="iconbtn" aria-label="Cerrar" onclick="gradeDetailDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
     </div>
     <div id="gradeDetailContent"></div>
   </div>
@@ -3521,7 +3613,7 @@
 
 <dialog id="gradeDialog">
   <div class="dialog">
-    <div class="dialoghead"><h3 id="gradeDialogTitle">Registrar nota</h3><button class="iconbtn" onclick="gradeDialog.close()">×</button></div>
+    <div class="dialoghead"><h3 id="gradeDialogTitle">Registrar nota</h3><button class="iconbtn" aria-label="Cerrar" onclick="gradeDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
     <form id="gradeForm" class="formgrid">
       <input id="gradeId" type="hidden">
 
@@ -3555,13 +3647,13 @@
   <div class="dialog">
     <div class="dialoghead">
       <h3 id="evalDetailTitle">Detalle de evaluación</h3>
-      <button class="iconbtn" onclick="evalDetailDialog.close()">×</button>
+      <button class="iconbtn" aria-label="Cerrar" onclick="evalDetailDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
     </div>
     <div id="evalDetailContent"></div>
   </div>
 </dialog>
 
-<dialog id="evalDialog"><div class="dialog"><div class="dialoghead"><h3 id="evalDialogTitle">Registrar evaluación</h3><button class="iconbtn" onclick="evalDialog.close()">×</button></div>
+<dialog id="evalDialog"><div class="dialog"><div class="dialoghead"><h3 id="evalDialogTitle">Registrar evaluación</h3><button class="iconbtn" aria-label="Cerrar" onclick="evalDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
   <form id="evalForm" class="formgrid"><input type="hidden" id="evalId">
     <div class="field"><label>Curso</label><select id="eCourse" required></select></div><div class="field"><label>Asignatura</label><select id="eSubject" required></select></div>
     <div class="field"><label>Tipo</label><select id="eType"><option>Prueba</option><option>Control</option><option>Trabajo</option><option>Presentación</option><option>Proyecto</option><option>Ensayo</option><option>Otro</option></select></div><div class="field"><label>Fecha</label><input id="eDate" type="date" required></div>
@@ -3572,7 +3664,7 @@
   </form>
 </div></dialog>
 
-<dialog id="userDialog"><div class="dialog"><div class="dialoghead"><h3>Editar usuario</h3><button class="iconbtn" onclick="userDialog.close()">×</button></div>
+<dialog id="userDialog"><div class="dialog"><div class="dialoghead"><h3>Editar usuario</h3><button class="iconbtn" aria-label="Cerrar" onclick="userDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
   <form id="editUserForm" class="formgrid"><input id="euId" type="hidden"><div class="field full"><label>Nombre</label><input id="euName" required></div><div class="field full"><label>Correo</label><input id="euEmail" disabled></div><div class="field"><label>Rol</label><select id="euRole" onchange="renderEditAssignments()"><option value="teacher">Profesor/a</option><option value="parent">Apoderado/a</option><option value="student">Estudiante</option><option value="admin">Administrador/a</option></select></div><div class="field"><label>Estado</label><select id="euActive"><option value="true">Activo</option><option value="false">Desactivado</option></select></div><div id="euAssignments" class="field full"></div><div class="form-actions"><button class="btn ghost" type="button" onclick="userDialog.close()">Cancelar</button><button class="btn primary" type="submit">Guardar cambios</button></div></form>
   <div id="userDangerZone" class="danger-zone">
     <strong>Eliminar usuario</strong>
@@ -3581,7 +3673,7 @@
   </div>
 </div></dialog>
 
-<dialog id="studentDialog"><div class="dialog"><div class="dialoghead"><h3>Editar estudiante</h3><button class="iconbtn" onclick="studentDialog.close()">×</button></div>
+<dialog id="studentDialog"><div class="dialog"><div class="dialoghead"><h3>Editar estudiante</h3><button class="iconbtn" aria-label="Cerrar" onclick="studentDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
   <form id="editStudentForm" class="formgrid"><input id="esId" type="hidden"><div class="field full"><label>Nombre</label><input id="esName" required></div><div class="field full"><label>Curso</label><select id="esCourse"></select></div><div class="form-actions student-edit-actions"><button class="btn danger" type="button" onclick="deleteStudent($('esId').value)">Eliminar estudiante</button><div class="student-edit-buttons"><button class="btn ghost" type="button" onclick="studentDialog.close()">Cancelar</button><button class="btn primary" type="submit">Guardar cambios</button></div></div></form>
 </div></dialog>
 
@@ -3590,7 +3682,7 @@
   <div class="dialog">
     <div class="dialoghead">
       <h3>Restablecer contraseña</h3>
-      <button class="iconbtn" onclick="resetPasswordDialog.close()">×</button>
+      <button class="iconbtn" aria-label="Cerrar" onclick="resetPasswordDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
     </div>
 
     <div id="resetPasswordFormView">
@@ -3630,7 +3722,7 @@
         <h3>Elegir Tutor/a del curso</h3>
         <div id="courseTutorCourse" class="meta" style="margin-top:4px"></div>
       </div>
-      <button class="iconbtn" onclick="courseTutorDialog.close()">×</button>
+      <button class="iconbtn" aria-label="Cerrar" onclick="courseTutorDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
     </div>
 
     <div class="tutor-select-help">
@@ -3659,7 +3751,7 @@
         <h3>Registro de asistencia</h3>
         <p class="meta" id="attendanceStudentLabel" style="margin:4px 0 0"></p>
       </div>
-      <button class="iconbtn" type="button" onclick="attendanceDialog.close()">×</button>
+      <button class="iconbtn" aria-label="Cerrar" type="button" onclick="attendanceDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
     </div>
 
     <div id="attendanceSummary" class="attendance-summary"></div>
@@ -3702,7 +3794,7 @@
   </div>
 </dialog>
 
-<dialog id="profileDialog"><div class="dialog"><div class="dialoghead"><h3>Mi perfil</h3><button class="iconbtn" onclick="profileDialog.close()">×</button></div>
+<dialog id="profileDialog"><div class="dialog"><div class="dialoghead"><h3>Mi perfil</h3><button class="iconbtn" aria-label="Cerrar" onclick="profileDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
   <div id="profileContent"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="btn ghost" onclick="profileDialog.close();openResetPassword(currentSession.email)">Enviar enlace para cambiar contraseña</button><button class="btn danger" onclick="logout()">Cerrar sesión</button></div>
 </div></dialog>
 
@@ -3722,7 +3814,7 @@ const COURSES=["7° Básico","8° Básico","I° Medio","II° Medio","III° Medio
 const SUBJECTS=["Arte","Física","Química","Lenguaje y Literatura","Historia","Matemática","Teatro"];
 
 let FB={},app,auth,db,messaging=null,functions=null,secondaryApp,secondaryAuth,currentUser=null,currentSession=null;
-let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false,evalRangeFilter="upcoming",studyPlans=[],studyUnsubscribe=null,currentStudent=null,grades=[],gradesUnsubscribe=null,selectedGradeStudentId="",calendarView="month",calendarCourseFilter="",pendingEvaluationId="",courseTutors={},selectedTutorCourse="",academicSettings={academicYear:2026,attendanceAlert:85,gradeAlert:4,lateAlert:3},activeLibroPanel="resumen";
+let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false,evalRangeFilter="upcoming",studyPlans=[],studyUnsubscribe=null,currentStudent=null,grades=[],gradesUnsubscribe=null,selectedGradeStudentId="",calendarView="month",calendarCourseFilter="",pendingEvaluationId="",courseTutors={},selectedTutorCourse="",academicSettings={academicYear:2026,attendanceAlert:85,gradeAlert:4,lateAlert:3},activeLibroPanel="resumen",libroRenderToken=0;
 
 const $=id=>document.getElementById(id);
 
@@ -4574,7 +4666,7 @@ window.addEventListener("popstate",()=>{
 
 document.querySelectorAll("aside .nav-btn").forEach(b=>b.addEventListener("click",()=>showSection(b.dataset.section)));
 
-function renderAll(){renderDashboard();renderEvaluations();renderCalendar();renderCourses();renderFocusCard();if(currentSession?.role==="student")renderStudyPlans();if($("notas")?.classList.contains("active"))prepareGradesSection()}
+function renderAll(){renderDashboard();renderEvaluations();renderCalendar();renderCourses();renderFocusCard();if(currentSession?.role==="student")renderStudyPlans();if($("notas")?.classList.contains("active"))prepareGradesSection();if($("libro")?.classList.contains("active")&&["admin","teacher"].includes(currentSession?.role))renderLibroClases()}
 
 function renderFocusCard(){
   const box=$("focusCard");
@@ -4845,7 +4937,13 @@ async function saveAcademicSettings(e){
     updatedBy:currentSession.uid
   };
   await FB.setDoc(FB.doc(db,"appSettings","general"),data,{merge:true});
-  academicSettings={...academicSettings,...data};
+  academicSettings={
+    ...academicSettings,
+    academicYear:data.academicYear,
+    attendanceAlert:data.attendanceAlert,
+    gradeAlert:data.gradeAlert,
+    lateAlert:data.lateAlert
+  };
   showToast("Configuración académica actualizada.","ok","Configuración");
   renderLibroClases();
 }
@@ -4970,7 +5068,10 @@ async function saveLateRecord(e){
   if(!["admin","teacher"].includes(currentSession?.role)) return;
   const studentId=$("lateStudent").value;
   const s=students.find(x=>x.id===studentId);
-  if(!s) return;
+  if(!s||s.course!==currentLibroCourse()){
+    showAppMessage("Estudiante no válido","El estudiante ya no pertenece al curso seleccionado.","warn");
+    return;
+  }
   await FB.addDoc(FB.collection(db,"lateRecords"),{
     studentId,
     studentName:s.name||"",
@@ -5056,7 +5157,10 @@ async function saveObservation(e){
   if(!["admin","teacher"].includes(currentSession?.role)) return;
   const studentId=$("observationStudent").value;
   const s=students.find(x=>x.id===studentId);
-  if(!s) return;
+  if(!s||s.course!==currentLibroCourse()){
+    showAppMessage("Estudiante no válido","El estudiante ya no pertenece al curso seleccionado.","warn");
+    return;
+  }
   const text=$("observationText").value.trim();
   if(!text) return;
   await FB.addDoc(FB.collection(db,"observations"),{
@@ -5130,29 +5234,54 @@ function openScheduleEditor(block=null){
   $("scheduleEnd").value=block?.end||"08:45";
   $("scheduleTeacher").value=block?.teacher||"";
   $("scheduleRoom").value=block?.room||"";
-  scheduleDialog.showModal();
+  $("scheduleDialog").showModal();
 }
 
 async function saveScheduleBlock(e){
   e.preventDefault();
   if(currentSession?.role!=="admin") return;
+
+  const form=$("scheduleForm");
+  const submit=form?.querySelector('button[type="submit"]');
   const id=$("scheduleId").value;
+  const start=$("scheduleStart").value;
+  const end=$("scheduleEnd").value;
+
+  if(!start||!end||end<=start){
+    showAppMessage(
+      "Revisa el horario",
+      "La hora de término debe ser posterior a la hora de inicio.",
+      "warn"
+    );
+    return;
+  }
+
   const data={
     course:$("scheduleCourse").value,
     day:Number($("scheduleDay").value),
     subject:$("scheduleSubject").value,
-    start:$("scheduleStart").value,
-    end:$("scheduleEnd").value,
+    start,
+    end,
     teacher:$("scheduleTeacher").value.trim(),
     room:$("scheduleRoom").value.trim(),
     updatedAt:FB.serverTimestamp(),
     updatedBy:currentSession.uid
   };
-  if(id) await FB.setDoc(FB.doc(db,"schedules",id),data,{merge:true});
-  else await FB.addDoc(FB.collection(db,"schedules"),{...data,createdAt:FB.serverTimestamp(),createdBy:currentSession.uid});
-  scheduleDialog.close();
-  showToast("Horario actualizado.","ok","Horario");
-  renderSchedule();
+
+  try{
+    if(submit){submit.disabled=true;submit.textContent="Guardando…";}
+    if(id) await FB.setDoc(FB.doc(db,"schedules",id),data,{merge:true});
+    else await FB.addDoc(FB.collection(db,"schedules"),{...data,createdAt:FB.serverTimestamp(),createdBy:currentSession.uid});
+    $("scheduleDialog").close();
+    await logAudit("update","schedule",id||data.course,`${data.course} · ${data.subject} · ${data.start}-${data.end}`);
+    showToast("Horario actualizado.","ok","Horario");
+    renderSchedule();
+  }catch(err){
+    console.error("Horario:",err);
+    showAppMessage("No se pudo guardar","No fue posible actualizar el horario.","error");
+  }finally{
+    if(submit){submit.disabled=false;submit.textContent="Guardar bloque";}
+  }
 }
 
 async function editScheduleBlock(id){
@@ -5220,24 +5349,76 @@ async function getStudentObservations(studentId){
     .sort((a,b)=>(b.date||"").localeCompare(a.date||""));
 }
 
-function exportCourseSummaryCSV(){
+async function exportCourseSummaryCSV(){
   const course=currentLibroCourse();
   const courseStudents=courseStudentsSorted(course);
-  if(!courseStudents.length) return;
-  const rows=[["Estudiante","Curso","Asistencia %","Presentes","Días registrados"]];
-  courseStudents.forEach(s=>rows.push([
-    s.name||"",
-    s.course||"",
-    hasAttendanceSummary(s)?formatAttendance(s.attendancePercentage):"",
-    s.attendancePresent||0,
-    s.attendanceTotal||0
-  ]));
-  const csv=rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");
-  downloadBlob(`resumen_${course.replace(/\s+/g,"_")}.csv`,csv,"text/csv;charset=utf-8");
+  if(!courseStudents.length){
+    showAppMessage("Sin datos","No hay estudiantes que exportar en este curso.","warn");
+    return;
+  }
+
+  try{
+    const ids=courseStudents.map(s=>s.id);
+    const [courseGrades,lateRecords]=await Promise.all([
+      getCourseGradesForLibro(course,ids),
+      getCourseLateRecords(course)
+    ]);
+    const month=iso().slice(0,7);
+
+    const rows=[[
+      "Estudiante",
+      "Curso",
+      "Asistencia %",
+      "Presentes",
+      "Días registrados",
+      "Promedio",
+      "Atrasos del mes",
+      "Estado"
+    ]];
+
+    courseStudents.forEach(s=>{
+      const ownGrades=courseGrades.filter(g=>g.studentId===s.id);
+      const avg=averageGrade(ownGrades);
+      const lateCount=lateRecords.filter(r=>r.studentId===s.id&&(r.date||"").startsWith(month)).length;
+      const attendance=hasAttendanceSummary(s)?Number(s.attendancePercentage):null;
+      const attention=
+        (avg!=null&&avg<settingsGradeAlert())||
+        (attendance!=null&&attendance<settingsAttendanceAlert())||
+        lateCount>=settingsLateAlert();
+
+      rows.push([
+        s.name||"",
+        s.course||"",
+        attendance==null?"":formatAttendance(attendance),
+        s.attendancePresent||0,
+        s.attendanceTotal||0,
+        avg==null?"":gradeDisplay(avg),
+        lateCount,
+        attention?"Revisar":"Al día"
+      ]);
+    });
+
+    const csv="\uFEFF"+rows
+      .map(row=>row.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(";"))
+      .join("\n");
+
+    downloadBlob(
+      csv,
+      `resumen_${course.replace(/\s+/g,"_")}_${iso()}.csv`,
+      "text/csv;charset=utf-8"
+    );
+
+    showToast("Resumen exportado correctamente.","ok","Exportación");
+  }catch(err){
+    console.error("Exportar curso:",err);
+    showAppMessage("No se pudo exportar","Ocurrió un problema al preparar el resumen del curso.","error");
+  }
 }
 
 async function renderLibroClases(){
   if(!["admin","teacher"].includes(currentSession?.role)) return;
+
+  const token=++libroRenderToken;
 
   if(!students.length){
     await loadStudents();
@@ -5248,19 +5429,35 @@ async function renderLibroClases(){
   const list=$("libroStudents");
 
   if(!course){
-    summary.innerHTML="";
-    list.innerHTML='<div class="empty">No tienes cursos disponibles.</div>';
+    if(summary) summary.innerHTML="";
+    if(list) list.innerHTML='<div class="empty">No tienes cursos disponibles.</div>';
     return;
   }
 
-  $("libroPeriodText").textContent=academicSettings.academicYear||new Date().getFullYear();
+  if(list) list.innerHTML='<div class="libro-loading">Cargando información académica del curso…</div>';
+
+  $("libroPeriodText").textContent=
+    academicSettings.academicYear||new Date().getFullYear();
 
   const courseStudents=students
     .filter(s=>s.course===course)
     .sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"));
 
   const ids=courseStudents.map(s=>s.id);
-  const courseGrades=await getCourseGradesForLibro(course,ids);
+
+  let courseGrades=[];
+  let lateRecords=[];
+
+  try{
+    [courseGrades,lateRecords]=await Promise.all([
+      getCourseGradesForLibro(course,ids),
+      getCourseLateRecords(course)
+    ]);
+  }catch(err){
+    console.error("Libro de clases:",err);
+  }
+
+  if(token!==libroRenderToken || course!==currentLibroCourse()) return;
 
   const visibleCourseEvals=visibleEvaluations()
     .filter(e=>e.course===course && e.status!=="Cancelada");
@@ -5274,23 +5471,42 @@ async function renderLibroClases(){
     averages.set(s.id,averageGrade(own));
   });
 
-  const avgValues=[...averages.values()].filter(v=>v!=null);
+  const avgValues=[...averages.values()]
+    .filter(v=>v!=null);
+
   const courseAvg=avgValues.length
     ? avgValues.reduce((a,b)=>a+b,0)/avgValues.length
     : null;
 
   const attendanceValues=courseStudents
-    .filter(s=>Number(s.attendanceTotal||0)>0 && Number.isFinite(Number(s.attendancePercentage)))
+    .filter(s=>
+      Number(s.attendanceTotal||0)>0 &&
+      Number.isFinite(Number(s.attendancePercentage))
+    )
     .map(s=>Number(s.attendancePercentage));
 
   const courseAttendance=attendanceValues.length
     ? attendanceValues.reduce((a,b)=>a+b,0)/attendanceValues.length
     : null;
 
+  const month=iso().slice(0,7);
+  const lateByStudent=new Map();
+  lateRecords
+    .filter(r=>(r.date||"").startsWith(month))
+    .forEach(r=>lateByStudent.set(r.studentId,(lateByStudent.get(r.studentId)||0)+1));
+
   const attentionCount=courseStudents.filter(s=>{
     const avg=averages.get(s.id);
-    const attendance=Number(s.attendanceTotal||0)>0?Number(s.attendancePercentage):null;
-    return (avg!=null && avg<settingsGradeAlert()) || (attendance!=null && attendance<settingsAttendanceAlert());
+    const attendance=Number(s.attendanceTotal||0)>0
+      ? Number(s.attendancePercentage)
+      : null;
+    const lateCount=lateByStudent.get(s.id)||0;
+
+    return (
+      (avg!=null&&avg<settingsGradeAlert()) ||
+      (attendance!=null&&attendance<settingsAttendanceAlert()) ||
+      lateCount>=settingsLateAlert()
+    );
   }).length;
 
   summary.innerHTML=`
@@ -5312,14 +5528,17 @@ async function renderLibroClases(){
     <div class="libro-kpi">
       <span>Seguimiento</span>
       <strong>${attentionCount}</strong>
-      <small>requieren atención</small>
+      <small>${attentionCount===1?"estudiante requiere":"estudiantes requieren"} atención</small>
     </div>`;
 
   $("libroCourseMeta").textContent=
-    `${courseStudents.length} estudiante${courseStudents.length===1?"":"s"} · ${upcoming.length} evaluación${upcoming.length===1?"":"es"} próxima${upcoming.length===1?"":"s"}`;
+    `${courseStudents.length} estudiante${courseStudents.length===1?"":"s"} · `+
+    `${upcoming.length} evaluación${upcoming.length===1?"":"es"} próxima${upcoming.length===1?"":"s"} · `+
+    `${lateRecords.filter(r=>(r.date||"").startsWith(month)).length} atraso${lateRecords.filter(r=>(r.date||"").startsWith(month)).length===1?"":"s"} este mes`;
 
   if(!courseStudents.length){
     list.innerHTML='<div class="empty">No hay estudiantes registrados en este curso.</div>';
+    renderLibroPanel(activeLibroPanel);
     return;
   }
 
@@ -5328,13 +5547,18 @@ async function renderLibroClases(){
     const avg=averages.get(s.id);
     const hasAttendance=Number(s.attendanceTotal||0)>0;
     const attendance=hasAttendance?Number(s.attendancePercentage):null;
-    const needsAttention=(avg!=null && avg<settingsGradeAlert())||(attendance!=null && attendance<settingsAttendanceAlert());
+    const lateCount=lateByStudent.get(s.id)||0;
+
+    const needsAttention=
+      (avg!=null&&avg<settingsGradeAlert()) ||
+      (attendance!=null&&attendance<settingsAttendanceAlert()) ||
+      lateCount>=settingsLateAlert();
 
     return `
       <div class="libro-student-row">
         <div class="libro-student-main">
           <strong>${esc(s.name)}</strong>
-          <small>${esc(s.course)} · ${ownGrades.length} nota${ownGrades.length===1?"":"s"}</small>
+          <small>${esc(s.course)} · ${ownGrades.length} nota${ownGrades.length===1?"":"s"} · ${lateCount} atraso${lateCount===1?"":"s"} este mes</small>
         </div>
         <div class="libro-metric">
           <span>Asistencia</span>
@@ -5349,9 +5573,9 @@ async function renderLibroClases(){
           <strong><span class="libro-status ${needsAttention?"attention":""}">${needsAttention?"Revisar":"Al día"}</span></strong>
         </div>
         <div class="libro-actions">
-          <button class="iconbtn" type="button" title="Ficha académica" onclick="openStudentDetail('${s.id}')">${miIcon("user","mi-icon icon-only")}</button>
-          <button class="iconbtn" type="button" title="Registrar asistencia" onclick="openAttendanceDialog('${s.id}')">${miIcon("check","mi-icon icon-only")}</button>
-          <button class="iconbtn" type="button" title="Ver notas" onclick="showSection('notas');selectedGradeStudentId='${s.id}';prepareGradesSection()">${miIcon("chart","mi-icon icon-only")}</button>
+          <button class="iconbtn" type="button" aria-label="Abrir ficha académica de ${esc(s.name)}" title="Ficha académica" onclick="openStudentDetail('${s.id}')">${miIcon("user","mi-icon icon-only")}</button>
+          <button class="iconbtn" type="button" aria-label="Registrar asistencia de ${esc(s.name)}" title="Registrar asistencia" onclick="openAttendanceDialog('${s.id}')">${miIcon("check","mi-icon icon-only")}</button>
+          <button class="iconbtn" type="button" aria-label="Ver notas de ${esc(s.name)}" title="Ver notas" onclick="showSection('notas');selectedGradeStudentId='${s.id}';prepareGradesSection()">${miIcon("chart","mi-icon icon-only")}</button>
         </div>
       </div>`;
   }).join("");
@@ -5436,8 +5660,9 @@ function formatAttendance(value){
 function attendanceClass(value){
   const n=Number(value);
   if(!Number.isFinite(n)) return "";
-  if(n>=90) return "attendance-good";
-  if(n>=85) return "attendance-mid";
+  const alert=settingsAttendanceAlert();
+  if(n>=Math.min(100,alert+5)) return "attendance-good";
+  if(n>=alert) return "attendance-mid";
   return "attendance-low";
 }
 
@@ -8468,7 +8693,19 @@ function exportICS(){
   visibleEvaluations().filter(e=>e.status!=="Cancelada").forEach(e=>{const d=e.date.replaceAll("-","");lines.push("BEGIN:VEVENT",`UID:${e.id}@registroevaluaciones`,`DTSTART;VALUE=DATE:${d}`,`SUMMARY:${icsEsc(e.course+" · "+e.subject+" · "+e.title)}`,`DESCRIPTION:${icsEsc((e.contents||"")+" "+(e.notes||""))}`,"END:VEVENT")});lines.push("END:VCALENDAR");downloadBlob(new Blob([lines.join("\r\n")],{type:"text/calendar"}),"evaluaciones_michelangelo.ics")
 }
 const icsEsc=s=>String(s).replace(/\\/g,"\\\\").replace(/,/g,"\\,").replace(/;/g,"\\;").replace(/\n/g,"\\n");
-function downloadBlob(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function downloadBlob(blobOrContent,name,type="application/octet-stream"){
+  const blob=blobOrContent instanceof Blob
+    ? blobOrContent
+    : new Blob([String(blobOrContent??"")],{type});
+  const a=document.createElement("a");
+  const url=URL.createObjectURL(blob);
+  a.href=url;
+  a.download=name||"archivo";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1200);
+}
 
 $("loginForm").addEventListener("submit",login);$("evalForm").addEventListener("submit",saveEval);$("gradeForm").addEventListener("submit",saveGrade);$("studyTaskForm").addEventListener("submit",saveStudyTask);$("createUserForm").addEventListener("submit",createUser);$("createStudentForm").addEventListener("submit",createStudent);$("editUserForm").addEventListener("submit",updateUser);$("editStudentForm").addEventListener("submit",updateStudent);$("attendanceForm").addEventListener("submit",saveAttendance);
 $("todayText").textContent=new Date().toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
@@ -8519,7 +8756,7 @@ window.addEventListener("resize",()=>{
   <div class="dialog">
     <div class="dialoghead">
       <h3>Bloque de horario</h3>
-      <button class="iconbtn" type="button" onclick="scheduleDialog.close()">×</button>
+      <button class="iconbtn" aria-label="Cerrar" type="button" onclick="$('scheduleDialog').close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
     </div>
     <form id="scheduleForm" class="formgrid" onsubmit="saveScheduleBlock(event)">
       <input id="scheduleId" type="hidden">
@@ -8535,7 +8772,7 @@ window.addEventListener("resize",()=>{
       <div class="field full"><label>Profesor/a</label><input id="scheduleTeacher" maxlength="120" required></div>
       <div class="field full"><label>Sala / espacio</label><input id="scheduleRoom" maxlength="80" placeholder="Opcional"></div>
       <div class="form-actions">
-        <button class="btn ghost" type="button" onclick="scheduleDialog.close()">Cancelar</button>
+        <button class="btn ghost" type="button" onclick="$('scheduleDialog').close()">Cancelar</button>
         <button class="btn primary" type="submit">Guardar bloque</button>
       </div>
     </form>
