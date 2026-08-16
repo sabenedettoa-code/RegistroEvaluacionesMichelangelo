@@ -1,4 +1,4 @@
-const CACHE="michelangelo-evaluaciones-v29-4";
+const CACHE="michelangelo-evaluaciones-v29-7";
 
 const ASSETS=[
   "./",
@@ -56,9 +56,7 @@ self.addEventListener("activate",event=>{
 });
 
 self.addEventListener("fetch",event=>{
-  if(event.request.method!=="GET"){
-    return;
-  }
+  if(event.request.method!=="GET") return;
 
   const url=new URL(event.request.url);
 
@@ -76,12 +74,7 @@ self.addEventListener("fetch",event=>{
         const copy=response.clone();
 
         caches.open(CACHE)
-          .then(cache=>
-            cache.put(
-              event.request,
-              copy
-            )
-          );
+          .then(cache=>cache.put(event.request,copy));
 
         return response;
       })
