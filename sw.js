@@ -1,4 +1,4 @@
-const CACHE="michelangelo-ii-medio-v31-0";
+const CACHE="michelangelo-ii-medio-v31-6";
 
 const ASSETS=[
   "./",
