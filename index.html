@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V29.2 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V29.3 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V29.2 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V29.3 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1477,7 +1477,7 @@
     }
 
   
-    /* ===== V29.2 · TUTOR/A DE CURSO ===== */
+    /* ===== V29.3 · TUTOR/A DE CURSO ===== */
     .course-tutor-line{
       display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
       border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
@@ -1687,7 +1687,7 @@
     }
 
   
-    /* ===== V29.2 · REGISTRO DE ASISTENCIA ===== */
+    /* ===== V29.3 · REGISTRO DE ASISTENCIA ===== */
     .attendance-summary{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
@@ -1764,7 +1764,7 @@
     }
 
   
-    /* ===== V29.2 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
+    /* ===== V29.3 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
     .parent-students-overview{
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     }
@@ -1835,6 +1835,523 @@
     @media(max-width:560px){
       .parent-students-overview{
         grid-template-columns:1fr!important;
+      }
+    }
+
+  /* ===== V29.3 · CORRECCIÓN MÓVIL INTEGRAL ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html{
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+      scroll-padding-top:74px;
+    }
+    body{min-width:0}
+    img,svg,canvas{max-width:100%}
+    button,input,select,textarea{max-width:100%}
+
+    @media(max-width:980px){
+      html,body{min-height:100%;width:100%;overflow-x:hidden!important}
+      body{
+        min-height:100dvh;
+        padding-bottom:calc(78px + env(safe-area-inset-bottom))!important;
+      }
+      .app{display:block!important;width:100%;min-width:0}
+      main{
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        padding:
+          16px
+          12px
+          calc(92px + env(safe-area-inset-bottom))
+          12px!important;
+      }
+      .section,.section.active,.card,.panel,.hero,.grid,.list,
+      .admin-grid,.assignment-shell,.coursegrid,.calendar-summary,
+      .student-overview,.parent-students-overview{
+        width:100%;
+        max-width:100%;
+        min-width:0!important;
+      }
+
+      /* Cabecera móvil */
+      .mobile-top{
+        position:sticky!important;
+        top:0!important;
+        width:100%!important;
+        min-width:0!important;
+        min-height:60px!important;
+        padding:
+          calc(8px + env(safe-area-inset-top))
+          12px
+          8px!important;
+        gap:8px!important;
+      }
+      .mobile-top>div:first-child{min-width:0;flex:1 1 auto}
+      .mobile-brand-copy{
+        min-width:0!important;
+        overflow:hidden;
+      }
+      .mobile-brand-copy strong,
+      .mobile-brand-copy small{
+        display:block!important;
+        width:100%;
+        max-width:none!important;
+        overflow:hidden!important;
+        white-space:nowrap!important;
+        text-overflow:ellipsis!important;
+      }
+      .mobile-top .staff-write{
+        flex:0 0 auto!important;
+        min-width:0!important;
+        min-height:42px!important;
+        white-space:nowrap;
+      }
+
+      /* Barra inferior: 5 accesos normales; admin desplazable */
+      .mobile-nav{
+        min-height:68px!important;
+        padding:
+          5px
+          5px
+          calc(5px + env(safe-area-inset-bottom))!important;
+      }
+      .mobile-nav button{
+        min-width:0!important;
+        min-height:54px!important;
+        padding:5px 2px!important;
+        overflow:hidden;
+        touch-action:manipulation;
+      }
+      .mobile-nav button span:last-child{
+        display:block;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+      }
+      body.role-admin .mobile-nav{
+        display:flex!important;
+        overflow-x:auto!important;
+        overflow-y:hidden!important;
+        justify-content:flex-start!important;
+        scroll-snap-type:x proximity;
+        scrollbar-width:none;
+        -webkit-overflow-scrolling:touch;
+      }
+      body.role-admin .mobile-nav::-webkit-scrollbar{display:none}
+      body.role-admin .mobile-nav button{
+        flex:0 0 74px!important;
+        width:74px!important;
+        font-size:8px!important;
+        scroll-snap-align:center;
+      }
+
+      /* Tipografía y zonas táctiles */
+      button,.btn,.iconbtn,.textbtn,.tabbtn,.quickchip,
+      .calendar-view-switch button{
+        touch-action:manipulation;
+      }
+      .btn,.tabbtn,.quickchip{
+        min-height:42px;
+      }
+      .iconbtn{
+        min-width:42px;
+        min-height:42px;
+      }
+
+      /* Evita zoom automático de iOS al enfocar formularios */
+      input,select,textarea{
+        font-size:16px!important;
+        min-height:46px;
+        width:100%;
+      }
+      textarea{min-height:96px;resize:vertical}
+      input[type="checkbox"],input[type="radio"]{
+        width:auto!important;
+        min-height:0!important;
+        font-size:initial!important;
+      }
+
+      /* Títulos y acciones */
+      .topbar{
+        width:100%;
+        min-width:0;
+        gap:10px!important;
+      }
+      .topbar>div:first-child{min-width:0!important;width:100%}
+      .topbar h1{
+        max-width:100%;
+        font-size:24px!important;
+        line-height:1.12!important;
+        overflow-wrap:anywhere;
+      }
+      .topbar p{
+        max-width:100%;
+        line-height:1.45;
+        overflow-wrap:anywhere;
+      }
+      .top-actions{
+        width:100%!important;
+        display:grid!important;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:8px!important;
+      }
+      .top-actions>.btn{
+        width:100%!important;
+        min-width:0!important;
+      }
+      .top-actions>.iconbtn{justify-self:start}
+      .top-actions>.user-chip{
+        grid-column:1/-1;
+        width:100%!important;
+        max-width:none!important;
+        min-width:0!important;
+      }
+      .user-chip>div:nth-child(2){min-width:0!important}
+      .user-chip strong,.user-chip small{
+        display:block;
+        max-width:100%;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+      }
+
+      .title-row{
+        display:flex!important;
+        flex-wrap:wrap!important;
+        align-items:center!important;
+        gap:8px 10px!important;
+      }
+      .title-row h3,.title-row h4{
+        min-width:0;
+        flex:1 1 160px;
+        overflow-wrap:anywhere;
+      }
+      .title-row .textbtn,
+      .title-row>div{
+        max-width:100%;
+      }
+
+      /* Tarjetas y listas */
+      .panel,.hero{padding:16px!important}
+      .hero:after{pointer-events:none}
+      .eval,.rowcard,.grade-row,.coursecard,.study-task,
+      .attendance-row,.entity-list-item{
+        width:100%;
+        min-width:0!important;
+        max-width:100%;
+      }
+      .eval{
+        grid-template-columns:6px minmax(0,1fr)!important;
+        gap:9px!important;
+        padding:12px!important;
+      }
+      .eval>div:not(.accent){min-width:0}
+      .eval .actions{
+        grid-column:2!important;
+        width:100%!important;
+        display:flex!important;
+        flex-wrap:wrap!important;
+        justify-content:flex-end!important;
+      }
+      .eval h4,.eval p,.rowcard strong,.rowcard small,
+      .entity-list-item strong,.entity-list-item small{
+        overflow-wrap:anywhere!important;
+        word-break:normal!important;
+      }
+      .rowcard{
+        grid-template-columns:minmax(0,1fr) auto!important;
+        gap:9px!important;
+      }
+      .rowcard>.actions{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:flex-end;
+        gap:5px;
+      }
+
+      /* Filtros */
+      .filters{
+        display:grid!important;
+        grid-template-columns:1fr 1fr!important;
+        width:100%!important;
+        gap:8px!important;
+      }
+      .filters>*{
+        width:100%!important;
+        min-width:0!important;
+      }
+      .quickfilters,.admin-tabs,.calendar-legend,.subject-averages{
+        max-width:100%;
+        overflow-x:auto!important;
+        overflow-y:hidden!important;
+        flex-wrap:nowrap!important;
+        scrollbar-width:none;
+        -webkit-overflow-scrolling:touch;
+      }
+      .quickfilters::-webkit-scrollbar,
+      .admin-tabs::-webkit-scrollbar,
+      .calendar-legend::-webkit-scrollbar,
+      .subject-averages::-webkit-scrollbar{display:none}
+      .quickfilters>*,
+      .admin-tabs>*,
+      .calendar-legend>*{flex:0 0 auto!important}
+
+      /* Formularios / asignaciones */
+      form.formgrid{
+        display:grid!important;
+        grid-template-columns:1fr!important;
+        width:100%;
+        gap:11px!important;
+      }
+      .field,.field.full,.form-actions{grid-column:1!important;min-width:0}
+      .form-actions{
+        width:100%;
+        display:grid!important;
+        grid-template-columns:1fr 1fr;
+        gap:8px!important;
+      }
+      .form-actions .btn{
+        width:100%!important;
+        min-width:0!important;
+      }
+      .checkgrid{
+        grid-template-columns:1fr!important;
+        width:100%!important;
+        max-height:300px!important;
+        overflow-y:auto!important;
+        overflow-x:hidden!important;
+      }
+      .check{min-width:0!important;align-items:flex-start!important}
+      .check span,.check label{overflow-wrap:anywhere}
+      .assignment-card{min-width:0!important;overflow:hidden}
+      .assignment-chip,.pill{max-width:100%;overflow-wrap:anywhere}
+
+      /* Estadísticas */
+      .stats,.calendar-summary{
+        grid-template-columns:repeat(2,minmax(0,1fr))!important;
+        gap:8px!important;
+      }
+      .stat{min-width:0!important;padding:13px!important}
+      .stat .label,.stat .sub{overflow-wrap:anywhere}
+      .stat .value{font-size:25px!important}
+
+      /* Notas */
+      .grade-selector{
+        width:100%!important;
+        display:grid!important;
+        grid-template-columns:1fr!important;
+        gap:6px!important;
+      }
+      .grade-selector label{white-space:normal!important}
+      .grade-selector select{
+        width:100%!important;
+        min-width:0!important;
+      }
+      .grade-hero{
+        width:100%;
+        grid-template-columns:1fr!important;
+        gap:10px!important;
+      }
+      .grade-average{
+        justify-self:start!important;
+        min-width:0!important;
+      }
+      .grade-row{
+        grid-template-columns:52px minmax(0,1fr)!important;
+      }
+      .grade-row .grade-actions{
+        grid-column:2;
+        justify-content:flex-end;
+      }
+
+      /* Fichas estudiante / usuario / curso */
+      .entity-grid,.detail-grid,.grade-detail-grid{
+        grid-template-columns:1fr!important;
+      }
+      .entity-actions{
+        display:grid!important;
+        grid-template-columns:1fr!important;
+        gap:8px!important;
+      }
+      .entity-actions .btn{width:100%!important}
+      .entity-box{min-width:0}
+      .entity-box strong,.entity-box small{overflow-wrap:anywhere}
+
+      /* Asistencia */
+      .attendance-summary{
+        grid-template-columns:repeat(3,minmax(0,1fr))!important;
+        gap:6px!important;
+      }
+      .attendance-summary-card{
+        min-width:0!important;
+        padding:9px!important;
+      }
+      .attendance-summary-card span{
+        font-size:8px!important;
+        overflow-wrap:anywhere;
+      }
+      .attendance-summary-card strong{
+        font-size:18px!important;
+        overflow-wrap:anywhere;
+      }
+
+      /* Calendario: la lógica JS ya usa agenda en celular */
+      .calendar-controls{
+        display:grid!important;
+        grid-template-columns:1fr!important;
+        gap:8px!important;
+      }
+      .calendar-view-switch{
+        display:grid!important;
+        grid-template-columns:1fr 1fr!important;
+        width:100%!important;
+      }
+      .calendar-filter{
+        width:100%!important;
+        min-width:0!important;
+        max-width:none!important;
+      }
+      .mobile-agenda,.calendar-agenda-desktop{
+        width:100%!important;
+        min-width:0!important;
+      }
+      .agenda-day{
+        grid-template-columns:50px minmax(0,1fr)!important;
+        gap:8px!important;
+      }
+      .agenda-date{width:50px!important}
+      .agenda-item{min-width:0}
+      .agenda-item strong{
+        white-space:normal!important;
+        overflow:visible!important;
+        text-overflow:clip!important;
+        overflow-wrap:anywhere;
+      }
+
+      /* Modal estable tipo hoja inferior */
+      dialog,
+      dialog.entity-wide[open]{
+        position:fixed!important;
+        inset:auto 0 0 0!important;
+        width:100%!important;
+        max-width:100%!important;
+        max-height:calc(94dvh - env(safe-area-inset-top))!important;
+        margin:0!important;
+        border-radius:22px 22px 0 0!important;
+        overflow:hidden!important;
+      }
+      dialog .dialog,
+      dialog .dialog-inner,
+      dialog .app-modal-shell{
+        width:100%!important;
+        max-width:100%!important;
+        max-height:calc(94dvh - env(safe-area-inset-top))!important;
+        overflow-y:auto!important;
+        overflow-x:hidden!important;
+        overscroll-behavior:contain;
+        -webkit-overflow-scrolling:touch;
+        padding-bottom:calc(18px + env(safe-area-inset-bottom))!important;
+      }
+      .dialoghead,.dialog-head{
+        position:sticky;
+        top:0;
+        z-index:3;
+        background:var(--panel);
+        padding-top:2px;
+      }
+      .dialoghead h3,.dialog-head h3{
+        min-width:0;
+        overflow-wrap:anywhere;
+      }
+
+      /* Acceso */
+      .auth{
+        min-height:100dvh!important;
+        overflow-y:auto!important;
+        padding:0!important;
+      }
+      .authcard{
+        min-height:100dvh!important;
+        width:100%!important;
+        border-radius:0!important;
+      }
+      .authbrand{
+        padding-top:calc(20px + env(safe-area-inset-top))!important;
+      }
+      .authform{
+        padding-bottom:calc(24px + env(safe-area-inset-bottom))!important;
+      }
+    }
+
+    @media(max-width:560px){
+      main{
+        padding-left:10px!important;
+        padding-right:10px!important;
+      }
+      .top-actions{grid-template-columns:1fr!important}
+      .top-actions>.user-chip{grid-column:1!important}
+      .filters{grid-template-columns:1fr!important}
+      .panel,.hero{padding:14px!important}
+      .stats,.calendar-summary{
+        grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      }
+      .student-overview,
+      .parent-students-overview{
+        grid-template-columns:1fr!important;
+      }
+      .student-overview-card.primary-card{grid-column:auto!important}
+      .parent-student-metrics{grid-template-columns:1fr 1fr!important}
+      .form-actions{grid-template-columns:1fr!important}
+      .student-edit-buttons{
+        width:100%!important;
+        grid-template-columns:1fr!important;
+      }
+      .rowcard{
+        grid-template-columns:1fr!important;
+      }
+      .rowcard>.actions{
+        width:100%;
+        justify-content:flex-end;
+      }
+      .attendance-row{grid-template-columns:1fr!important}
+      .attendance-row .actions{justify-content:flex-end}
+      .study-summary{
+        grid-template-columns:repeat(3,minmax(0,1fr))!important;
+        gap:6px!important;
+      }
+      .study-mini{min-width:0;padding:10px 5px!important}
+      .study-mini strong{font-size:19px!important}
+      .study-mini span{font-size:8px!important;overflow-wrap:anywhere}
+    }
+
+    @media(max-width:360px){
+      .mobile-top .logo{
+        width:38px!important;
+        height:38px!important;
+        min-width:38px!important;
+      }
+      .mobile-brand-copy strong{font-size:11px!important}
+      .mobile-brand-copy small{font-size:8px!important}
+      .mobile-top .staff-write{
+        font-size:10px!important;
+        padding:7px 8px!important;
+      }
+      .stats,.calendar-summary{
+        gap:6px!important;
+      }
+      .stat{padding:10px!important}
+      .stat .value{font-size:22px!important}
+      .attendance-summary-card strong{font-size:16px!important}
+      .parent-student-metrics{grid-template-columns:1fr!important}
+    }
+
+    @media(hover:none) and (pointer:coarse){
+      .parent-student-card:hover,
+      .eval:hover,
+      .rowcard:hover,
+      .coursecard:hover{
+        transform:none!important;
       }
     }
 
@@ -3164,13 +3681,35 @@ function adminTab(tab){
 
 function showSection(id){
   if(currentSession?.role==="student"&&id==="cursos") id="inicio";
-  document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("[data-section]").forEach(b=>b.classList.toggle("active",b.dataset.section===id));
-  if(id==="calendario")renderCalendar();
+
+  if(document.activeElement && ["INPUT","SELECT","TEXTAREA"].includes(document.activeElement.tagName)){
+    document.activeElement.blur();
+  }
+
+  document.querySelectorAll(".section").forEach(
+    s=>s.classList.toggle("active",s.id===id)
+  );
+
+  document.querySelectorAll("[data-section]").forEach(
+    b=>b.classList.toggle("active",b.dataset.section===id)
+  );
+
+  const activeMobile=document.querySelector(`.mobile-nav [data-section="${id}"]:not(.hidden)`);
+  activeMobile?.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest",
+    inline:"center"
+  });
+
+  if(id==="calendario") renderCalendar();
   if(id==="notas") prepareGradesSection();
+
   if(id==="administracion"&&currentSession.role==="admin"){
     const activeTab=document.querySelector(".admin-tabs .tabbtn.active")?.dataset.tab||"users";
     adminTab(activeTab);
   }
+
+  window.scrollTo({top:0,behavior:"auto"});
 }
 
 window.addEventListener("popstate",()=>{
@@ -5973,8 +6512,20 @@ let mobileLayoutTimer=null;
 window.addEventListener("resize",()=>{
   clearTimeout(mobileLayoutTimer);
   mobileLayoutTimer=setTimeout(()=>{
+    if(!currentSession) return;
+
     const calendarSection=$("calendario");
     if(calendarSection?.classList.contains("active")) renderCalendar();
+
+    const activeSection=document.querySelector(".section.active")?.id;
+    if(activeSection){
+      const activeMobile=document.querySelector(`.mobile-nav [data-section="${activeSection}"]:not(.hidden)`);
+      activeMobile?.scrollIntoView({
+        behavior:"auto",
+        block:"nearest",
+        inline:"center"
+      });
+    }
   },140);
 });
 

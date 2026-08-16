@@ -1,4 +1,4 @@
-const CACHE="michelangelo-evaluaciones-v27";
+const CACHE="michelangelo-evaluaciones-v29-3";
 
 const ASSETS=[
   "./",
@@ -27,161 +27,76 @@ firebase.initializeApp({
 const messaging=firebase.messaging();
 
 /*
-  La notificación ahora es mostrada automáticamente por FCM
-  cuando la app está cerrada o en segundo plano.
-
-  Por eso NO usamos showNotification() aquí.
-  Así evitamos notificaciones duplicadas.
-*/
-
+ * No llamamos showNotification() aquí.
+ * El backend envía notification + webpush.fcmOptions.link,
+ * por lo que FCM muestra automáticamente el aviso
+ * cuando la app está en segundo plano o cerrada.
+ */
 messaging.onBackgroundMessage(payload=>{
-
   console.log(
     "[FCM] Mensaje recibido en segundo plano:",
     payload?.data?.type || "notification"
   );
-
 });
 
+self.addEventListener("install",event=>{
+  event.waitUntil(
+    caches.open(CACHE)
+      .then(cache=>cache.addAll(ASSETS))
+      .then(()=>self.skipWaiting())
+  );
+});
 
-self.addEventListener(
-  "install",
-  event=>{
-
-    event.waitUntil(
-
-      caches
-        .open(CACHE)
-
-        .then(
-          cache=>
-            cache.addAll(
-              ASSETS
-            )
+self.addEventListener("activate",event=>{
+  event.waitUntil(
+    caches.keys()
+      .then(keys=>
+        Promise.all(
+          keys
+            .filter(key=>key!==CACHE)
+            .map(key=>caches.delete(key))
         )
-
-        .then(
-          ()=>
-            self.skipWaiting()
-        )
-
-    );
-
-  }
-);
-
-
-self.addEventListener(
-  "activate",
-  event=>{
-
-    event.waitUntil(
-
-      caches
-        .keys()
-
-        .then(
-          keys=>
-            Promise.all(
-
-              keys
-
-                .filter(
-                  key=>
-                    key!==CACHE
-                )
-
-                .map(
-                  key=>
-                    caches.delete(
-                      key
-                    )
-                )
-
-            )
-        )
-
-        .then(
-          ()=>
-            self.clients.claim()
-        )
-
-    );
-
-  }
-);
-
-
-self.addEventListener(
-  "fetch",
-  event=>{
-
-    if(
-      event.request.method!=="GET"
-    ){
-      return;
-    }
-
-    const url=
-      new URL(
-        event.request.url
-      );
-
-    if(
-      url.hostname.includes("googleapis.com") ||
-      url.hostname.includes("firebaseio.com") ||
-      url.hostname.includes("gstatic.com")
-    ){
-      return;
-    }
-
-    event.respondWith(
-
-      fetch(
-        event.request
       )
+      .then(()=>self.clients.claim())
+  );
+});
 
-        .then(
-          response=>{
-
-            const copy=
-              response.clone();
-
-            caches
-              .open(CACHE)
-
-              .then(
-                cache=>
-                  cache.put(
-                    event.request,
-                    copy
-                  )
-              );
-
-            return response;
-
-          }
-        )
-
-        .catch(
-          ()=>
-
-            caches
-              .match(
-                event.request
-              )
-
-              .then(
-                cached=>
-                  cached ||
-                  caches.match(
-                    "./index.html"
-                  )
-              )
-
-        )
-
-    );
-
+self.addEventListener("fetch",event=>{
+  if(event.request.method!=="GET"){
+    return;
   }
-);
+
+  const url=new URL(event.request.url);
+
+  if(
+    url.hostname.includes("googleapis.com") ||
+    url.hostname.includes("firebaseio.com") ||
+    url.hostname.includes("gstatic.com")
+  ){
+    return;
+  }
+
+  event.respondWith(
+    fetch(event.request)
+      .then(response=>{
+        const copy=response.clone();
+
+        caches.open(CACHE)
+          .then(cache=>
+            cache.put(
+              event.request,
+              copy
+            )
+          );
+
+        return response;
+      })
+      .catch(()=>
+        caches.match(event.request)
+          .then(cached=>
+            cached ||
+            caches.match("./index.html")
+          )
+      )
+  );
+});
