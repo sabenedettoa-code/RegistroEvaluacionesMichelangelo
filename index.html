@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V28.10 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V29.1 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V28.10 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V29.1 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1477,7 +1477,7 @@
     }
 
   
-    /* ===== V28.10 · TUTOR/A DE CURSO ===== */
+    /* ===== V29.1 · TUTOR/A DE CURSO ===== */
     .course-tutor-line{
       display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
       border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
@@ -1502,6 +1502,265 @@
     }
     @media(max-width:560px){
       .tutor-summary{align-items:flex-start}.tutor-summary .btn{width:100%}
+    }
+
+  
+    /* ===== V29 · MOBILE HARDENING + EXPERIENCIA ESTUDIANTE ===== */
+    html,body{width:100%;max-width:100%;overflow-x:hidden}
+    body.role-student .courses-nav{display:none!important}
+
+    .student-overview{
+      display:grid;
+      grid-template-columns:minmax(0,1.25fr) repeat(3,minmax(0,.75fr));
+      gap:12px;
+      margin-bottom:18px
+    }
+    .student-overview-card{
+      min-width:0;
+      border:1px solid var(--line);
+      background:linear-gradient(135deg,#fffdf9,#f3e7d7);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 8px 24px rgba(70,49,32,.06)
+    }
+    .student-overview-card.primary-card{
+      display:flex;align-items:center;gap:13px
+    }
+    .student-overview-avatar{
+      width:50px;height:50px;border-radius:15px;display:grid;place-items:center;
+      flex:none;background:linear-gradient(135deg,#8a6445,#4e3524);color:white;
+      font-size:20px;font-weight:900
+    }
+    .student-overview-card span{
+      display:block;font-size:9px;text-transform:uppercase;letter-spacing:.07em;
+      color:var(--muted);font-weight:900;margin-bottom:5px
+    }
+    .student-overview-card strong{
+      display:block;font-size:18px;line-height:1.15;color:var(--brown2);
+      overflow-wrap:anywhere
+    }
+    .student-overview-card small{
+      display:block;color:var(--muted);font-size:10px;line-height:1.45;margin-top:5px
+    }
+
+    .attendance-input-wrap{position:relative}
+    .attendance-input-wrap input{padding-right:42px}
+    .attendance-input-wrap span{
+      position:absolute;right:14px;top:50%;transform:translateY(-50%);
+      font-weight:900;color:var(--brown)
+    }
+    .attendance-good{color:#6e5a43!important}
+    .attendance-mid{color:#8b633d!important}
+    .attendance-low{color:#8a493d!important}
+    .student-edit-actions{justify-content:space-between!important;align-items:center}
+    .student-edit-buttons{display:flex;gap:8px}
+
+    @media(max-width:980px){
+      body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+      main{width:100%;min-width:0;padding-left:12px!important;padding-right:12px!important}
+      .section,.card,.panel,.hero,.grid,.topbar,.top-actions,.filters,.quickfilters{min-width:0}
+      .topbar{align-items:flex-start;flex-direction:column;gap:12px}
+      .topbar>div:first-child{width:100%;min-width:0}
+      .topbar h1{font-size:26px!important;overflow-wrap:anywhere}
+      .top-actions{width:100%;display:flex!important;flex-wrap:wrap!important}
+      .top-actions>*{min-width:0}
+      .top-actions .btn{flex:1 1 auto}
+      .user-chip{max-width:100%;min-width:0;flex:1 1 230px}
+      .user-chip>div:nth-child(2){min-width:0}
+      .user-chip strong,.user-chip small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      .hero{padding:20px!important}
+      .hero h2{font-size:21px!important}
+      .contextbar{align-items:stretch;flex-direction:column}
+      .contextbar select{width:100%!important;min-width:0!important}
+      .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+      .stat{min-width:0;padding:15px!important}
+      .stat .value{font-size:27px!important}
+      .grid,.grid.equal,.admin-grid,.assignment-shell{grid-template-columns:1fr!important}
+      .filters{display:grid!important;grid-template-columns:1fr 1fr!important}
+      .filters input,.filters select{width:100%!important;min-width:0!important}
+      .quickfilters{overflow-x:auto;flex-wrap:nowrap!important;padding-bottom:3px;scrollbar-width:none}
+      .quickfilters::-webkit-scrollbar{display:none}
+      .quickchip{flex:0 0 auto}
+      .eval{grid-template-columns:6px minmax(0,1fr)!important}
+      .eval>.actions{grid-column:2;justify-content:flex-end;width:100%}
+      .eval h4,.meta,.pill{overflow-wrap:anywhere}
+      .rowcard{min-width:0}
+      .rowcard>div{min-width:0}
+      .coursegrid{grid-template-columns:1fr!important}
+      .calendar{min-width:0}
+      .calendar-controls{align-items:stretch;flex-direction:column}
+      .calendar-filter{width:100%!important;max-width:none!important}
+      .calendar-legend{overflow-x:auto;flex-wrap:nowrap!important;padding-bottom:5px}
+      .calendar-legend span{flex:0 0 auto}
+      .grade-hero{grid-template-columns:1fr!important;gap:14px!important}
+      .grade-average{justify-self:start!important}
+      .subject-averages{grid-template-columns:1fr!important}
+      dialog{
+        width:min(100% - 14px,720px)!important;
+        max-height:calc(100dvh - 18px)!important;
+        margin:auto!important
+      }
+      dialog .dialog{
+        max-height:calc(100dvh - 18px);
+        overflow-y:auto;
+        overscroll-behavior:contain;
+        padding:18px!important
+      }
+      form.formgrid{grid-template-columns:1fr!important}
+      .field,.field.full,.form-actions{grid-column:1!important}
+      .form-actions{width:100%;flex-wrap:wrap}
+      .form-actions .btn{flex:1 1 130px}
+      .checkgrid{grid-template-columns:1fr!important;max-height:280px;overflow-x:hidden!important}
+      .check{min-width:0;overflow-wrap:anywhere}
+      .assignment-card{min-width:0}
+      .assignment-shell{width:100%}
+      .entity-grid,.detail-grid{grid-template-columns:1fr 1fr!important}
+      .entity-actions{display:grid!important;grid-template-columns:1fr 1fr;gap:8px!important}
+      .entity-actions .btn{width:100%}
+      .mobile-top{
+        min-height:58px;
+        padding-left:12px!important;padding-right:12px!important
+      }
+      .mobile-top .logo{
+        display:block!important;visibility:visible!important;opacity:1!important;
+        width:42px!important;height:42px!important;min-width:42px!important;
+        background:#fff!important;border-radius:50%!important;padding:3px!important
+      }
+      .mobile-top .logo img{
+        display:block!important;width:100%!important;height:100%!important;
+        object-fit:contain!important;object-position:center!important
+      }
+      .mobile-brand-copy{min-width:0}
+      .mobile-brand-copy strong,.mobile-brand-copy small{
+        max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+      }
+      .mobile-nav{
+        grid-template-columns:repeat(5,minmax(0,1fr))!important;
+        min-height:66px
+      }
+      body.role-admin .mobile-nav{
+        grid-template-columns:repeat(6,minmax(0,1fr))!important
+      }
+      body.role-admin .mobile-nav button{
+        font-size:7.5px!important;padding-left:0!important;padding-right:0!important
+      }
+      .student-overview{
+        grid-template-columns:1fr 1fr;
+        gap:9px
+      }
+      .student-overview-card.primary-card{grid-column:1/-1}
+      .student-overview-card{padding:13px}
+      .student-overview-card strong{font-size:16px}
+    }
+
+    @media(max-width:560px){
+      main{padding-top:14px!important}
+      .topbar h1{font-size:24px!important}
+      .topbar p{font-size:11px!important}
+      .filters{grid-template-columns:1fr!important}
+      .stats{grid-template-columns:1fr 1fr!important}
+      .stat .label{font-size:8.5px!important}
+      .stat .sub{font-size:9px!important}
+      .student-overview{grid-template-columns:1fr 1fr}
+      .student-overview-card.primary-card{grid-column:1/-1}
+      .entity-grid,.detail-grid{grid-template-columns:1fr!important}
+      .entity-actions{grid-template-columns:1fr!important}
+      .student-edit-actions{display:grid!important;grid-template-columns:1fr!important}
+      .student-edit-buttons{display:grid;grid-template-columns:1fr 1fr;width:100%}
+      .student-edit-actions>.danger{width:100%}
+      .mobile-top .staff-write{font-size:11px!important;padding:8px 10px!important;flex:none}
+      .mobile-brand-copy strong{max-width:145px}
+      .mobile-brand-copy small{max-width:145px}
+      .calendar-view-switch{width:100%;display:grid!important;grid-template-columns:1fr 1fr}
+      .calendar-view-switch button{width:100%}
+      .agenda-day{grid-template-columns:50px minmax(0,1fr)!important}
+      .agenda-date{width:50px!important}
+    }
+
+    @media(max-width:380px){
+      .mobile-brand-copy strong{max-width:110px}
+      .mobile-brand-copy small{max-width:110px}
+      .student-overview{grid-template-columns:1fr}
+      .student-overview-card.primary-card{grid-column:auto}
+      .stats{grid-template-columns:1fr 1fr!important}
+      .student-edit-buttons{grid-template-columns:1fr}
+    }
+
+  
+    /* ===== V29.1 · REGISTRO DE ASISTENCIA ===== */
+    .attendance-summary{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      margin:0 0 16px
+    }
+    .attendance-summary-card{
+      padding:13px;
+      border:1px solid var(--line);
+      border-radius:15px;
+      background:linear-gradient(180deg,#fffdf9,#f8efe4)
+    }
+    .attendance-summary-card span{
+      display:block;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:var(--muted);
+      font-weight:900
+    }
+    .attendance-summary-card strong{
+      display:block;
+      margin-top:5px;
+      font-size:22px;
+      color:var(--brown2)
+    }
+    .attendance-history{
+      display:grid;
+      gap:8px;
+      max-height:300px;
+      overflow-y:auto;
+      overflow-x:hidden;
+      padding-right:3px
+    }
+    .attendance-row{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:10px;
+      align-items:center;
+      padding:11px 12px;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:white
+    }
+    .attendance-row-main{min-width:0}
+    .attendance-row strong{font-size:12px}
+    .attendance-row small{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.4;
+      overflow-wrap:anywhere
+    }
+    .attendance-state{
+      display:inline-flex;
+      align-items:center;
+      padding:4px 7px;
+      border-radius:999px;
+      font-size:9px;
+      font-weight:900;
+      margin-left:6px
+    }
+    .attendance-state.present{background:#eee7db;color:#6e5a43}
+    .attendance-state.absent{background:#f5e9e4;color:#8a493d}
+    .attendance-state.justified{background:#f4eadb;color:#8b633d}
+    .attendance-history-section{margin-top:18px}
+    @media(max-width:560px){
+      .attendance-summary{grid-template-columns:1fr 1fr 1fr;gap:7px}
+      .attendance-summary-card{padding:10px}
+      .attendance-summary-card strong{font-size:18px}
+      .attendance-row{grid-template-columns:1fr}
+      .attendance-row .actions{justify-content:flex-end}
     }
 
   </style>
@@ -1549,7 +1808,7 @@
       <button class="nav-btn active" data-section="inicio">🏠 Inicio</button>
       <button class="nav-btn" data-section="evaluaciones">📝 Evaluaciones</button>
       <button class="nav-btn" data-section="calendario">📅 Calendario</button>
-      <button class="nav-btn" data-section="cursos">🎓 Cursos</button>
+      <button class="nav-btn courses-nav" data-section="cursos">🎓 Cursos</button>
       <button class="nav-btn grades-nav" data-section="notas">📊 Notas</button>
       <button class="nav-btn student-nav hidden" data-section="planificacion">📚 Mi estudio</button>
       <button class="nav-btn admin-nav hidden" data-section="administracion">👥 Administración</button>
@@ -1570,12 +1829,13 @@
       </div>
       <div class="card hero"><h2>Fechas claras, cambios trazables y mejor información para las familias</h2><p>Las evaluaciones se sincronizan en tiempo real. Cada usuario accede únicamente a los cursos que tiene autorizados.</p></div>
       <div id="contextBar" class="contextbar"><span id="contextText"></span><select id="contextSelect" onchange="changeContext()" style="display:none"></select></div>
+      <div id="studentOverview" class="student-overview hidden"></div>
       <div id="focusCard" class="focus-card"></div>
       <div class="stats">
-        <div class="card stat"><div class="label">Próximos 7 días</div><div class="value" id="sWeek">0</div><div class="sub">evaluaciones</div></div>
-        <div class="card stat"><div class="label">Este mes</div><div class="value" id="sMonth">0</div><div class="sub">programadas</div></div>
-        <div class="card stat"><div class="label">Cursos visibles</div><div class="value" id="sCourses">0</div><div class="sub">según tu perfil</div></div>
-        <div class="card stat"><div class="label">Cambios recientes</div><div class="value" id="sChanges">0</div><div class="sub">últimos 7 días</div></div>
+        <div class="card stat"><div class="label" id="sWeekLabel">Próximos 7 días</div><div class="value" id="sWeek">0</div><div class="sub" id="sWeekSub">evaluaciones</div></div>
+        <div class="card stat"><div class="label" id="sMonthLabel">Este mes</div><div class="value" id="sMonth">0</div><div class="sub" id="sMonthSub">programadas</div></div>
+        <div class="card stat"><div class="label" id="sCoursesLabel">Cursos visibles</div><div class="value" id="sCourses">0</div><div class="sub" id="sCoursesSub">según tu perfil</div></div>
+        <div class="card stat"><div class="label" id="sChangesLabel">Cambios recientes</div><div class="value" id="sChanges">0</div><div class="sub" id="sChangesSub">últimos 7 días</div></div>
       </div>
       <div class="grid">
         <div class="card panel"><div class="title-row"><h3>Próximas evaluaciones</h3><button class="textbtn" onclick="showSection('evaluaciones')">Ver todas →</button></div><div id="upcoming" class="list"></div></div>
@@ -1720,7 +1980,7 @@
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span style="font-size:18px">🏠</span><br><span>Inicio</span></button>
   <button data-section="evaluaciones" onclick="showSection('evaluaciones')"><span style="font-size:18px">📝</span><br><span>Evaluaciones</span></button>
   <button data-section="calendario" onclick="showSection('calendario')"><span style="font-size:18px">📅</span><br><span>Calendario</span></button>
-  <button data-section="cursos" onclick="showSection('cursos')"><span style="font-size:18px">🎓</span><br><span>Cursos</span></button>
+  <button class="courses-nav" data-section="cursos" onclick="showSection('cursos')"><span style="font-size:18px">🎓</span><br><span>Cursos</span></button>
   <button class="grades-nav" data-section="notas" onclick="showSection('notas')"><span style="font-size:18px">📊</span><br><span>Notas</span></button>
   <button class="student-nav hidden" data-section="planificacion" onclick="showSection('planificacion')"><span style="font-size:18px">📚</span><br><span>Mi estudio</span></button>
   <button class="admin-nav hidden" data-section="administracion" onclick="showSection('administracion')"><span style="font-size:18px">👥</span><br><span>Admin</span></button>
@@ -1909,7 +2169,7 @@
 </div></dialog>
 
 <dialog id="studentDialog"><div class="dialog"><div class="dialoghead"><h3>Editar estudiante</h3><button class="iconbtn" onclick="studentDialog.close()">×</button></div>
-  <form id="editStudentForm" class="formgrid"><input id="esId" type="hidden"><div class="field full"><label>Nombre</label><input id="esName" required></div><div class="field full"><label>Curso</label><select id="esCourse"></select></div><div class="form-actions" style="justify-content:space-between"><button class="btn danger" type="button" onclick="deleteStudent($('esId').value)">Eliminar estudiante</button><div style="display:flex;gap:8px"><button class="btn ghost" type="button" onclick="studentDialog.close()">Cancelar</button><button class="btn primary" type="submit">Guardar cambios</button></div></div></form>
+  <form id="editStudentForm" class="formgrid"><input id="esId" type="hidden"><div class="field full"><label>Nombre</label><input id="esName" required></div><div class="field full"><label>Curso</label><select id="esCourse"></select></div><div class="form-actions student-edit-actions"><button class="btn danger" type="button" onclick="deleteStudent($('esId').value)">Eliminar estudiante</button><div class="student-edit-buttons"><button class="btn ghost" type="button" onclick="studentDialog.close()">Cancelar</button><button class="btn primary" type="submit">Guardar cambios</button></div></div></form>
 </div></dialog>
 
 
@@ -1974,6 +2234,57 @@
     <div class="form-actions" style="margin-top:18px">
       <button class="btn ghost" type="button" onclick="courseTutorDialog.close()">Cancelar</button>
       <button class="btn primary" type="button" onclick="saveCourseTutor()">Guardar Tutor/a</button>
+    </div>
+  </div>
+</dialog>
+
+
+<dialog id="attendanceDialog">
+  <div class="dialog attendance-dialog">
+    <div class="dialoghead">
+      <div>
+        <h3>Registro de asistencia</h3>
+        <p class="meta" id="attendanceStudentLabel" style="margin:4px 0 0"></p>
+      </div>
+      <button class="iconbtn" type="button" onclick="attendanceDialog.close()">×</button>
+    </div>
+
+    <div id="attendanceSummary" class="attendance-summary"></div>
+
+    <form id="attendanceForm" class="formgrid">
+      <input id="attendanceStudentId" type="hidden">
+
+      <div class="field">
+        <label>Fecha</label>
+        <input id="attendanceDate" type="date" required>
+      </div>
+
+      <div class="field">
+        <label>Estado</label>
+        <select id="attendanceStatus" required>
+          <option value="present">Presente</option>
+          <option value="absent">Ausente</option>
+          <option value="justified">Ausencia justificada</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <label>Observación</label>
+        <textarea id="attendanceNote" placeholder="Opcional"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn ghost" type="button" onclick="attendanceDialog.close()">Cerrar</button>
+        <button class="btn primary" type="submit">Guardar registro</button>
+      </div>
+    </form>
+
+    <div class="entity-section attendance-history-section">
+      <div class="title-row">
+        <h4>Historial</h4>
+        <button class="textbtn" type="button" onclick="refreshAttendanceDialog()">Actualizar</button>
+      </div>
+      <div id="attendanceHistory" class="attendance-history"></div>
     </div>
   </div>
 </dialog>
@@ -2178,10 +2489,29 @@ async function handleAuth(user){
 }
 function applySession(){
   $("userName").textContent=currentSession.name;$("userRole").textContent=roleLabel(currentSession.role);$("userAvatar").textContent=currentSession.name.charAt(0).toUpperCase();$("sideRole").textContent=roleLabel(currentSession.role);$("sideUser").textContent=currentSession.email;
+
+  document.body.classList.remove("role-admin","role-teacher","role-parent","role-student");
+  document.body.classList.add(`role-${currentSession.role}`);
+
   document.querySelectorAll(".admin-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="admin"));
   document.querySelectorAll(".student-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="student"));
+  document.querySelectorAll(".courses-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role==="student"));
   document.querySelectorAll(".grade-write").forEach(x=>x.classList.toggle("hidden",!["admin","teacher"].includes(currentSession.role)));
   document.querySelectorAll(".staff-write").forEach(x=>x.style.display=["admin","teacher"].includes(currentSession.role)?"":"none");
+
+  const homeTitle=document.querySelector("#inicio .topbar h1");
+  const homeEyebrow=document.querySelector("#inicio .topbar .eyebrow");
+  const hero=document.querySelector("#inicio .hero");
+  if(currentSession.role==="student"){
+    if(homeTitle) homeTitle.textContent="Mi panel académico";
+    if(homeEyebrow) homeEyebrow.textContent="Mi progreso";
+    if(hero) hero.innerHTML="<h2>Todo lo importante de tu semana, en un solo lugar</h2><p>Revisa tus próximas evaluaciones, notas, asistencia y plan de estudio para organizarte mejor.</p>";
+  }else{
+    if(homeTitle) homeTitle.textContent="Panel de evaluaciones";
+    if(homeEyebrow) homeEyebrow.textContent="Gestión académica";
+    if(hero) hero.innerHTML="<h2>Fechas claras, cambios trazables y mejor información para las familias</h2><p>Las evaluaciones se sincronizan en tiempo real. Cada usuario accede únicamente a los cursos que tiene autorizados.</p>";
+  }
+
   populateSelects();if(currentSession.role==="admin"){loadUsers();loadStudents();loadAudit()}
 }
 async function login(e){e.preventDefault();clearAuthMsgs();try{await FB.signInWithEmailAndPassword(auth,$("loginEmail").value.trim(),$("loginPassword").value)}catch(err){showAuthError(authMessage(err.code))}}
@@ -2758,6 +3088,7 @@ function adminTab(tab){
 }
 
 function showSection(id){
+  if(currentSession?.role==="student"&&id==="cursos") id="inicio";
   document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("[data-section]").forEach(b=>b.classList.toggle("active",b.dataset.section===id));
   if(id==="calendario")renderCalendar();
   if(id==="notas") prepareGradesSection();
@@ -2883,12 +3214,595 @@ async function checkAcademicLoadBeforeSave(data,currentId=""){
 }
 
 function renderDashboard(){
-  const data=visibleEvaluations().filter(e=>e.status!=="Cancelada"),today=iso(),end=new Date();end.setDate(end.getDate()+7);const endIso=iso(end),now=new Date();
-  $("sWeek").textContent=data.filter(e=>e.date>=today&&e.date<=endIso).length;$("sMonth").textContent=data.filter(e=>{const d=new Date(e.date+"T12:00:00");return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()}).length;
-  $("sCourses").textContent=new Set(data.map(e=>e.course)).size;const cut=Date.now()-7*86400000;$("sChanges").textContent=data.filter(e=>e.status==="Modificada"&&tsMillis(e.updatedAt)>=cut).length;
-  const up=data.filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,7);$("upcoming").innerHTML=up.length?up.map(evalCard).join(""):'<div class="empty">No hay próximas evaluaciones.</div>';
+  const data=visibleEvaluations().filter(e=>e.status!=="Cancelada"),
+        today=iso(),
+        end=new Date();
+
+  end.setDate(end.getDate()+7);
+
+  const endIso=iso(end),
+        now=new Date();
+
+  if(currentSession?.role==="student"){
+    $("sWeekLabel").textContent="Próximos 7 días";
+    $("sWeekSub").textContent="evaluaciones";
+    $("sMonthLabel").textContent="Promedio general";
+    $("sMonthSub").textContent="notas registradas";
+    $("sCoursesLabel").textContent="Asistencia";
+    $("sCoursesSub").textContent="porcentaje registrado";
+    $("sChangesLabel").textContent="Tareas pendientes";
+    $("sChangesSub").textContent="plan de estudio";
+
+    $("sWeek").textContent=data.filter(e=>e.date>=today&&e.date<=endIso).length;
+    $("sMonth").textContent="—";
+    $("sCourses").textContent=hasAttendanceSummary(currentStudent)
+      ? `${formatAttendance(currentStudent.attendancePercentage)}%`
+      : "—";
+    $("sChanges").textContent=studyPlans.filter(t=>!t.done).length;
+
+    renderStudentOverview();
+    loadStudentDashboardGrades();
+  }else{
+    $("studentOverview")?.classList.add("hidden");
+    $("sWeekLabel").textContent="Próximos 7 días";
+    $("sWeekSub").textContent="evaluaciones";
+    $("sMonthLabel").textContent="Este mes";
+    $("sMonthSub").textContent="programadas";
+    $("sCoursesLabel").textContent="Cursos visibles";
+    $("sCoursesSub").textContent="según tu perfil";
+    $("sChangesLabel").textContent="Cambios recientes";
+    $("sChangesSub").textContent="últimos 7 días";
+
+    $("sWeek").textContent=data.filter(e=>e.date>=today&&e.date<=endIso).length;
+    $("sMonth").textContent=data.filter(e=>{
+      const d=new Date(e.date+"T12:00:00");
+      return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
+    }).length;
+    $("sCourses").textContent=new Set(data.map(e=>e.course)).size;
+    const cut=Date.now()-7*86400000;
+    $("sChanges").textContent=data.filter(e=>e.status==="Modificada"&&tsMillis(e.updatedAt)>=cut).length;
+  }
+
+  const up=data.filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,7);
+  $("upcoming").innerHTML=up.length?up.map(evalCard).join(""):'<div class="empty">No hay próximas evaluaciones.</div>';
+
   renderLoad(data);
 }
+
+function hasAttendanceSummary(student){
+  return Number(student?.attendanceTotal||0)>0;
+}
+
+function formatAttendance(value){
+  const n=Number(value);
+  if(!Number.isFinite(n)) return "—";
+  return n.toLocaleString("es-CL",{
+    minimumFractionDigits:n%1?1:0,
+    maximumFractionDigits:1
+  });
+}
+
+function attendanceClass(value){
+  const n=Number(value);
+  if(!Number.isFinite(n)) return "";
+  if(n>=90) return "attendance-good";
+  if(n>=85) return "attendance-mid";
+  return "attendance-low";
+}
+
+function attendanceStatusLabel(status){
+  return ({
+    present:"Presente",
+    absent:"Ausente",
+    justified:"Ausencia justificada"
+  })[status] || status || "—";
+}
+
+function attendanceStatusIcon(status){
+  return ({
+    present:"✓",
+    absent:"✕",
+    justified:"!"
+  })[status] || "•";
+}
+
+function attendanceDocId(studentId,date){
+  return `${studentId}__${date}`;
+}
+
+async function getAttendanceRecords(studentId){
+  const q=FB.query(
+    FB.collection(db,"attendanceRecords"),
+    FB.where("studentId","==",studentId)
+  );
+
+  const snap=await FB.getDocs(q);
+
+  return snap.docs
+    .map(d=>({id:d.id,...d.data()}))
+    .sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+}
+
+async function recalculateAttendance(studentId){
+  const records=await getAttendanceRecords(studentId);
+  const total=records.length;
+  const present=records.filter(r=>r.status==="present").length;
+  const percentage=total ? (present/total)*100 : null;
+
+  await FB.updateDoc(
+    FB.doc(db,"students",studentId),
+    {
+      attendancePresent:present,
+      attendanceTotal:total,
+      attendancePercentage:percentage,
+      attendanceUpdatedAt:FB.serverTimestamp(),
+      attendanceUpdatedBy:currentSession.uid
+    }
+  );
+
+  const local=students.find(x=>x.id===studentId);
+  if(local){
+    local.attendancePresent=present;
+    local.attendanceTotal=total;
+    local.attendancePercentage=percentage;
+  }
+
+  if(currentStudent?.id===studentId){
+    currentStudent.attendancePresent=present;
+    currentStudent.attendanceTotal=total;
+    currentStudent.attendancePercentage=percentage;
+  }
+
+  return {records,total,present,percentage};
+}
+
+function renderStudentOverview(){
+  const box=$("studentOverview");
+
+  if(!box || currentSession?.role!=="student"){
+    box?.classList.add("hidden");
+    return;
+  }
+
+  box.classList.remove("hidden");
+
+  const student=currentStudent;
+  const course=student?.course || currentSession.courses?.[0] || "Sin curso";
+  const tutor=courseTutors?.[course]?.tutorName || "Sin tutor/a asignado";
+  const hasSummary=hasAttendanceSummary(student);
+  const attendance=hasSummary?student?.attendancePercentage:null;
+  const pending=studyPlans.filter(t=>!t.done).length;
+
+  box.innerHTML=`
+    <div class="student-overview-card primary-card">
+      <div class="student-overview-avatar">${esc((student?.name||currentSession.name||"E").charAt(0).toUpperCase())}</div>
+      <div style="min-width:0">
+        <span>Mi perfil académico</span>
+        <strong>${esc(student?.name||currentSession.name)}</strong>
+        <small>${esc(course)} · Tutor/a: ${esc(tutor)}</small>
+      </div>
+    </div>
+
+    <div class="student-overview-card">
+      <span>Asistencia</span>
+      <strong class="${attendanceClass(attendance)}">${hasSummary?`${formatAttendance(attendance)}%`:"—"}</strong>
+      <small>${hasSummary?`${student.attendancePresent||0} de ${student.attendanceTotal||0} días presentes`:"Sin días registrados"}</small>
+    </div>
+
+    <div class="student-overview-card">
+      <span>Plan de estudio</span>
+      <strong>${pending}</strong>
+      <small>tarea${pending===1?"":"s"} pendiente${pending===1?"":"s"}</small>
+    </div>
+
+    <div class="student-overview-card">
+      <span>Próxima evaluación</span>
+      <strong>${(()=>{
+        const next=visibleEvaluations()
+          .filter(e=>e.status!=="Cancelada"&&e.date>=iso())
+          .sort((a,b)=>a.date.localeCompare(b.date))[0];
+        return next?esc(next.subject):"—";
+      })()}</strong>
+      <small>${(()=>{
+        const next=visibleEvaluations()
+          .filter(e=>e.status!=="Cancelada"&&e.date>=iso())
+          .sort((a,b)=>a.date.localeCompare(b.date))[0];
+        return next?`${fmt(next.date,{day:"2-digit",month:"short"})} · ${esc(next.title)}`:"Sin evaluaciones próximas";
+      })()}</small>
+    </div>`;
+}
+
+function renderAttendanceSummary(student,summary){
+  const box=$("attendanceSummary");
+  if(!box) return;
+
+  box.innerHTML=`
+    <div class="attendance-summary-card">
+      <span>Asistencia</span>
+      <strong class="${attendanceClass(summary.percentage)}">${summary.total?`${formatAttendance(summary.percentage)}%`:"—"}</strong>
+    </div>
+    <div class="attendance-summary-card">
+      <span>Presentes</span>
+      <strong>${summary.present}</strong>
+    </div>
+    <div class="attendance-summary-card">
+      <span>Días registrados</span>
+      <strong>${summary.total}</strong>
+    </div>`;
+}
+
+function renderAttendanceHistory(studentId,records){
+  const box=$("attendanceHistory");
+  if(!box) return;
+
+  const canEdit=["admin","teacher"].includes(currentSession?.role);
+
+  box.innerHTML=records.length
+    ? records.map(r=>`
+        <div class="attendance-row">
+          <div class="attendance-row-main">
+            <strong>
+              ${fmt(r.date)}
+              <span class="attendance-state ${esc(r.status)}">${attendanceStatusIcon(r.status)} ${esc(attendanceStatusLabel(r.status))}</span>
+            </strong>
+            ${r.note?`<small>${esc(r.note)}</small>`:""}
+          </div>
+          ${canEdit?`
+            <div class="actions">
+              <button class="iconbtn" type="button" onclick="editAttendanceRecord('${studentId}','${r.date}')" title="Editar">✏️</button>
+              <button class="iconbtn" type="button" onclick="deleteAttendanceRecord('${studentId}','${r.date}')" title="Eliminar">🗑️</button>
+            </div>`:""}
+        </div>`).join("")
+    : '<div class="empty">Todavía no hay días de asistencia registrados.</div>';
+}
+
+async function openAttendanceDialog(studentId){
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+
+  const s=
+    students.find(x=>x.id===studentId) ||
+    parentChildren.find(x=>x.id===studentId) ||
+    (currentStudent?.id===studentId?currentStudent:null);
+
+  if(!s) return;
+
+  if(currentSession.role==="teacher"){
+    const courses=currentSession.courses||[];
+    if(courses.length && !courses.includes(s.course)){
+      showAppMessage(
+        "Acceso restringido",
+        "Solo puedes registrar asistencia de estudiantes de tus cursos asignados.",
+        "warn"
+      );
+      return;
+    }
+  }
+
+  $("attendanceStudentId").value=s.id;
+  $("attendanceStudentLabel").textContent=`${s.name} · ${s.course}`;
+  $("attendanceDate").value=iso();
+  $("attendanceStatus").value="present";
+  $("attendanceNote").value="";
+
+  attendanceDialog.showModal();
+  await refreshAttendanceDialog();
+}
+
+async function refreshAttendanceDialog(){
+  const studentId=$("attendanceStudentId")?.value;
+  if(!studentId) return;
+
+  const s=
+    students.find(x=>x.id===studentId) ||
+    parentChildren.find(x=>x.id===studentId) ||
+    (currentStudent?.id===studentId?currentStudent:null);
+
+  try{
+    const records=await getAttendanceRecords(studentId);
+    const total=records.length;
+    const present=records.filter(r=>r.status==="present").length;
+    const percentage=total?(present/total)*100:null;
+
+    renderAttendanceSummary(
+      s,
+      {records,total,present,percentage}
+    );
+
+    renderAttendanceHistory(
+      studentId,
+      records
+    );
+  }catch(err){
+    console.error("refreshAttendanceDialog:",err);
+    $("attendanceHistory").innerHTML='<div class="empty">No se pudo cargar el historial de asistencia.</div>';
+  }
+}
+
+async function editAttendanceRecord(studentId,date){
+  const records=await getAttendanceRecords(studentId);
+  const record=records.find(r=>r.date===date);
+  if(!record) return;
+
+  $("attendanceDate").value=record.date;
+  $("attendanceStatus").value=record.status||"present";
+  $("attendanceNote").value=record.note||"";
+  $("attendanceDate").focus();
+}
+
+async function saveAttendance(event){
+  event.preventDefault();
+
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+
+  const studentId=$("attendanceStudentId").value;
+  const date=$("attendanceDate").value;
+  const status=$("attendanceStatus").value;
+  const note=$("attendanceNote").value.trim();
+
+  const s=
+    students.find(x=>x.id===studentId) ||
+    parentChildren.find(x=>x.id===studentId);
+
+  if(!s || !date || !["present","absent","justified"].includes(status)){
+    showAppMessage(
+      "Registro incompleto",
+      "Selecciona una fecha y un estado de asistencia.",
+      "warn"
+    );
+    return;
+  }
+
+  if(currentSession.role==="teacher"){
+    const courses=currentSession.courses||[];
+    if(courses.length && !courses.includes(s.course)){
+      showAppMessage(
+        "Acceso restringido",
+        "No puedes registrar asistencia para este estudiante.",
+        "warn"
+      );
+      return;
+    }
+  }
+
+  try{
+    const ref=FB.doc(
+      db,
+      "attendanceRecords",
+      attendanceDocId(studentId,date)
+    );
+
+    const existing=await FB.getDoc(ref);
+
+    await FB.setDoc(
+      ref,
+      {
+        studentId,
+        studentName:s.name,
+        course:s.course,
+        date,
+        status,
+        note,
+        createdAt:existing.exists()
+          ? (existing.data().createdAt||FB.serverTimestamp())
+          : FB.serverTimestamp(),
+        updatedAt:FB.serverTimestamp(),
+        updatedBy:currentSession.uid,
+        updatedByName:currentSession.name
+      },
+      {merge:true}
+    );
+
+    const summary=await recalculateAttendance(studentId);
+
+    await logAudit(
+      existing.exists()?"update":"create",
+      "attendance",
+      ref.id,
+      `${s.name} · ${date} · ${attendanceStatusLabel(status)}`
+    );
+
+    $("attendanceStatus").value="present";
+    $("attendanceNote").value="";
+
+    renderAttendanceSummary(s,summary);
+    renderAttendanceHistory(studentId,summary.records);
+
+    showToast(
+      "La asistencia fue registrada y el porcentaje se recalculó automáticamente.",
+      "ok",
+      "Asistencia actualizada"
+    );
+
+    if($("studentsList")) renderUsersList?.();
+
+  }catch(err){
+    console.error("saveAttendance:",err);
+    showAppMessage(
+      "No se pudo guardar la asistencia",
+      err?.message||"Revisa los permisos de Firestore.",
+      "error"
+    );
+  }
+}
+
+async function deleteAttendanceRecord(studentId,date){
+  const ok=await appConfirm(
+    "Eliminar registro de asistencia",
+    `Se eliminará el registro del ${fmt(date)} y el porcentaje se recalculará automáticamente.`,
+    "Eliminar"
+  );
+
+  if(!ok) return;
+
+  try{
+    await FB.deleteDoc(
+      FB.doc(
+        db,
+        "attendanceRecords",
+        attendanceDocId(studentId,date)
+      )
+    );
+
+    const summary=await recalculateAttendance(studentId);
+
+    const s=
+      students.find(x=>x.id===studentId) ||
+      parentChildren.find(x=>x.id===studentId);
+
+    renderAttendanceSummary(s,summary);
+    renderAttendanceHistory(studentId,summary.records);
+
+    await logAudit(
+      "delete",
+      "attendance",
+      attendanceDocId(studentId,date),
+      `${s?.name||studentId} · ${date}`
+    );
+
+    showToast(
+      "Registro eliminado. El porcentaje fue recalculado.",
+      "ok",
+      "Asistencia actualizada"
+    );
+
+  }catch(err){
+    console.error("deleteAttendanceRecord:",err);
+    showAppMessage(
+      "No se pudo eliminar el registro",
+      err?.message||"Error desconocido.",
+      "error"
+    );
+  }
+}
+async function loadStudentDashboardGrades(){
+  if(currentSession?.role!=="student" || !currentSession.studentId) return;
+
+  try{
+    const q=FB.query(
+      FB.collection(db,"grades"),
+      FB.where("studentId","==",currentSession.studentId)
+    );
+
+    const snap=await FB.getDocs(q);
+    const own=snap.docs.map(d=>({id:d.id,...d.data()}));
+    const avg=averageGrade(own);
+
+    $("sMonth").textContent=avg==null?"—":gradeDisplay(avg);
+    $("sMonthSub").textContent=own.length
+      ? `${own.length} nota${own.length===1?"":"s"} registrada${own.length===1?"":"s"}`
+      : "sin notas registradas";
+  }catch(err){
+    console.warn("No se pudo cargar resumen de notas del estudiante:",err);
+    $("sMonth").textContent="—";
+    $("sMonthSub").textContent="sin datos";
+  }
+}
+
+function openAttendanceDialog(studentId){
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+
+  const s=
+    students.find(x=>x.id===studentId) ||
+    parentChildren.find(x=>x.id===studentId) ||
+    (currentStudent?.id===studentId?currentStudent:null);
+
+  if(!s) return;
+
+  if(currentSession.role==="teacher"){
+    const courses=currentSession.courses||[];
+    if(courses.length && !courses.includes(s.course)){
+      showAppMessage(
+        "Acceso restringido",
+        "Solo puedes registrar asistencia de estudiantes de tus cursos asignados.",
+        "warn"
+      );
+      return;
+    }
+  }
+
+  $("attendanceStudentId").value=s.id;
+  $("attendanceStudentLabel").textContent=`${s.name} · ${s.course}`;
+  $("attendanceValue").value=s.attendancePercentage!=null?s.attendancePercentage:"";
+  attendanceDialog.showModal();
+  setTimeout(()=>$("attendanceValue").focus(),80);
+}
+
+async function saveAttendance(event){
+  event.preventDefault();
+
+  if(!["admin","teacher"].includes(currentSession?.role)) return;
+
+  const id=$("attendanceStudentId").value;
+  const value=Number(String($("attendanceValue").value).replace(",","."));
+  const s=students.find(x=>x.id===id);
+
+  if(!Number.isFinite(value) || value<0 || value>100){
+    showAppMessage(
+      "Porcentaje inválido",
+      "La asistencia debe ser un número entre 0 y 100.",
+      "warn"
+    );
+    return;
+  }
+
+  if(currentSession.role==="teacher"){
+    const courses=currentSession.courses||[];
+    if(s && courses.length && !courses.includes(s.course)){
+      showAppMessage("Acceso restringido","No puedes modificar este estudiante.","warn");
+      return;
+    }
+  }
+
+  try{
+    await FB.updateDoc(
+      FB.doc(db,"students",id),
+      {
+        attendancePercentage:value,
+        attendanceUpdatedAt:FB.serverTimestamp(),
+        attendanceUpdatedBy:currentSession.uid
+      }
+    );
+
+    const local=students.find(x=>x.id===id);
+    if(local) local.attendancePercentage=value;
+
+    attendanceDialog.close();
+
+    await logAudit(
+      "update",
+      "student-attendance",
+      id,
+      `${s?.name||id} · asistencia ${formatAttendance(value)}%`
+    );
+
+    showToast(
+      `Asistencia actualizada a ${formatAttendance(value)}%.`,
+      "ok",
+      "Asistencia registrada"
+    );
+
+    if(studentDetailDialog?.open){
+      studentDetailDialog.close();
+      await openStudentDetail(id);
+    }
+
+    if(currentSession.role==="student" && currentStudent?.id===id){
+      currentStudent.attendancePercentage=value;
+      renderAll();
+    }
+
+    if($("studentsList")) loadStudents();
+
+  }catch(err){
+    console.error("saveAttendance:",err);
+    showAppMessage(
+      "No se pudo guardar la asistencia",
+      err?.message||"Revisa los permisos de Firestore.",
+      "error"
+    );
+  }
+}
+
 function renderLoad(data){
   const today=iso(),end=new Date();end.setDate(end.getDate()+7);const endIso=iso(end),week=data.filter(e=>e.date>=today&&e.date<=endIso);
   const by={};week.forEach(e=>{const k=e.course+"|"+e.date;(by[k]??=[]).push(e)});
@@ -3533,6 +4447,17 @@ async function openStudentDetail(id){
     console.warn("No se pudieron leer notas del estudiante:",err);
   }
 
+  let attendanceRecords=[];
+  try{
+    attendanceRecords=await getAttendanceRecords(id);
+  }catch(err){
+    console.warn("No se pudo leer la asistencia del estudiante:",err);
+  }
+
+  const attendanceTotal=attendanceRecords.length;
+  const attendancePresent=attendanceRecords.filter(r=>r.status==="present").length;
+  const attendancePercentage=attendanceTotal?(attendancePresent/attendanceTotal)*100:null;
+
   const avg=averageGrade(studentGrades);
   const grouped={};
   studentGrades.forEach(g=>(grouped[g.subject]??=[]).push(g));
@@ -3555,8 +4480,33 @@ async function openStudentDetail(id){
     <div class="entity-grid">
       <div class="entity-box"><span>Curso</span><strong>${esc(s.course||"—")}</strong></div>
       <div class="entity-box"><span>Promedio general</span><strong>${avg==null?"Sin notas":gradeDisplay(avg)}</strong></div>
+      <div class="entity-box"><span>Asistencia</span><strong class="${attendanceClass(attendancePercentage)}">${attendanceTotal?`${formatAttendance(attendancePercentage)}%`:"Sin registros"}</strong><small>${attendanceTotal?`${attendancePresent} de ${attendanceTotal} días presentes`:""}</small></div>
       <div class="entity-box"><span>Notas registradas</span><strong>${studentGrades.length}</strong></div>
       <div class="entity-box"><span>Apoderados asociados</span><strong>${guardians.length || (s.guardianUids||[]).length}</strong></div>
+    </div>
+
+
+    <div class="entity-section">
+      <div class="title-row">
+        <h4>Asistencia</h4>
+        ${["admin","teacher"].includes(currentSession?.role)?`<button class="textbtn" onclick="studentDetailDialog.close();openAttendanceDialog('${s.id}')">+ Registrar día</button>`:""}
+      </div>
+      <div class="attendance-summary" style="margin-bottom:12px">
+        <div class="attendance-summary-card"><span>Porcentaje</span><strong class="${attendanceClass(attendancePercentage)}">${attendanceTotal?`${formatAttendance(attendancePercentage)}%`:"—"}</strong></div>
+        <div class="attendance-summary-card"><span>Presentes</span><strong>${attendancePresent}</strong></div>
+        <div class="attendance-summary-card"><span>Días registrados</span><strong>${attendanceTotal}</strong></div>
+      </div>
+      <div class="attendance-history">
+        ${attendanceRecords.length
+          ? attendanceRecords.slice(0,12).map(r=>`
+              <div class="attendance-row">
+                <div class="attendance-row-main">
+                  <strong>${fmt(r.date)} <span class="attendance-state ${esc(r.status)}">${attendanceStatusIcon(r.status)} ${esc(attendanceStatusLabel(r.status))}</span></strong>
+                  ${r.note?`<small>${esc(r.note)}</small>`:""}
+                </div>
+              </div>`).join("")
+          : '<div class="meta">Sin registros de asistencia.</div>'}
+      </div>
     </div>
 
     <div class="entity-section">
@@ -4285,6 +5235,10 @@ function renderStudyPlans(){
       suggestion.innerHTML='<div class="notice ok">No tienes evaluaciones próximas registradas. Puedes usar este espacio para repaso general.</div>';
     }
   }
+  if(currentSession?.role==="student"){
+    $("sChanges").textContent=studyPlans.filter(t=>!t.done).length;
+    renderStudentOverview();
+  }
 }
 
 
@@ -4437,7 +5391,7 @@ async function loadStudents(){
     students=[...unique.values()].sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"));
 
     if($("studentsList")){
-      $("studentsList").innerHTML=students.map(s=>`<div class="rowcard clickable-card" onclick="openStudentDetail('${s.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openStudentDetail('${s.id}')}"><div><strong>${esc(s.name)}</strong><small>${esc(s.course)} · ${(s.guardianUids||[]).length} apoderado(s)</small><span class="detail-hint">Ver ficha del estudiante →</span></div>${currentSession.role==="admin"?`<button class="iconbtn" onclick="event.stopPropagation();openStudent('${s.id}')">✏️</button>`:""}</div>`).join("")||'<div class="empty">Sin estudiantes.</div>';
+      $("studentsList").innerHTML=students.map(s=>`<div class="rowcard clickable-card" onclick="openStudentDetail('${s.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openStudentDetail('${s.id}')}"><div><strong>${esc(s.name)}</strong><small>${esc(s.course)} · Asistencia: ${hasAttendanceSummary(s)?`${formatAttendance(s.attendancePercentage)}%`:"sin registros"} · ${(s.guardianUids||[]).length} apoderado(s)</small><span class="detail-hint">Ver ficha del estudiante →</span></div>${currentSession.role==="admin"?`<button class="iconbtn" onclick="event.stopPropagation();openStudent('${s.id}')">✏️</button>`:""}</div>`).join("")||'<div class="empty">Sin estudiantes.</div>';
     }
     renderCreateAssignments();
   }catch(e){
@@ -4496,7 +5450,40 @@ async function createUser(e){
     }catch(err){try{await FB.deleteUser(cr.user)}catch{}throw err}
   }catch(err){console.error(err);$("cuMsg").innerHTML=`<div class="notice danger">${esc(({"auth/email-already-in-use":"Ese correo ya existe.","auth/weak-password":"La contraseña debe tener al menos 6 caracteres."})[err.code]||"No se pudo crear la cuenta.")}</div>`;try{if(secondaryAuth.currentUser)await FB.signOut(secondaryAuth)}catch{}}
 }
-async function createStudent(e){e.preventDefault();try{const r=await FB.addDoc(FB.collection(db,"students"),{name:$("csName").value.trim(),course:$("csCourse").value,guardianUids:[],createdAt:FB.serverTimestamp(),createdBy:currentSession.uid});await logAudit("create","student",r.id,`${$("csName").value.trim()} · ${$("csCourse").value}`);$("createStudentForm").reset();$("csMsg").innerHTML='<div class="notice ok">Estudiante creado.</div>';loadStudents()}catch(e){$("csMsg").innerHTML='<div class="notice danger">No se pudo crear.</div>'}}
+async function createStudent(e){
+  e.preventDefault();
+
+  try{
+    const r=await FB.addDoc(
+      FB.collection(db,"students"),
+      {
+        name:$("csName").value.trim(),
+        course:$("csCourse").value,
+        attendancePresent:0,
+        attendanceTotal:0,
+        attendancePercentage:null,
+        guardianUids:[],
+        createdAt:FB.serverTimestamp(),
+        createdBy:currentSession.uid
+      }
+    );
+
+    await logAudit(
+      "create",
+      "student",
+      r.id,
+      `${$("csName").value.trim()} · ${$("csCourse").value}`
+    );
+
+    $("createStudentForm").reset();
+    $("csMsg").innerHTML='<div class="notice ok">Estudiante creado.</div>';
+    await loadStudents();
+
+  }catch(err){
+    console.error("Crear estudiante:",err);
+    $("csMsg").innerHTML='<div class="notice danger">No se pudo crear.</div>';
+  }
+}
 
 async function deletePlatformUser(){
   if(currentSession?.role!=="admin") return;
@@ -4604,17 +5591,37 @@ async function updateUser(e){
 function openStudent(id){const s=students.find(x=>x.id===id);if(!s)return;$("esId").value=id;$("esName").value=s.name;$("esCourse").value=s.course;studentDialog.showModal()}
 async function updateStudent(e){
   e.preventDefault();
-  const id=$("esId").value,old=students.find(x=>x.id===id),newCourse=$("esCourse").value;
+
+  const id=$("esId").value;
+  const old=students.find(x=>x.id===id);
+  const newCourse=$("esCourse").value;
+
   try{
-    await FB.updateDoc(FB.doc(db,"students",id),{name:$("esName").value.trim(),course:newCourse,updatedAt:FB.serverTimestamp()});
+    await FB.updateDoc(
+      FB.doc(db,"students",id),
+      {
+        name:$("esName").value.trim(),
+        course:newCourse,
+        updatedAt:FB.serverTimestamp()
+      }
+    );
+
     if(old?.course!==newCourse){
       await syncParentsForStudent(id);
       await syncStudentAccountCourse(id,newCourse);
     }
-    await logAudit("update","student",id,`${$("esName").value.trim()} · ${newCourse}`);
+
+    await logAudit(
+      "update",
+      "student",
+      id,
+      `${$("esName").value.trim()} · ${newCourse}`
+    );
+
     studentDialog.close();
     await loadStudents();
     await loadUsers();
+
   }catch(err){
     console.error("Actualizar estudiante:",err);
     showToast("No se pudo actualizar el estudiante.","error");
@@ -4647,140 +5654,38 @@ async function deleteStudent(id){
 
   const ok=await appConfirm(
     "Eliminar estudiante",
-    `Se eliminará definitivamente a ${s.name}. También se borrarán sus notas, su planificación de estudio y sus asociaciones con apoderados. Si tiene una cuenta de estudiante vinculada, también se eliminará. Esta acción no se puede deshacer.`,
+    `Se eliminará definitivamente a ${s.name}. También se limpiarán sus asociaciones con apoderados, notas, planificación de estudio y, si existe, su cuenta de acceso. Esta acción no se puede deshacer.`,
     "Eliminar definitivamente"
   );
 
   if(!ok) return;
 
   try{
-    /*
-     * 1. Desvincular al estudiante de todos los apoderados
-     * y recalcular los cursos asociados a cada apoderado.
-     */
-    const parentsQuery=
-      FB.query(
-        FB.collection(db,"users"),
-        FB.where("studentIds","array-contains",id)
-      );
-
-    const parentSnap=
-      await FB.getDocs(parentsQuery);
-
-    for(const parentDoc of parentSnap.docs){
-      const parent=parentDoc.data();
-      const remainingIds=
-        (parent.studentIds||[])
-          .filter(studentId=>studentId!==id);
-
-      const remainingCourses=
-        [...new Set(
-          students
-            .filter(student=>remainingIds.includes(student.id))
-            .map(student=>student.course)
-            .filter(Boolean)
-        )];
-
-      await FB.updateDoc(
-        parentDoc.ref,
-        {
-          studentIds:remainingIds,
-          courses:remainingCourses,
-          updatedAt:FB.serverTimestamp()
-        }
+    if(!functions || !FB.httpsCallable){
+      throw new Error(
+        "Cloud Functions no está disponible. Recarga la plataforma e inténtalo nuevamente."
       );
     }
 
-    /*
-     * 2. Eliminar todas las notas del estudiante.
-     */
-    const gradesQuery=
-      FB.query(
-        FB.collection(db,"grades"),
-        FB.where("studentId","==",id)
+    const deleteStudentRecord=
+      FB.httpsCallable(
+        functions,
+        "deleteStudentRecord"
       );
 
-    const gradeSnap=
-      await FB.getDocs(gradesQuery);
+    const result=
+      await deleteStudentRecord({
+        studentId:id
+      });
 
-    for(const gradeDoc of gradeSnap.docs){
-      await FB.deleteDoc(gradeDoc.ref);
-    }
-
-    /*
-     * 3. Eliminar planificación de estudio vinculada.
-     */
-    const plansQuery=
-      FB.query(
-        FB.collection(db,"studyPlans"),
-        FB.where("studentId","==",id)
+    if(!result?.data?.ok){
+      throw new Error(
+        "El servidor no confirmó la eliminación del estudiante."
       );
-
-    const planSnap=
-      await FB.getDocs(plansQuery);
-
-    for(const planDoc of planSnap.docs){
-      await FB.deleteDoc(planDoc.ref);
     }
 
-    /*
-     * 4. Buscar cuenta(s) de usuario estudiante vinculadas.
-     * La Cloud Function existente elimina también Firebase Auth.
-     */
-    const studentUsersQuery=
-      FB.query(
-        FB.collection(db,"users"),
-        FB.where("studentId","==",id)
-      );
-
-    const studentUserSnap=
-      await FB.getDocs(studentUsersQuery);
-
-    if(studentUserSnap.size>0){
-      if(!functions || !FB.httpsCallable){
-        throw new Error(
-          "No se pudo conectar con Cloud Functions para eliminar la cuenta de acceso vinculada."
-        );
-      }
-
-      const deleteUserAccount=
-        FB.httpsCallable(
-          functions,
-          "deleteUserAccount"
-        );
-
-      for(const userDoc of studentUserSnap.docs){
-        await deleteUserAccount({
-          uid:userDoc.id
-        });
-      }
-    }
-
-    /*
-     * 5. Eliminar finalmente el registro del estudiante.
-     */
-    await FB.deleteDoc(
-      FB.doc(
-        db,
-        "students",
-        id
-      )
-    );
-
-    await logAudit(
-      "delete",
-      "student",
-      id,
-      `${s.name} · ${s.course||"Sin curso"}`
-    );
-
-    try{
-      studentDialog.close();
-    }catch{}
-
-    try{
-      studentDetailDialog.close();
-    }catch{}
+    try{ studentDialog.close(); }catch{}
+    try{ studentDetailDialog.close(); }catch{}
 
     await loadStudents();
     await loadUsers();
@@ -4793,19 +5698,23 @@ async function deleteStudent(id){
 
   }catch(err){
     console.error(
-      "Eliminar estudiante:",
+      "deleteStudentRecord:",
       err
     );
 
+    const detail=
+      err?.message ||
+      err?.details ||
+      err?.code ||
+      "Error desconocido.";
+
     showAppMessage(
       "No se pudo eliminar el estudiante",
-      err?.message ||
-      "Ocurrió un error durante la eliminación. No se realizaron más cambios.",
+      detail,
       "error"
     );
   }
 }
-
 async function syncStudentAccountCourse(studentId,newCourse){
   const q=FB.query(FB.collection(db,"users"),FB.where("studentId","==",studentId));
   const snap=await FB.getDocs(q);
@@ -4826,7 +5735,25 @@ async function logAudit(action,entityType,entityId,detail){
 async function loadAudit(){
   if(currentSession.role!=="admin")return;try{const q=FB.query(FB.collection(db,"auditLogs"),FB.orderBy("createdAt","desc"),FB.limit(100));const s=await FB.getDocs(q);$("auditList").innerHTML=s.docs.map(d=>{const a=d.data(),date=a.createdAt?.toDate?a.createdAt.toDate().toLocaleString("es-CL"):"";return `<div class="audit"><strong>${esc(a.actorName||"Usuario")} · ${esc(a.action)} ${esc(a.entityType)}</strong><div>${esc(a.detail||"")} · ${date}</div></div>`}).join("")||'<div class="empty">Sin registros.</div>'}catch(e){$("auditList").innerHTML='<div class="empty">No se pudo cargar la auditoría. Puede requerir un índice o reglas actualizadas.</div>'}
 }
-function openProfile(){$("profileContent").innerHTML=`<div class="notice ok"><strong>${esc(currentSession.name)}</strong><br>${esc(currentSession.email)}<br>${esc(roleLabel(currentSession.role))}${currentSession.role==="teacher"&&!currentSession.courses?.length?`<br>Cursos: Profesor complementario · todos los cursos`:currentSession.courses?.length?`<br>Cursos: ${esc(currentSession.courses.join(", "))}`:""}${currentSession.role==="teacher"&&currentSession.subjects?.length?`<br>Asignaturas: ${esc(currentSession.subjects.join(", "))}`:""}</div><p class="meta" style="margin-top:12px">Las notificaciones del navegador requieren permiso en cada dispositivo. Para avisos push con la aplicación completamente cerrada se necesita habilitar Firebase Cloud Messaging y un servicio emisor.</p>`;profileDialog.showModal()}
+function openProfile(){
+  const studentExtra=currentSession.role==="student"&&currentStudent
+    ? `<br>Curso: ${esc(currentStudent.course||"—")}<br>Asistencia: ${hasAttendanceSummary(currentStudent)?`${formatAttendance(currentStudent.attendancePercentage)}% (${currentStudent.attendancePresent||0}/${currentStudent.attendanceTotal||0} días presentes)`:"sin registros"}${courseTutors?.[currentStudent.course]?.tutorName?`<br>Tutor/a: ${esc(courseTutors[currentStudent.course].tutorName)}`:""}`
+    : "";
+
+  $("profileContent").innerHTML=`
+    <div class="notice ok">
+      <strong>${esc(currentSession.name)}</strong><br>
+      ${esc(currentSession.email)}<br>
+      ${esc(roleLabel(currentSession.role))}
+      ${currentSession.role==="teacher"&&!currentSession.courses?.length?`<br>Cursos: Profesor complementario · todos los cursos`:currentSession.courses?.length?`<br>Cursos: ${esc(currentSession.courses.join(", "))}`:""}
+      ${currentSession.role==="teacher"&&currentSession.subjects?.length?`<br>Asignaturas: ${esc(currentSession.subjects.join(", "))}`:""}
+      ${studentExtra}
+    </div>
+    <p class="meta" style="margin-top:12px">
+      Las notificaciones del navegador se configuran por dispositivo.
+    </p>`;
+  profileDialog.showModal();
+}
 
 function exportCSV(){
   const rows=[["Curso","Fecha","Asignatura","Tipo","Título","Profesor","Estado","Ponderación","Contenidos","Observaciones"],...visibleEvaluations().map(e=>[e.course,e.date,e.subject,e.type,e.title,e.teacher||"",e.status,e.weight??"",e.contents||"",e.notes||""])];
@@ -4839,7 +5766,7 @@ function exportICS(){
 const icsEsc=s=>String(s).replace(/\\/g,"\\\\").replace(/,/g,"\\,").replace(/;/g,"\\;").replace(/\n/g,"\\n");
 function downloadBlob(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 
-$("loginForm").addEventListener("submit",login);$("evalForm").addEventListener("submit",saveEval);$("gradeForm").addEventListener("submit",saveGrade);$("studyTaskForm").addEventListener("submit",saveStudyTask);$("createUserForm").addEventListener("submit",createUser);$("createStudentForm").addEventListener("submit",createStudent);$("editUserForm").addEventListener("submit",updateUser);$("editStudentForm").addEventListener("submit",updateStudent);
+$("loginForm").addEventListener("submit",login);$("evalForm").addEventListener("submit",saveEval);$("gradeForm").addEventListener("submit",saveGrade);$("studyTaskForm").addEventListener("submit",saveStudyTask);$("createUserForm").addEventListener("submit",createUser);$("createStudentForm").addEventListener("submit",createStudent);$("editUserForm").addEventListener("submit",updateUser);$("editStudentForm").addEventListener("submit",updateStudent);$("attendanceForm").addEventListener("submit",saveAttendance);
 $("todayText").textContent=new Date().toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 initFirebase();
