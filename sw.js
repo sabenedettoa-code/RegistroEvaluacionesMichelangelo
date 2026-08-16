@@ -1,4 +1,4 @@
-const CACHE="michelangelo-evaluaciones-v30-0";
+const CACHE="michelangelo-evaluaciones-v30-5";
 
 const ASSETS=[
   "./",

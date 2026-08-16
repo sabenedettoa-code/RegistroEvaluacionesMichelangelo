@@ -1238,7 +1238,7 @@
 
 
 
-    /* ===== V30.1 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
+    /* ===== V30.5 · REDISEÑO VISUAL + ASIGNACIONES DOCENTES ===== */
     body{
       background:
         radial-gradient(circle at 0% 0%,rgba(201,153,85,.13),transparent 28%),
@@ -1329,7 +1329,7 @@
 
 
 
-    /* ===== V30.1 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
+    /* ===== V30.5 · ASIGNACIONES DOCENTES + HEADER MÓVIL ===== */
     .assignment-shell{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1477,7 +1477,7 @@
     }
 
   
-    /* ===== V30.1 · TUTOR/A DE CURSO ===== */
+    /* ===== V30.5 · TUTOR/A DE CURSO ===== */
     .course-tutor-line{
       display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;
       border-radius:12px;background:#f4e8d8;border:1px solid #dfc9ad;
@@ -1687,7 +1687,7 @@
     }
 
   
-    /* ===== V30.1 · REGISTRO DE ASISTENCIA ===== */
+    /* ===== V30.5 · REGISTRO DE ASISTENCIA ===== */
     .attendance-summary{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
@@ -1764,7 +1764,7 @@
     }
 
   
-    /* ===== V30.1 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
+    /* ===== V30.5 · FICHA DEL ESTUDIANTE PARA APODERADOS ===== */
     .parent-students-overview{
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     }
@@ -1838,7 +1838,7 @@
       }
     }
 
-  /* ===== V30.1 · CORRECCIÓN MÓVIL INTEGRAL ===== */
+  /* ===== V30.5 · CORRECCIÓN MÓVIL INTEGRAL ===== */
     *,*::before,*::after{box-sizing:border-box}
     html{
       -webkit-text-size-adjust:100%;
@@ -2356,7 +2356,7 @@
     }
 
   
-    /* ===== V30.1 · CALENDARIO MÓVIL RECONSTRUIDO ===== */
+    /* ===== V30.5 · CALENDARIO MÓVIL RECONSTRUIDO ===== */
     .calendar-mobile-head,
     .calendar-mobile-monthbar{
       display:none;
@@ -2721,7 +2721,7 @@
     }
 
   
-    /* ===== V30.1 · MOSTRAR / OCULTAR CONTRASEÑA ===== */
+    /* ===== V30.5 · MOSTRAR / OCULTAR CONTRASEÑA ===== */
     .password-field{position:relative;width:100%;min-width:0}
     .password-field input{width:100%;padding-right:104px!important}
     .password-toggle{
@@ -2740,7 +2740,7 @@
     }
 
   
-    /* ===== V30.1 · ICONOGRAFÍA SVG CLÁSICA ===== */
+    /* ===== V30.5 · ICONOGRAFÍA SVG CLÁSICA ===== */
     .mi-icon{
       width:1.08em;
       height:1.08em;
@@ -2763,7 +2763,7 @@
     .password-eye .mi-icon{width:1rem;height:1rem}
 
   
-    /* ===== V30.1 · EXPERIENCIA TIPO PLATAFORMA DE GESTIÓN ESCOLAR ===== */
+    /* ===== V30.5 · EXPERIENCIA TIPO PLATAFORMA DE GESTIÓN ESCOLAR ===== */
     .institutional-quick-access{
       display:grid;
       grid-template-columns:repeat(4,minmax(0,1fr));
@@ -2888,7 +2888,7 @@
     }
 
   
-    /* ===== V30.1 · GESTIÓN ACADÉMICA INTEGRAL ===== */
+    /* ===== V30.5 · GESTIÓN ACADÉMICA INTEGRAL ===== */
     .libro-tabs{display:flex;gap:7px;overflow-x:auto;margin:0 0 12px;padding-bottom:2px;scrollbar-width:none}
     .libro-tabs::-webkit-scrollbar{display:none}
     .libro-tab{border:1px solid var(--line);background:var(--panel);color:var(--brown2);border-radius:12px;padding:9px 12px;font-size:10px;font-weight:900;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer}
@@ -2933,7 +2933,7 @@
     }
 
   
-    /* ===== V30.1 · ESTABILIZACIÓN PREPRODUCCIÓN ===== */
+    /* ===== V30.5 · ESTABILIZACIÓN PREPRODUCCIÓN ===== */
     :root{--content-max:1440px}
     main{max-width:var(--content-max);margin-inline:auto}
     .section{min-width:0}
@@ -3024,12 +3024,112 @@
       .schedule-day{min-width:88vw}
     }
 
+  
+    /* ===== V30.5 · LIBRO DE CLASES WALDORF ===== */
+    .schedule-today-strip{
+      display:flex;gap:7px;overflow-x:auto;margin:4px 0 12px;
+      padding:2px 0 5px;scrollbar-width:none
+    }
+    .schedule-today-strip::-webkit-scrollbar{display:none}
+    .today-block{
+      flex:0 0 auto;min-width:145px;max-width:220px;
+      border:1px solid var(--line);border-radius:12px;padding:8px 10px;
+      background:#f8f1e7
+    }
+    .today-block strong{display:block;font-size:10px;color:var(--brown2)}
+    .today-block small{display:block;font-size:8px;color:var(--muted);margin-top:2px}
+    .today-block.break{background:#f4eee4;border-style:dashed}
+    .schedule-block.break{background:#f4eee4;border-style:dashed}
+    .schedule-block.epoch{background:#f7ecdc}
+    .schedule-block.language{background:#f7f1e8}
+    .epoch-current-summary{
+      display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:8px 0 14px
+    }
+    .epoch-highlight{
+      border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:#fbf6ee
+    }
+    .epoch-highlight.current{background:#f3e5d1;border-color:#ddc19a}
+    .epoch-highlight span{
+      display:block;font-size:8px;font-weight:900;text-transform:uppercase;
+      letter-spacing:.05em;color:var(--muted);margin-bottom:4px
+    }
+    .epoch-highlight strong{display:block;font-size:12px;color:var(--brown2)}
+    .epoch-highlight small{display:block;font-size:9px;color:var(--muted);margin-top:3px;line-height:1.35}
+    .epoch-calendar{
+      display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));
+      gap:8px;overflow-x:auto;padding-bottom:5px
+    }
+    .epoch-month{
+      border:1px solid var(--line);border-radius:14px;background:#fbf7f0;
+      padding:9px;min-width:150px
+    }
+    .epoch-month>strong{
+      display:block;text-transform:uppercase;letter-spacing:.05em;
+      color:var(--brown2);font-size:9px;margin:1px 2px 8px
+    }
+    .epoch-card{
+      border:1px solid var(--line);border-radius:11px;background:#fff;
+      padding:8px;margin-bottom:6px;position:relative
+    }
+    .epoch-card.current{background:#f2e3cf;border-color:#d9b987}
+    .epoch-card.upcoming{background:#f9f2e8}
+    .epoch-card strong{display:block;font-size:10px;color:var(--brown2)}
+    .epoch-card small{display:block;font-size:8px;color:var(--muted);margin-top:2px;line-height:1.35}
+    .epoch-card .record-badge{margin-top:6px}
+    .epoch-card-actions{display:flex;justify-content:flex-end;gap:4px;margin-top:5px}
+    .epoch-legend{
+      display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;
+      font-size:8px;color:var(--muted)
+    }
+    .epoch-legend strong{color:var(--brown2)}
+    .waldorf-note{
+      border-left:3px solid #b77a32;padding:8px 10px;margin:8px 0 12px;
+      background:#faf4eb;border-radius:0 10px 10px 0;font-size:9px;color:var(--brown2)
+    }
+    @media(max-width:980px){
+      .epoch-calendar{grid-template-columns:repeat(5,190px)}
+    }
+    @media(max-width:700px){
+      .epoch-current-summary{grid-template-columns:1fr}
+      .epoch-calendar{grid-template-columns:repeat(5,82vw);scroll-snap-type:x proximity}
+      .epoch-month{min-width:82vw;scroll-snap-align:start}
+    }
+
+  
+    /* ===== V30.5 · PROFESORES REGISTRADOS ===== */
+    #scheduleTeacher,#epochTeacher{width:100%}
+    .field>small.meta{display:block;margin-top:4px;line-height:1.35}
+
+  
+    /* ===== V30.5 · ÉPOCAS DINÁMICAS DE 3 SEMANAS ===== */
+    .dynamic-epoch-title{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .dynamic-epoch-title .record-badge{font-size:7px;padding:2px 6px}
+    .epoch-slot-badge{
+      display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;
+      background:#eee1cf;color:var(--brown2);font-size:7px;font-weight:900;margin-top:5px
+    }
+    .epoch-highlight .epoch-next-change{
+      display:inline-block;margin-top:5px;font-size:8px;font-weight:800;color:var(--brown2)
+    }
+    #epochEnd[readonly]{background:#f3eee6;color:var(--brown2);cursor:not-allowed}
+
+  
+    /* ===== V30.5 · ÉPOCAS INSTITUCIONALES WALDORF ===== */
+    .waldorf-epoch-options{
+      display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px
+    }
+    .waldorf-epoch-options span{
+      display:inline-flex;align-items:center;padding:5px 8px;
+      border:1px solid var(--line);border-radius:999px;background:#faf4eb;
+      color:var(--brown2);font-size:8px;font-weight:900
+    }
+
   </style>
 
 </head>
 <body>
 
-<!-- ICONOS SVG CLÁSICOS · Plataforma Académica Michelangelo V30.1 -->
+<!-- ICONOS SVG CLÁSICOS · Plataforma Académica Michelangelo V30.5 -->
 <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
   <defs>
     <symbol id="mi-home" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></symbol>
@@ -3230,7 +3330,7 @@
         <div>
           <div class="eyebrow">Gestión académica diaria</div>
           <h1>Libro de clases</h1>
-          <p>Asistencia, atrasos, observaciones, horario y seguimiento académico por curso.</p>
+          <p>Gestión cotidiana del curso: asistencia, atrasos, observaciones, horario, épocas y seguimiento académico.</p>
         </div>
         <div class="top-actions">
           <button class="btn ghost" onclick="renderLibroClases()">Actualizar</button>
@@ -3255,6 +3355,7 @@
         <button class="libro-tab" data-libro-panel="atrasos" onclick="renderLibroPanel('atrasos')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-late"></use></svg> Atrasos</button>
         <button class="libro-tab" data-libro-panel="observaciones" onclick="renderLibroPanel('observaciones')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-note"></use></svg> Observaciones</button>
         <button class="libro-tab" data-libro-panel="horario" onclick="renderLibroPanel('horario')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-schedule"></use></svg> Horario</button>
+        <button class="libro-tab" data-libro-panel="epocas" onclick="renderLibroPanel('epocas')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-calendar"></use></svg> Épocas</button>
       </div>
 
       <div id="libroPanelResumen" class="libro-panel active">
@@ -3362,10 +3463,37 @@
       <div id="libroPanelHorario" class="libro-panel">
         <div class="card panel">
           <div class="title-row">
-            <div><h3>Horario semanal</h3><p class="meta">Bloques, asignaturas, profesor/a y sala.</p></div>
+            <div>
+              <h3>Horario semanal</h3>
+              <p class="meta">Clases, épocas, inglés por nivel, movimiento, música, tutoría, recreos y almuerzo.</p>
+            </div>
             <button class="btn primary admin-only-schedule hidden" onclick="openScheduleEditor()">+ Agregar bloque</button>
           </div>
+          <div id="scheduleTodayStrip" class="schedule-today-strip"></div>
           <div id="scheduleGrid" class="schedule-grid"></div>
+        </div>
+      </div>
+
+      <div id="libroPanelEpocas" class="libro-panel">
+        <div class="card panel">
+          <div class="title-row">
+            <div>
+              <h3>Calendario de épocas</h3>
+              <p class="meta">Planificación anual de las épocas del curso, respetando la organización pedagógica Waldorf.</p>
+            </div>
+            <button class="btn primary admin-only-schedule hidden" onclick="openEpochEditor()">+ Agregar época</button>
+          </div>
+          <div class="waldorf-note"><strong>Organización por épocas:</strong> Época 1 y Época 2 son bloques dinámicos del horario. Cada período dura 3 semanas (21 días) y puede corresponder a Teatro, Historia, Música, Inglés, Física, Química o Matemática. El horario muestra automáticamente la época y el profesor vigente según la fecha.</div>
+          <div class="waldorf-epoch-options" aria-label="Épocas institucionales">
+            <span>Teatro</span><span>Historia</span><span>Música</span><span>Inglés</span>
+            <span>Física</span><span>Química</span><span>Matemática</span>
+          </div>
+          <div id="epochCurrentSummary" class="epoch-current-summary"></div>
+          <div id="epochCalendar" class="epoch-calendar"></div>
+          <div class="epoch-legend">
+            <span><strong>Época actual</strong> · bloque en desarrollo</span>
+            <span><strong>Próxima</strong> · siguiente período planificado</span>
+          </div>
         </div>
       </div>
     </section>
@@ -3812,6 +3940,20 @@ const FIREBASE_CONFIG={
 };
 const COURSES=["7° Básico","8° Básico","I° Medio","II° Medio","III° Medio","IV° Medio"];
 const SUBJECTS=["Arte","Física","Química","Lenguaje y Literatura","Historia","Matemática","Teatro"];
+const BOOK_SUBJECTS=[
+  ...SUBJECTS,
+  "Recreo",
+  "Almuerzo",
+  "Inglés Inicial",
+  "Inglés Intermedio",
+  "Inglés Avanzado",
+  "Práctica Matemáticas",
+  "Movimiento",
+  "Época 1",
+  "Época 2",
+  "Música",
+  "Tutoría"
+];
 
 let FB={},app,auth,db,messaging=null,functions=null,secondaryApp,secondaryAuth,currentUser=null,currentSession=null;
 let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false,evalRangeFilter="upcoming",studyPlans=[],studyUnsubscribe=null,currentStudent=null,grades=[],gradesUnsubscribe=null,selectedGradeStudentId="",calendarView="month",calendarCourseFilter="",pendingEvaluationId="",courseTutors={},selectedTutorCourse="",academicSettings={academicYear:2026,attendanceAlert:85,gradeAlert:4,lateAlert:3},activeLibroPanel="resumen",libroRenderToken=0;
@@ -4956,6 +5098,7 @@ function renderLibroPanel(panel="resumen"){
   if(panel==="atrasos") renderLateRecords();
   if(panel==="observaciones") renderObservations();
   if(panel==="horario") renderSchedule();
+  if(panel==="epocas") renderEpochCalendar();
 }
 
 function currentLibroCourse(){
@@ -5222,18 +5365,141 @@ async function getSchedule(course){
   return snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(Number(a.day)||0)-(Number(b.day)||0)||(a.start||"").localeCompare(b.start||""));
 }
 
-function openScheduleEditor(block=null){
+
+async function getRegisteredTeachers(){
+  try{
+    // Si el administrador ya cargó usuarios, reutilizamos esa información.
+    const cached=(users||[])
+      .filter(u=>u.role==="teacher" && u.active!==false)
+      .sort((a,b)=>(a.name||a.email||"").localeCompare(b.name||b.email||"","es"));
+
+    if(cached.length) return cached;
+
+    const q=FB.query(
+      FB.collection(db,"users"),
+      FB.where("role","==","teacher")
+    );
+    const snap=await FB.getDocs(q);
+
+    return snap.docs
+      .map(d=>({id:d.id,...d.data()}))
+      .filter(u=>u.active!==false)
+      .sort((a,b)=>(a.name||a.email||"").localeCompare(b.name||b.email||"","es"));
+  }catch(err){
+    console.error("Profesores registrados:",err);
+    return [];
+  }
+}
+
+async function populateRegisteredTeacherSelect(selectId,selectedUid="",selectedName="",allowEmpty=false){
+  const select=$(selectId);
+  if(!select) return;
+
+  select.disabled=true;
+  select.innerHTML='<option value="">Cargando profesores…</option>';
+
+  const teachers=await getRegisteredTeachers();
+
+  const options=[];
+  if(allowEmpty){
+    options.push('<option value="">Sin profesor/a asignado/a</option>');
+  }else{
+    options.push('<option value="">Selecciona un profesor/a</option>');
+  }
+
+  options.push(
+    ...teachers.map(t=>`
+      <option value="${t.id}" data-name="${esc(t.name||t.email||"Profesor/a")}">
+        ${esc(t.name||t.email||"Profesor/a")}
+      </option>`
+    )
+  );
+
+  select.innerHTML=options.join("");
+  select.disabled=false;
+
+  if(selectedUid && teachers.some(t=>t.id===selectedUid)){
+    select.value=selectedUid;
+    return;
+  }
+
+  if(selectedName){
+    const match=teachers.find(t=>
+      String(t.name||t.email||"").trim().toLowerCase()===
+      String(selectedName).trim().toLowerCase()
+    );
+    if(match){
+      select.value=match.id;
+      return;
+    }
+  }
+
+  if(!allowEmpty && teachers.length===1){
+    select.value=teachers[0].id;
+  }
+}
+
+function selectedTeacherData(selectId){
+  const select=$(selectId);
+  const uid=select?.value||"";
+  const option=select?.selectedOptions?.[0];
+  const name=option?.dataset?.name||"";
+  return {uid,name};
+}
+
+function scheduleTeacherRequired(subject){
+  return !["Recreo","Almuerzo","Época 1","Época 2"].includes(subject);
+}
+
+function updateScheduleTeacherRequirement(){
+  const subject=$("scheduleSubject")?.value||"";
+  const select=$("scheduleTeacher");
+  if(!select) return;
+
+  const required=scheduleTeacherRequired(subject);
+  select.required=required;
+
+  const hint=select.parentElement?.querySelector(".meta");
+  if(hint){
+    hint.textContent=required
+      ?"Selecciona un profesor registrado en la plataforma."
+      :EPOCH_SLOTS.includes(subject)
+        ?"El profesor se toma automáticamente de la época vigente en el Calendario de Épocas."
+        :"Profesor opcional para este bloque de jornada.";
+  }
+}
+
+async function openScheduleEditor(block=null){
   if(currentSession?.role!=="admin") return;
   const course=currentLibroCourse();
   $("scheduleId").value=block?.id||"";
   $("scheduleCourse").value=course;
   $("scheduleDay").value=String(block?.day||1);
-  $("scheduleSubject").innerHTML=SUBJECTS.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join("");
-  $("scheduleSubject").value=block?.subject||SUBJECTS[0];
+  $("scheduleSubject").innerHTML=BOOK_SUBJECTS.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join("");
+  $("scheduleSubject").value=block?.subject||BOOK_SUBJECTS[0];
   $("scheduleStart").value=block?.start||"08:00";
   $("scheduleEnd").value=block?.end||"08:45";
-  $("scheduleTeacher").value=block?.teacher||"";
   $("scheduleRoom").value=block?.room||"";
+
+  await populateRegisteredTeacherSelect(
+    "scheduleTeacher",
+    block?.teacherUid||"",
+    block?.teacher||"",
+    !scheduleTeacherRequired($("scheduleSubject").value)
+  );
+
+  updateScheduleTeacherRequirement();
+  $("scheduleSubject").onchange=async()=>{
+    const current=selectedTeacherData("scheduleTeacher");
+    await populateRegisteredTeacherSelect(
+      "scheduleTeacher",
+      current.uid,
+      current.name,
+      !scheduleTeacherRequired($("scheduleSubject").value)
+    );
+    updateScheduleTeacherRequirement();
+  };
+
   $("scheduleDialog").showModal();
 }
 
@@ -5246,6 +5512,8 @@ async function saveScheduleBlock(e){
   const id=$("scheduleId").value;
   const start=$("scheduleStart").value;
   const end=$("scheduleEnd").value;
+  const subject=$("scheduleSubject").value;
+  const teacher=selectedTeacherData("scheduleTeacher");
 
   if(!start||!end||end<=start){
     showAppMessage(
@@ -5256,13 +5524,23 @@ async function saveScheduleBlock(e){
     return;
   }
 
+  if(scheduleTeacherRequired(subject) && !teacher.uid){
+    showAppMessage(
+      "Selecciona un profesor",
+      "Este bloque debe quedar asociado a un profesor registrado en la plataforma.",
+      "warn"
+    );
+    return;
+  }
+
   const data={
     course:$("scheduleCourse").value,
     day:Number($("scheduleDay").value),
-    subject:$("scheduleSubject").value,
+    subject,
     start,
     end,
-    teacher:$("scheduleTeacher").value.trim(),
+    teacherUid:teacher.uid,
+    teacher:teacher.name,
     room:$("scheduleRoom").value.trim(),
     updatedAt:FB.serverTimestamp(),
     updatedBy:currentSession.uid
@@ -5297,30 +5575,74 @@ async function deleteScheduleBlock(id){
   renderSchedule();
 }
 
+function scheduleBlockClass(subject=""){
+  if(["Recreo","Almuerzo"].includes(subject)) return "break";
+  if(["Época 1","Época 2"].includes(subject)) return "epoch";
+  if(subject.startsWith("Inglés")) return "language";
+  return "";
+}
+
 async function renderSchedule(){
   const course=currentLibroCourse();
   const box=$("scheduleGrid");
+  const todayBox=$("scheduleTodayStrip");
   if(!box) return;
+
   const days=[["1","Lunes"],["2","Martes"],["3","Miércoles"],["4","Jueves"],["5","Viernes"]];
+
   try{
-    const blocks=await getSchedule(course);
+    const [blocks,epochs]=await Promise.all([
+      getSchedule(course),
+      getCourseEpochs(course)
+    ]);
+
+    const jsDay=new Date().getDay();
+    const today=iso();
+    const todayBlocks=blocks.filter(b=>Number(b.day)===jsDay);
+
+    const displayFor=(b)=>epochScheduleDisplay(b,epochs,today);
+
+    if(todayBox){
+      if(jsDay>=1&&jsDay<=5){
+        todayBox.innerHTML=todayBlocks.length
+          ? todayBlocks.map(b=>{
+              const d=displayFor(b);
+              return `<div class="today-block ${scheduleBlockClass(b.subject)}">
+                <strong>${esc(d.title)}</strong>
+                <small>${esc(b.start)}–${esc(b.end)}${d.subtitle?` · ${esc(d.subtitle)}`:""}${d.teacher?` · ${esc(d.teacher)}`:""}${b.room?` · ${esc(b.room)}`:""}</small>
+              </div>`;
+            }).join("")
+          : '<div class="meta">Hoy no hay bloques registrados para este curso.</div>';
+      }else{
+        todayBox.innerHTML='<div class="meta">El horario semanal se organiza de lunes a viernes.</div>';
+      }
+    }
+
     box.innerHTML=days.map(([day,label])=>{
       const own=blocks.filter(b=>String(b.day)===day);
       return `<div class="schedule-day">
         <strong>${label}</strong>
-        ${own.length?own.map(b=>`<div class="schedule-block">
-          <strong>${esc(b.subject)}</strong>
-          <small>${esc(b.start)}–${esc(b.end)}</small>
-          <small>${esc(b.teacher||"Sin profesor")}${b.room?` · ${esc(b.room)}`:""}</small>
-          ${currentSession?.role==="admin"?`<div class="schedule-actions">
-            <button class="iconbtn" onclick="editScheduleBlock('${b.id}')">${miIcon("edit","mi-icon icon-only")}</button>
-            <button class="iconbtn" onclick="deleteScheduleBlock('${b.id}')">${miIcon("trash","mi-icon icon-only")}</button>
-          </div>`:""}
-        </div>`).join(""):'<div class="meta">Sin bloques</div>'}
+        ${own.length?own.map(b=>{
+          const d=displayFor(b);
+          return `<div class="schedule-block ${scheduleBlockClass(b.subject)}">
+            <strong class="${d.dynamic?"dynamic-epoch-title":""}">
+              ${esc(d.title)}
+              ${d.dynamic?`<span class="record-badge">${esc(b.subject)}</span>`:""}
+            </strong>
+            <small>${esc(b.start)}–${esc(b.end)}</small>
+            ${d.subtitle?`<small>${esc(d.subtitle)}</small>`:""}
+            <small>${esc(d.teacher||(["Recreo","Almuerzo"].includes(b.subject)?"Bloque de jornada":d.dynamic?"Profesor según calendario de épocas":"Profesor/a no asignado/a"))}${b.room?` · ${esc(b.room)}`:""}</small>
+            ${currentSession?.role==="admin"?`<div class="schedule-actions">
+              <button class="iconbtn" type="button" aria-label="Editar ${esc(b.subject)}" onclick="editScheduleBlock('${b.id}')">${miIcon("edit","mi-icon icon-only")}</button>
+              <button class="iconbtn" type="button" aria-label="Eliminar ${esc(b.subject)}" onclick="deleteScheduleBlock('${b.id}')">${miIcon("trash","mi-icon icon-only")}</button>
+            </div>`:""}
+          </div>`;
+        }).join(""):'<div class="meta">Sin bloques</div>'}
       </div>`;
     }).join("");
   }catch(err){
     console.error("Horario:",err);
+    if(todayBox) todayBox.innerHTML="";
     box.innerHTML='<div class="empty">No se pudo cargar el horario.</div>';
   }
 }
@@ -5412,6 +5734,385 @@ async function exportCourseSummaryCSV(){
   }catch(err){
     console.error("Exportar curso:",err);
     showAppMessage("No se pudo exportar","Ocurrió un problema al preparar el resumen del curso.","error");
+  }
+}
+
+
+const WALDORF_EPOCHS=[
+  "Teatro",
+  "Historia",
+  "Música",
+  "Inglés",
+  "Física",
+  "Química",
+  "Matemática"
+];
+const EPOCH_AREAS=[...WALDORF_EPOCHS];
+
+function epochDocRef(){
+  return FB.doc(db,"appSettings","epochs");
+}
+
+async function loadEpochData(){
+  try{
+    const snap=await FB.getDoc(epochDocRef());
+    const data=snap.exists()?snap.data():{};
+    return Array.isArray(data.items)?data.items:[];
+  }catch(err){
+    console.error("Calendario de épocas:",err);
+    return [];
+  }
+}
+
+
+const EPOCH_DURATION_DAYS=21;
+const EPOCH_SLOTS=["Época 1","Época 2"];
+
+function addIsoDays(dateIso,days){
+  if(!dateIso) return "";
+  const d=new Date(`${dateIso}T12:00:00`);
+  d.setDate(d.getDate()+days);
+  return iso(d);
+}
+
+function calculatedEpochEnd(start){
+  return start?addIsoDays(start,EPOCH_DURATION_DAYS-1):"";
+}
+
+function epochSlot(epoch){
+  return EPOCH_SLOTS.includes(epoch?.slot)?epoch.slot:"Época 1";
+}
+
+function currentEpochForSlot(epochs,slot,date=iso()){
+  return epochs.find(e=>epochSlot(e)===slot && epochStatus(e,date)==="current")||null;
+}
+
+function nextEpochForSlot(epochs,slot,date=iso()){
+  return epochs.find(e=>epochSlot(e)===slot && e.start>date)||null;
+}
+
+function dynamicEpochInfo(subject,epochs,date=iso()){
+  if(!EPOCH_SLOTS.includes(subject)) return null;
+  const current=currentEpochForSlot(epochs,subject,date);
+  const next=nextEpochForSlot(epochs,subject,date);
+  return {slot:subject,current,next};
+}
+
+function epochScheduleDisplay(block,epochs,date=iso()){
+  const dynamic=dynamicEpochInfo(block?.subject,epochs,date);
+  if(!dynamic){
+    return {
+      title:block?.subject||"",
+      subtitle:"",
+      teacher:block?.teacher||"",
+      dynamic:false
+    };
+  }
+
+  const e=dynamic.current;
+  if(e){
+    return {
+      title:e.name||dynamic.slot,
+      subtitle:`${dynamic.slot} · ${epochRangeLabel(e)}`,
+      teacher:e.teacher||block?.teacher||"",
+      dynamic:true,
+      epoch:e
+    };
+  }
+
+  const next=dynamic.next;
+  return {
+    title:dynamic.slot,
+    subtitle:next
+      ? `Próxima: ${next.name} · ${epochRangeLabel(next)}`
+      : "Sin época programada para esta fecha",
+    teacher:next?.teacher||block?.teacher||"",
+    dynamic:true,
+    epoch:null
+  };
+}
+
+function epochStatus(epoch,today=iso()){
+  if(!epoch?.start||!epoch?.end) return "past";
+  if(today>=epoch.start&&today<=epoch.end) return "current";
+  if(today<epoch.start) return "upcoming";
+  return "past";
+}
+
+function epochRangeLabel(epoch){
+  if(!epoch?.start||!epoch?.end) return "Fechas pendientes";
+  return `${fmt(epoch.start,{day:"2-digit",month:"short"})} – ${fmt(epoch.end,{day:"2-digit",month:"short"})}`;
+}
+
+async function openEpochEditor(epoch=null){
+  if(currentSession?.role!=="admin") return;
+  const course=currentLibroCourse();
+  if(!course) return;
+
+  $("epochDialogTitle").textContent=epoch?"Editar época":"Agregar época";
+  $("epochId").value=epoch?.id||"";
+  $("epochCourse").value=course;
+  $("epochFocus").value=epoch?.focus||"";
+  $("epochSlot").value=epochSlot(epoch);
+
+  $("epochName").innerHTML=WALDORF_EPOCHS
+    .map(name=>`<option value="${esc(name)}">${esc(name)}</option>`)
+    .join("");
+
+  // Compatibilidad con registros antiguos: si tenían un nombre no institucional,
+  // se conserva hasta que el administrador edite y elija una de las siete épocas.
+  if(epoch?.name && !WALDORF_EPOCHS.includes(epoch.name)){
+    $("epochName").insertAdjacentHTML(
+      "afterbegin",
+      `<option value="${esc(epoch.name)}">${esc(epoch.name)} · registro anterior</option>`
+    );
+  }
+  $("epochName").value=epoch?.name||WALDORF_EPOCHS[0];
+
+  await populateRegisteredTeacherSelect(
+    "epochTeacher",
+    epoch?.teacherUid||"",
+    epoch?.teacher||"",
+    true
+  );
+
+  const applySuggestedStart=async()=>{
+    if(epoch) return;
+    const slot=$("epochSlot").value;
+    const epochs=await getCourseEpochs(course);
+    const sameSlot=epochs
+      .filter(e=>epochSlot(e)===slot)
+      .sort((a,b)=>(a.start||"").localeCompare(b.start||""));
+    const last=sameSlot[sameSlot.length-1];
+    $("epochStart").value=last?.end?addIsoDays(last.end,1):"";
+    $("epochEnd").value=calculatedEpochEnd($("epochStart").value);
+  };
+
+  if(epoch){
+    $("epochStart").value=epoch.start||"";
+    $("epochEnd").value=calculatedEpochEnd(epoch.start||"");
+  }else{
+    await applySuggestedStart();
+  }
+
+  $("epochStart").onchange=()=>{
+    $("epochEnd").value=calculatedEpochEnd($("epochStart").value);
+  };
+
+  $("epochSlot").onchange=async()=>{
+    await applySuggestedStart();
+  };
+
+  $("epochDialog").showModal();
+}
+
+async function saveEpoch(e){
+  e.preventDefault();
+  if(currentSession?.role!=="admin") return;
+
+  const course=$("epochCourse").value;
+  const slot=$("epochSlot").value;
+  const epochName=$("epochName").value;
+  const start=$("epochStart").value;
+  const end=calculatedEpochEnd(start);
+  const teacher=selectedTeacherData("epochTeacher");
+
+  if(!WALDORF_EPOCHS.includes(epochName)){
+    showAppMessage(
+      "Época no válida",
+      "Selecciona Teatro, Historia, Música, Inglés, Física, Química o Matemática.",
+      "warn"
+    );
+    return;
+  }
+
+  if(!start||!end){
+    showAppMessage("Revisa la fecha","Debes indicar la fecha de inicio de la época.","warn");
+    return;
+  }
+
+  const button=$("epochForm")?.querySelector('button[type="submit"]');
+  const id=$("epochId").value||`epoch_${Date.now()}_${Math.random().toString(36).slice(2,7)}`;
+
+  const item={
+    id,
+    course,
+    slot,
+    name:epochName,
+    area:epochName,
+    teacherUid:teacher.uid,
+    teacher:teacher.name,
+    start,
+    end,
+    durationDays:EPOCH_DURATION_DAYS,
+    focus:$("epochFocus").value.trim(),
+    updatedAt:new Date().toISOString(),
+    updatedBy:currentSession.uid
+  };
+
+  try{
+    if(button){button.disabled=true;button.textContent="Guardando…";}
+    const all=await loadEpochData();
+
+    const conflict=all.find(x=>
+      x.id!==id &&
+      x.course===course &&
+      epochSlot(x)===slot &&
+      x.start<=end &&
+      x.end>=start
+    );
+
+    if(conflict){
+      showAppMessage(
+        "Fechas superpuestas",
+        `${slot} ya tiene “${conflict.name}” entre ${epochRangeLabel(conflict)}. Cada bloque debe tener una sola época activa a la vez.`,
+        "warn"
+      );
+      return;
+    }
+
+    const next=all.filter(x=>x.id!==id);
+    next.push(item);
+    next.sort((a,b)=>(a.start||"").localeCompare(b.start||""));
+
+    await FB.setDoc(epochDocRef(),{
+      items:next,
+      updatedAt:FB.serverTimestamp(),
+      updatedBy:currentSession.uid
+    },{merge:true});
+
+    await logAudit(
+      "update",
+      "epochCalendar",
+      id,
+      `${course} · ${slot} · ${item.name} · ${item.start} a ${item.end}`
+    );
+
+    $("epochDialog").close();
+    showToast("Época guardada por 3 semanas.","ok","Calendario de épocas");
+    renderEpochCalendar();
+    renderLibroClases();
+    if(activeLibroPanel==="horario") renderSchedule();
+  }catch(err){
+    console.error("Guardar época:",err);
+    showAppMessage("No se pudo guardar","Ocurrió un problema al actualizar el calendario de épocas.","error");
+  }finally{
+    if(button){button.disabled=false;button.textContent="Guardar época";}
+  }
+}
+
+async function editEpoch(id){
+  if(currentSession?.role!=="admin") return;
+  const all=await loadEpochData();
+  const epoch=all.find(x=>x.id===id);
+  if(epoch) openEpochEditor(epoch);
+}
+
+async function deleteEpoch(id){
+  if(currentSession?.role!=="admin") return;
+  if(!await appConfirm("Eliminar época","Se eliminará esta época del calendario del curso.","Eliminar")) return;
+
+  try{
+    const all=await loadEpochData();
+    const removed=all.find(x=>x.id===id);
+    const next=all.filter(x=>x.id!==id);
+
+    await FB.setDoc(epochDocRef(),{
+      items:next,
+      updatedAt:FB.serverTimestamp(),
+      updatedBy:currentSession.uid
+    },{merge:true});
+
+    await logAudit("delete","epochCalendar",id,removed?`${removed.course} · ${removed.name}`:id);
+    showToast("Época eliminada.","ok","Calendario de épocas");
+    renderEpochCalendar();
+    renderLibroClases();
+  }catch(err){
+    console.error("Eliminar época:",err);
+    showAppMessage("No se pudo eliminar","Ocurrió un problema al actualizar el calendario.","error");
+  }
+}
+
+function monthStartEnd(year,monthIndex){
+  const start=new Date(year,monthIndex,1,12,0,0);
+  const end=new Date(year,monthIndex+1,0,12,0,0);
+  return {start:iso(start),end:iso(end)};
+}
+
+async function getCourseEpochs(course=currentLibroCourse()){
+  const all=await loadEpochData();
+  return all
+    .filter(e=>e.course===course)
+    .sort((a,b)=>(a.start||"").localeCompare(b.start||""));
+}
+
+async function renderEpochCalendar(){
+  const course=currentLibroCourse();
+  const box=$("epochCalendar");
+  const summary=$("epochCurrentSummary");
+  if(!box||!summary) return;
+
+  box.innerHTML='<div class="libro-loading">Cargando calendario de épocas…</div>';
+  summary.innerHTML="";
+
+  try{
+    const epochs=await getCourseEpochs(course);
+    const today=iso();
+    const year=Number(academicSettings?.academicYear)||new Date().getFullYear();
+
+    summary.innerHTML=EPOCH_SLOTS.map(slot=>{
+      const current=currentEpochForSlot(epochs,slot,today);
+      const next=nextEpochForSlot(epochs,slot,today);
+      return `<div class="epoch-highlight ${current?"current":""}">
+        <span>${esc(slot)} · actual</span>
+        <strong>${current?esc(current.name):"Sin época activa"}</strong>
+        <small>${current
+          ? `${esc(current.area||"")} · ${epochRangeLabel(current)}${current.teacher?` · ${esc(current.teacher)}`:""}`
+          : next
+            ? `Próxima: ${esc(next.name)} · comienza ${fmt(next.start,{day:"2-digit",month:"short"})}`
+            : "No hay otra época programada."}</small>
+        ${current
+          ? `<span class="epoch-next-change">Cambio automático después del ${fmt(current.end,{day:"2-digit",month:"short"})}</span>`
+          : ""}
+      </div>`;
+    }).join("");
+
+    const months=[
+      [2,"Marzo"],[3,"Abril"],[4,"Mayo"],[5,"Junio"],[6,"Julio"],
+      [7,"Agosto"],[8,"Septiembre"],[9,"Octubre"],[10,"Noviembre"],[11,"Diciembre"]
+    ];
+
+    if(!epochs.length){
+      box.innerHTML=`<div class="empty">Todavía no hay épocas planificadas para ${esc(course)}. ${currentSession?.role==="admin"?"Utiliza “Agregar época” para comenzar.":""}</div>`;
+      return;
+    }
+
+    box.innerHTML=months.map(([monthIndex,label])=>{
+      const range=monthStartEnd(year,monthIndex);
+      const overlapping=epochs.filter(e=>e.start<=range.end&&e.end>=range.start);
+      return `<div class="epoch-month">
+        <strong>${label}</strong>
+        ${overlapping.length?overlapping.map(e=>{
+          const status=epochStatus(e,today);
+          return `<div class="epoch-card ${status}">
+            <strong>${esc(e.name)}</strong>
+            <small>${esc(e.area||"Sin área")} · ${epochRangeLabel(e)}</small>
+            ${e.teacher?`<small>${esc(e.teacher)}</small>`:""}
+            ${e.focus?`<small>${esc(e.focus)}</small>`:""}
+            <span class="epoch-slot-badge">${esc(epochSlot(e))} · 3 semanas</span>
+            ${status==="current"?'<span class="record-badge">Época actual</span>':status==="upcoming"?'<span class="record-badge">Próxima</span>':""}
+            ${currentSession?.role==="admin"?`<div class="epoch-card-actions">
+              <button class="iconbtn" type="button" aria-label="Editar época" onclick="editEpoch('${e.id}')">${miIcon("edit","mi-icon icon-only")}</button>
+              <button class="iconbtn" type="button" aria-label="Eliminar época" onclick="deleteEpoch('${e.id}')">${miIcon("trash","mi-icon icon-only")}</button>
+            </div>`:""}
+          </div>`;
+        }).join(""):'<div class="meta">Sin época</div>'}
+      </div>`;
+    }).join("");
+  }catch(err){
+    console.error("Render épocas:",err);
+    summary.innerHTML="";
+    box.innerHTML='<div class="empty">No se pudo cargar el calendario de épocas.</div>';
   }
 }
 
@@ -5531,10 +6232,21 @@ async function renderLibroClases(){
       <small>${attentionCount===1?"estudiante requiere":"estudiantes requieren"} atención</small>
     </div>`;
 
+  const courseEpochs=await getCourseEpochs(course);
+  if(token!==libroRenderToken || course!==currentLibroCourse()) return;
+  const currentEpoch1=currentEpochForSlot(courseEpochs,"Época 1");
+  const currentEpoch2=currentEpochForSlot(courseEpochs,"Época 2");
+
+  const epochMeta=[
+    currentEpoch1?`Época 1: ${currentEpoch1.name}`:"",
+    currentEpoch2?`Época 2: ${currentEpoch2.name}`:""
+  ].filter(Boolean).join(" · ");
+
   $("libroCourseMeta").textContent=
     `${courseStudents.length} estudiante${courseStudents.length===1?"":"s"} · `+
     `${upcoming.length} evaluación${upcoming.length===1?"":"es"} próxima${upcoming.length===1?"":"s"} · `+
-    `${lateRecords.filter(r=>(r.date||"").startsWith(month)).length} atraso${lateRecords.filter(r=>(r.date||"").startsWith(month)).length===1?"":"s"} este mes`;
+    `${lateRecords.filter(r=>(r.date||"").startsWith(month)).length} atraso${lateRecords.filter(r=>(r.date||"").startsWith(month)).length===1?"":"s"} este mes`+
+    `${epochMeta?` · ${epochMeta}`:""}`;
 
   if(!courseStudents.length){
     list.innerHTML='<div class="empty">No hay estudiantes registrados en este curso.</div>';
@@ -8752,6 +9464,59 @@ window.addEventListener("resize",()=>{
 
 </script>
 
+
+<dialog id="epochDialog">
+  <div class="dialog">
+    <div class="dialoghead">
+      <div>
+        <h3 id="epochDialogTitle">Agregar época</h3>
+        <p class="meta">Define el período principal de trabajo del curso.</p>
+      </div>
+      <button class="iconbtn" type="button" aria-label="Cerrar" onclick="$('epochDialog').close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
+    </div>
+    <form id="epochForm" class="formgrid" onsubmit="saveEpoch(event)">
+      <input id="epochId" type="hidden">
+      <input id="epochCourse" type="hidden">
+      <div class="field full">
+        <label>Época</label>
+        <select id="epochName" required></select>
+        <small class="meta">Opciones institucionales: Teatro, Historia, Música, Inglés, Física, Química y Matemática.</small>
+      </div>
+      <div class="field">
+        <label>Bloque del horario</label>
+        <select id="epochSlot" required>
+          <option value="Época 1">Época 1</option>
+          <option value="Época 2">Época 2</option>
+        </select>
+        <small class="meta">El horario mostrará automáticamente la época vigente de este bloque.</small>
+      </div>
+      <div class="field">
+        <label>Profesor/a responsable</label>
+        <select id="epochTeacher"></select>
+        <small class="meta">Solo aparecen profesores registrados en la plataforma.</small>
+      </div>
+      <div class="field">
+        <label>Fecha de inicio</label>
+        <input id="epochStart" type="date" required>
+        <small class="meta">Al crear la siguiente época, el sistema sugerirá automáticamente la fecha posterior al término de la anterior.</small>
+      </div>
+      <div class="field">
+        <label>Fecha de término</label>
+        <input id="epochEnd" type="date" readonly>
+        <small class="meta">Se calcula automáticamente: 21 días desde el inicio.</small>
+      </div>
+      <div class="field full">
+        <label>Propósito / contenidos centrales</label>
+        <textarea id="epochFocus" rows="4" maxlength="1200" placeholder="Describe brevemente el foco pedagógico de la época."></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn ghost" type="button" onclick="$('epochDialog').close()">Cancelar</button>
+        <button class="btn primary" type="submit">Guardar época</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
 <dialog id="scheduleDialog">
   <div class="dialog">
     <div class="dialoghead">
@@ -8769,7 +9534,11 @@ window.addEventListener("resize",()=>{
       <div class="field"><label>Asignatura</label><select id="scheduleSubject" required></select></div>
       <div class="field"><label>Inicio</label><input id="scheduleStart" type="time" required></div>
       <div class="field"><label>Término</label><input id="scheduleEnd" type="time" required></div>
-      <div class="field full"><label>Profesor/a</label><input id="scheduleTeacher" maxlength="120" required></div>
+      <div class="field full">
+        <label>Profesor/a</label>
+        <select id="scheduleTeacher"></select>
+        <small class="meta">Selecciona un profesor registrado en la plataforma.</small>
+      </div>
       <div class="field full"><label>Sala / espacio</label><input id="scheduleRoom" maxlength="80" placeholder="Opcional"></div>
       <div class="form-actions">
         <button class="btn ghost" type="button" onclick="$('scheduleDialog').close()">Cancelar</button>
