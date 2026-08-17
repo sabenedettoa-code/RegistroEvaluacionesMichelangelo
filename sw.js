@@ -1,8 +1,6 @@
-const CACHE="michelangelo-ii-medio-v31-6";
+const CACHE="michelangelo-ii-medio-v31-7";
 
-const ASSETS=[
-  "./",
-  "./index.html",
+const APP_SHELL=[
   "./logo.png",
   "./manifest.webmanifest"
 ];
@@ -36,7 +34,7 @@ messaging.onBackgroundMessage(payload=>{
 self.addEventListener("install",event=>{
   event.waitUntil(
     caches.open(CACHE)
-      .then(cache=>cache.addAll(ASSETS))
+      .then(cache=>cache.addAll(APP_SHELL))
       .then(()=>self.skipWaiting())
   );
 });
@@ -66,22 +64,52 @@ self.addEventListener("fetch",event=>{
     return;
   }
 
+  if(
+    event.request.mode==="navigate" ||
+    url.pathname.endsWith("/index.html") ||
+    url.pathname==="/"
+  ){
+    event.respondWith(
+      fetch(event.request,{cache:"no-store"})
+        .then(response=>{
+          const copy=response.clone();
+
+          caches.open(CACHE)
+            .then(cache=>
+              cache.put("./index.html",copy)
+            );
+
+          return response;
+        })
+        .catch(()=>
+          caches.match("./index.html")
+        )
+    );
+
+    return;
+  }
+
   event.respondWith(
-    fetch(event.request)
-      .then(response=>{
-        const copy=response.clone();
+    caches.match(event.request)
+      .then(cached=>{
+        const network=
+          fetch(event.request)
+            .then(response=>{
+              const copy=response.clone();
 
-        caches.open(CACHE)
-          .then(cache=>cache.put(event.request,copy));
+              caches.open(CACHE)
+                .then(cache=>
+                  cache.put(
+                    event.request,
+                    copy
+                  )
+                );
 
-        return response;
+              return response;
+            })
+            .catch(()=>cached);
+
+        return cached || network;
       })
-      .catch(()=>
-        caches.match(event.request)
-          .then(cached=>
-            cached ||
-            caches.match("./index.html")
-          )
-      )
   );
 });
