@@ -1,4 +1,4 @@
-const CACHE="michelangelo-ii-medio-v32-7";
+const CACHE="michelangelo-ii-medio-v33-0-final";
 
 const APP_SHELL=[
   "./logo.png",
