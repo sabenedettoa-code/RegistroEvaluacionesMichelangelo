@@ -1,4 +1,4 @@
-const CACHE="michelangelo-ii-medio-v33-2";
+const CACHE="michelangelo-ii-medio-v33-2-notifications";
 
 const APP_SHELL=[
   "./logo.png",
@@ -64,6 +64,9 @@ self.addEventListener("fetch",event=>{
     return;
   }
 
+  // Navegación e index.html:
+  // siempre intentar red primero
+  // para evitar cargar HTML antiguo.
   if(
     event.request.mode==="navigate" ||
     url.pathname.endsWith("/index.html") ||
@@ -75,29 +78,47 @@ self.addEventListener("fetch",event=>{
           const copy=response.clone();
 
           caches.open(CACHE)
-            .then(cache=>cache.put("./index.html",copy));
+            .then(cache=>{
+              cache.put("./index.html",copy);
+            });
 
           return response;
         })
-        .catch(()=>caches.match("./index.html"))
+        .catch(()=>{
+          return caches.match("./index.html");
+        })
     );
+
     return;
   }
 
+  // Recursos estáticos:
+  // mostrar caché si existe
+  // y actualizarla desde la red.
   event.respondWith(
-    caches.match(event.request).then(cached=>{
-      const network=fetch(event.request)
-        .then(response=>{
-          const copy=response.clone();
+    caches.match(event.request)
+      .then(cached=>{
 
-          caches.open(CACHE)
-            .then(cache=>cache.put(event.request,copy));
+        const network=
+          fetch(event.request)
+            .then(response=>{
+              const copy=response.clone();
 
-          return response;
-        })
-        .catch(()=>cached);
+              caches.open(CACHE)
+                .then(cache=>{
+                  cache.put(
+                    event.request,
+                    copy
+                  );
+                });
 
-      return cached || network;
-    })
+              return response;
+            })
+            .catch(()=>{
+              return cached;
+            });
+
+        return cached || network;
+      })
   );
 });
