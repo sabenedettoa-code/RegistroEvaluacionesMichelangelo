@@ -5284,7 +5284,7 @@
 
 
 
-    /* ===== V38.9 · BOTÓN INSTALAR APP ===== */
+    /* ===== V38.10 · BOTÓN INSTALAR APP ===== */
     .pwa-install-btn{
       position:fixed!important;
       right:22px!important;
@@ -5405,7 +5405,7 @@
     }
 
 
-    /* ===== V38.9 · ARRANQUE Y CARGAS DE SESIÓN ===== */
+    /* ===== V38.10 · ARRANQUE Y CARGAS DE SESIÓN ===== */
     body.session-resolving{
       overflow:hidden;
     }
@@ -5848,7 +5848,7 @@
 
 
 
-    /* ===== V38.9 · BOTÓN ASISTENTE EN CELULARES ===== */
+    /* ===== V38.10 · BOTÓN ASISTENTE EN CELULARES ===== */
     @media(max-width:650px){
       .mobile-nav button{
         display:grid!important;
@@ -5975,7 +5975,7 @@
 
   
 
-    /* ===== V38.9 SALIDAS PEDAGÓGICAS ===== */
+    /* ===== V38.10 SALIDAS PEDAGÓGICAS ===== */
     .calendar-dot.outing{background:#9b744f}
     .calendar-status.outing{background:#efe3d2;color:#684a34}
     .agenda-item.outing,.calitem.outing{border-left:3px solid #9b744f;background:linear-gradient(135deg,#fffaf3,#f7eee2)}
@@ -5990,7 +5990,7 @@
     }
 
 
-    /* ===== V38.9 · ASISTENTE MÓVIL CON SCROLL HORIZONTAL ===== */
+    /* ===== V38.10 · ASISTENTE MÓVIL CON SCROLL HORIZONTAL ===== */
     @media(max-width:650px){
       body.role-student .mobile-nav{
         display:flex!important;
@@ -6072,7 +6072,7 @@
     }
 
 
-    /* ===== V38.9 · AISLAMIENTO ESTRICTO DE ROLES ===== */
+    /* ===== V38.10 · AISLAMIENTO ESTRICTO DE ROLES ===== */
     body.role-student .admin-nav,
     body.role-student .staff-write,
     body.role-student .admin-only-schedule,
@@ -6984,7 +6984,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.9</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.10</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -7255,7 +7255,7 @@
 </div></dialog>
 
 <script>
-const APP_VERSION="32.5";
+const APP_VERSION="38.10";
 const FCM_VAPID_KEY="BDBgoG6OGo9TkmAJT5GDnmxtOk8fePxBK0U42Nu5H6UxJ2d8wyzr7a9AgLEfO5Dooio329l8b1mcWTqIrnfUEv4";
 
 const FIREBASE_CONFIG={
@@ -7542,7 +7542,7 @@ let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(
    V36.0 · ASISTENTE ACADÉMICO GEMINI (CLIENTE)
    Reemplaza SOLO el texto entre comillas por tu API key.
 ===================================================== */
-const GEMINI_API_KEY="AQ.Ab8RN6L_Gqq-WS93_wwGHu6viqgAHlccFoCDeS0FVnQgzUI0uw";
+const GEMINI_API_KEY="AQ.Ab8RN6IFS0ofSIvGX1nPqNvjjVmH38ynx25jnToZSQz9aSxeOQ";
 const GEMINI_MODEL="gemini-3.7-flash";
 const GEMINI_FALLBACK_MODEL="gemini-3.6-flash";
 const AI_REQUEST_TIMEOUT_MS=45000;
@@ -8322,29 +8322,49 @@ async function resolveEffectiveSessionProfile(profile,user){
   let role=String(p.role||"").trim().toLowerCase();
   let studentId=String(p.studentId||"").trim();
 
-  // Regla de seguridad: una cuenta asociada a una ficha de estudiante
-  // nunca debe renderizarse como administrador.
-  if(studentId){
-    role="student";
-  }
-
-  // Respaldo: si la ficha de usuario perdió studentId pero el correo está
-  // asociado a una ficha de estudiante, se recupera ese vínculo.
-  if(role!=="student" && user?.email){
-    try{
-      const q=FB.query(
+  // 1) Vínculo más confiable: la ficha del estudiante apunta al UID autenticado.
+  try{
+    if(user?.uid){
+      const qUid=FB.query(
         FB.collection(db,"students"),
-        FB.where("accountEmail","==",user.email),
+        FB.where("accountUid","==",user.uid),
         FB.limit(1)
       );
-      const snap=await FB.getDocs(q);
-      if(!snap.empty){
-        const doc=snap.docs[0];
-        studentId=doc.id;
+      const snapUid=await FB.getDocs(qUid);
+      if(!snapUid.empty){
+        const studentDoc=snapUid.docs[0];
+        studentId=studentDoc.id;
         role="student";
+        return {...p,role,studentId};
+      }
+    }
+  }catch(err){
+    console.warn("No se pudo comprobar accountUid del estudiante:",err);
+  }
+
+  // 2) Si el perfil ya tiene studentId, nunca debe renderizarse como admin.
+  if(studentId){
+    role="student";
+    return {...p,role,studentId};
+  }
+
+  // 3) Respaldo por correo registrado en la ficha del estudiante.
+  if(user?.email){
+    try{
+      const qEmail=FB.query(
+        FB.collection(db,"students"),
+        FB.where("accountEmail","==",user.email.trim().toLowerCase()),
+        FB.limit(1)
+      );
+      const snapEmail=await FB.getDocs(qEmail);
+      if(!snapEmail.empty){
+        const studentDoc=snapEmail.docs[0];
+        studentId=studentDoc.id;
+        role="student";
+        return {...p,role,studentId};
       }
     }catch(err){
-      console.warn("No se pudo comprobar asociación de estudiante por correo:",err);
+      console.warn("No se pudo comprobar accountEmail del estudiante:",err);
     }
   }
 
@@ -8834,7 +8854,7 @@ async function enableNotifications(){
      */
     const registration=
       await navigator.serviceWorker.register(
-        "./sw.js",
+        "./sw.js?v=38.10",
         {
           scope:"./",
           updateViaCache:"none"
@@ -15203,7 +15223,41 @@ function downloadBlob(blobOrContent,name,type="application/octet-stream"){
   const el=$(id);
   if(el) el.addEventListener(eventName,handler);
 });$("todayText").textContent=new Date().toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+if("serviceWorker" in navigator){
+  let swReloading=false;
+
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{
+    if(swReloading) return;
+    swReloading=true;
+    window.location.reload();
+  });
+
+  window.addEventListener("load",async()=>{
+    try{
+      const registration=await navigator.serviceWorker.register(
+        "./sw.js?v=38.10",
+        {scope:"./",updateViaCache:"none"}
+      );
+      await registration.update().catch(()=>{});
+
+      if(registration.waiting){
+        registration.waiting.postMessage({type:"SKIP_WAITING"});
+      }
+
+      registration.addEventListener("updatefound",()=>{
+        const worker=registration.installing;
+        if(!worker) return;
+        worker.addEventListener("statechange",()=>{
+          if(worker.state==="installed" && navigator.serviceWorker.controller){
+            worker.postMessage({type:"SKIP_WAITING"});
+          }
+        });
+      });
+    }catch(err){
+      console.warn("No se pudo actualizar el service worker:",err);
+    }
+  });
+}
 
 const aiInputEl=$("aiInput");
 if(aiInputEl){

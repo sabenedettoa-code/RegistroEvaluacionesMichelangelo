@@ -1,124 +1,169 @@
-const CACHE="michelangelo-ii-medio-v33-2-notifications";
+/* Académica Michelangelo · Service Worker v38.10
+   Evita que index.html quede pegado a versiones antiguas en celulares.
+*/
 
-const APP_SHELL=[
+const SW_VERSION = "38.10";
+const STATIC_CACHE = `academica-michelangelo-static-${SW_VERSION}`;
+const RUNTIME_CACHE = `academica-michelangelo-runtime-${SW_VERSION}`;
+const OFFLINE_HTML = "./__offline_latest__.html";
+
+const STATIC_ASSETS = [
+  "./manifest.webmanifest",
   "./logo.png",
-  "./manifest.webmanifest"
+  "./favicon.png"
 ];
 
-importScripts(
-  "https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"
-);
+self.addEventListener("install", event => {
+  self.skipWaiting();
 
-importScripts(
-  "https://www.gstatic.com/firebasejs/12.17.1/firebase-messaging-compat.js"
-);
-
-firebase.initializeApp({
-  apiKey:"AIzaSyDL3ziFbr1borIZsSo1Rjnp_AYdc3bR3yk",
-  authDomain:"registroevaluaciones.firebaseapp.com",
-  projectId:"registroevaluaciones",
-  storageBucket:"registroevaluaciones.firebasestorage.app",
-  messagingSenderId:"60342850123",
-  appId:"1:60342850123:web:fe462b6bb326b5818e73ce"
-});
-
-const messaging=firebase.messaging();
-
-messaging.onBackgroundMessage(payload=>{
-  console.log(
-    "[FCM] Mensaje recibido en segundo plano:",
-    payload?.data?.type || "notification"
-  );
-});
-
-self.addEventListener("install",event=>{
   event.waitUntil(
-    caches.open(CACHE)
-      .then(cache=>cache.addAll(APP_SHELL))
-      .then(()=>self.skipWaiting())
+    caches.open(STATIC_CACHE)
+      .then(cache => cache.addAll(STATIC_ASSETS).catch(() => {}))
   );
 });
 
-self.addEventListener("activate",event=>{
-  event.waitUntil(
-    caches.keys()
-      .then(keys=>Promise.all(
-        keys
-          .filter(key=>key!==CACHE)
-          .map(key=>caches.delete(key))
-      ))
-      .then(()=>self.clients.claim())
-  );
-});
+self.addEventListener("activate", event => {
+  event.waitUntil((async () => {
+    const names = await caches.keys();
 
-self.addEventListener("fetch",event=>{
-  if(event.request.method!=="GET") return;
-
-  const url=new URL(event.request.url);
-
-  if(
-    url.hostname.includes("googleapis.com") ||
-    url.hostname.includes("firebaseio.com") ||
-    url.hostname.includes("gstatic.com")
-  ){
-    return;
-  }
-
-  // Navegación e index.html:
-  // siempre intentar red primero
-  // para evitar cargar HTML antiguo.
-  if(
-    event.request.mode==="navigate" ||
-    url.pathname.endsWith("/index.html") ||
-    url.pathname==="/"
-  ){
-    event.respondWith(
-      fetch(event.request,{cache:"no-store"})
-        .then(response=>{
-          const copy=response.clone();
-
-          caches.open(CACHE)
-            .then(cache=>{
-              cache.put("./index.html",copy);
-            });
-
-          return response;
-        })
-        .catch(()=>{
-          return caches.match("./index.html");
-        })
+    await Promise.all(
+      names.map(name => {
+        if(name !== STATIC_CACHE && name !== RUNTIME_CACHE){
+          return caches.delete(name);
+        }
+      })
     );
 
+    await self.clients.claim();
+  })());
+});
+
+self.addEventListener("message", event => {
+  if(event.data?.type === "SKIP_WAITING"){
+    self.skipWaiting();
+  }
+});
+
+self.addEventListener("fetch", event => {
+  const request = event.request;
+
+  if(request.method !== "GET") return;
+
+  const url = new URL(request.url);
+
+  // No interferir con Firebase, Gemini u otros servicios externos.
+  if(url.origin !== self.location.origin) return;
+
+  const acceptsHtml = request.headers.get("accept")?.includes("text/html");
+  const isNavigation = request.mode === "navigate" || acceptsHtml;
+
+  // HTML / navegación: SIEMPRE intenta red primero.
+  // Esto evita abrir una versión vieja de la plataforma desde caché.
+  if(isNavigation){
+    event.respondWith((async () => {
+      try{
+        const fresh = await fetch(request, {cache:"no-store"});
+
+        if(fresh && fresh.ok){
+          const cache = await caches.open(RUNTIME_CACHE);
+          await cache.put(OFFLINE_HTML, fresh.clone());
+        }
+
+        return fresh;
+      }catch(err){
+        const cached = await caches.match(OFFLINE_HTML);
+        if(cached) return cached;
+
+        return new Response(
+          `<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sin conexión</title><body style="font-family:system-ui;padding:32px;background:#f3efe6;color:#2f2923"><h2>Sin conexión</h2><p>No fue posible cargar Académica Michelangelo. Revisa tu conexión e inténtalo nuevamente.</p></body></html>`,
+          {headers:{"Content-Type":"text/html; charset=utf-8"}}
+        );
+      }
+    })());
+
     return;
   }
 
-  // Recursos estáticos:
-  // mostrar caché si existe
-  // y actualizarla desde la red.
-  event.respondWith(
-    caches.match(event.request)
-      .then(cached=>{
+  // Archivos estáticos: caché rápida con actualización en segundo plano.
+  event.respondWith((async () => {
+    const cached = await caches.match(request);
 
-        const network=
-          fetch(event.request)
-            .then(response=>{
-              const copy=response.clone();
-
-              caches.open(CACHE)
-                .then(cache=>{
-                  cache.put(
-                    event.request,
-                    copy
-                  );
-                });
-
-              return response;
-            })
-            .catch(()=>{
-              return cached;
-            });
-
-        return cached || network;
+    const networkPromise = fetch(request)
+      .then(async response => {
+        if(response && response.ok){
+          const cache = await caches.open(STATIC_CACHE);
+          await cache.put(request, response.clone());
+        }
+        return response;
       })
+      .catch(() => null);
+
+    return cached || await networkPromise || new Response("", {status:504});
+  })());
+});
+
+// Soporte de notificaciones push.
+self.addEventListener("push", event => {
+  let payload = {};
+
+  try{
+    payload = event.data ? event.data.json() : {};
+  }catch{
+    try{
+      payload = {notification:{body:event.data?.text() || ""}};
+    }catch{}
+  }
+
+  const notification = payload.notification || {};
+  const data = payload.data || {};
+
+  const title =
+    notification.title ||
+    data.title ||
+    "Plataforma Académica Michelangelo";
+
+  const options = {
+    body: notification.body || data.body || "Tienes una nueva notificación.",
+    icon: notification.icon || "./logo.png",
+    badge: notification.badge || "./logo.png",
+    tag: data.tag || notification.tag || "academica-michelangelo",
+    data: {
+      url: data.url || "./"
+    }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(title, options)
   );
+});
+
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+
+  const targetUrl = event.notification?.data?.url || "./";
+
+  event.waitUntil((async () => {
+    const clientList = await clients.matchAll({
+      type:"window",
+      includeUncontrolled:true
+    });
+
+    for(const client of clientList){
+      if("focus" in client){
+        await client.focus();
+
+        if("navigate" in client){
+          try{
+            await client.navigate(targetUrl);
+          }catch{}
+        }
+
+        return;
+      }
+    }
+
+    if(clients.openWindow){
+      return clients.openWindow(targetUrl);
+    }
+  })());
 });
