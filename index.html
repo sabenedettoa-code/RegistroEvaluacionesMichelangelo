@@ -5284,7 +5284,7 @@
 
 
 
-    /* ===== V38.8 · BOTÓN INSTALAR APP ===== */
+    /* ===== V38.9 · BOTÓN INSTALAR APP ===== */
     .pwa-install-btn{
       position:fixed!important;
       right:22px!important;
@@ -5405,7 +5405,7 @@
     }
 
 
-    /* ===== V38.8 · ARRANQUE Y CARGAS DE SESIÓN ===== */
+    /* ===== V38.9 · ARRANQUE Y CARGAS DE SESIÓN ===== */
     body.session-resolving{
       overflow:hidden;
     }
@@ -5848,7 +5848,7 @@
 
 
 
-    /* ===== V38.8 · BOTÓN ASISTENTE EN CELULARES ===== */
+    /* ===== V38.9 · BOTÓN ASISTENTE EN CELULARES ===== */
     @media(max-width:650px){
       .mobile-nav button{
         display:grid!important;
@@ -5975,7 +5975,7 @@
 
   
 
-    /* ===== V38.8 SALIDAS PEDAGÓGICAS ===== */
+    /* ===== V38.9 SALIDAS PEDAGÓGICAS ===== */
     .calendar-dot.outing{background:#9b744f}
     .calendar-status.outing{background:#efe3d2;color:#684a34}
     .agenda-item.outing,.calitem.outing{border-left:3px solid #9b744f;background:linear-gradient(135deg,#fffaf3,#f7eee2)}
@@ -5990,7 +5990,7 @@
     }
 
 
-    /* ===== V38.8 · ASISTENTE MÓVIL CON SCROLL HORIZONTAL ===== */
+    /* ===== V38.9 · ASISTENTE MÓVIL CON SCROLL HORIZONTAL ===== */
     @media(max-width:650px){
       body.role-student .mobile-nav{
         display:flex!important;
@@ -6069,6 +6069,23 @@
       body.role-student .mobile-nav button.student-ai-nav > span:last-child{
         font-size:8px!important;
       }
+    }
+
+
+    /* ===== V38.9 · AISLAMIENTO ESTRICTO DE ROLES ===== */
+    body.role-student .admin-nav,
+    body.role-student .staff-write,
+    body.role-student .admin-only-schedule,
+    body.role-student #adminExperience,
+    body.role-student #scheduleAdminMode{
+      display:none!important;
+    }
+    body.role-parent .admin-nav,
+    body.role-parent .staff-write,
+    body.role-parent .admin-only-schedule,
+    body.role-parent #adminExperience,
+    body.role-parent #scheduleAdminMode{
+      display:none!important;
     }
 
 </style>
@@ -6967,7 +6984,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.8</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.9</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -8299,6 +8316,41 @@ async function initFirebase(){
     showAuthError("No se pudo iniciar Firebase. "+e.message);
   }
 }
+
+async function resolveEffectiveSessionProfile(profile,user){
+  const p={...(profile||{})};
+  let role=String(p.role||"").trim().toLowerCase();
+  let studentId=String(p.studentId||"").trim();
+
+  // Regla de seguridad: una cuenta asociada a una ficha de estudiante
+  // nunca debe renderizarse como administrador.
+  if(studentId){
+    role="student";
+  }
+
+  // Respaldo: si la ficha de usuario perdió studentId pero el correo está
+  // asociado a una ficha de estudiante, se recupera ese vínculo.
+  if(role!=="student" && user?.email){
+    try{
+      const q=FB.query(
+        FB.collection(db,"students"),
+        FB.where("accountEmail","==",user.email),
+        FB.limit(1)
+      );
+      const snap=await FB.getDocs(q);
+      if(!snap.empty){
+        const doc=snap.docs[0];
+        studentId=doc.id;
+        role="student";
+      }
+    }catch(err){
+      console.warn("No se pudo comprobar asociación de estudiante por correo:",err);
+    }
+  }
+
+  return {...p,role,studentId};
+}
+
 async function handleAuth(user){
   if(!user){
     cleanupLiveSubscriptions();
@@ -8322,8 +8374,9 @@ async function handleAuth(user){
   try{
     const snap=await FB.getDoc(FB.doc(db,"users",user.uid));
     if(!snap.exists()) throw new Error("La cuenta existe, pero no tiene un perfil autorizado en Firestore.");
-    const p=snap.data();
-    if(p.active===false) throw new Error("Esta cuenta está desactivada. Contacta al administrador.");
+    const rawProfile=snap.data();
+    if(rawProfile.active===false) throw new Error("Esta cuenta está desactivada. Contacta al administrador.");
+    const p=await resolveEffectiveSessionProfile(rawProfile,user);
     currentSession={uid:user.uid,email:user.email||p.email,name:p.name||user.email.split("@")[0],role:p.role,courses:[...new Set(p.courses||[])],subjects:[...new Set(p.subjects||[])],subjectsConfigured:Array.isArray(p.subjects),studentIds:p.studentIds||[],studentId:p.studentId||"",notificationPrefs:p.notificationPrefs||{}};
     if(!["admin","parent","student"].includes(currentSession.role)) throw new Error("La cuenta no tiene un rol válido para esta versión.");
     $("authScreen").classList.add("hidden");
@@ -8341,6 +8394,59 @@ async function handleAuth(user){
     showAuthError(e.message);
   }
 }
+
+function enforceRoleUi(){
+  if(!currentSession) return;
+
+  const role=currentSession.role;
+
+  document.body.classList.remove("role-admin","role-teacher","role-parent","role-student");
+  document.body.classList.add(`role-${role}`);
+
+  document.querySelectorAll(".admin-nav").forEach(el=>{
+    el.classList.toggle("hidden",role!=="admin");
+    el.style.display=role==="admin"?"":"none";
+  });
+
+  document.querySelectorAll(".student-ai-nav").forEach(el=>{
+    el.classList.toggle("hidden",role!=="student");
+    el.style.display=role==="student"?"":"none";
+  });
+
+  document.querySelectorAll(".admin-only-schedule").forEach(el=>{
+    el.classList.toggle("hidden",role!=="admin");
+    el.style.display=role==="admin"?"":"none";
+  });
+
+  document.querySelectorAll(".staff-write").forEach(el=>{
+    el.style.display=role==="admin"?"":"none";
+  });
+
+  const adminExperience=$("adminExperience");
+  const parentExperience=$("parentExperience");
+  const studentExperience=$("studentExperience");
+
+  if(adminExperience){
+    adminExperience.classList.toggle("hidden",role!=="admin");
+    adminExperience.style.display=role==="admin"?"":"none";
+  }
+  if(parentExperience){
+    parentExperience.classList.toggle("hidden",role!=="parent");
+    parentExperience.style.display=role==="parent"?"":"none";
+  }
+  if(studentExperience){
+    studentExperience.classList.toggle("hidden",role!=="student");
+    if(role!=="student") studentExperience.style.display="none";
+    else studentExperience.style.removeProperty("display");
+  }
+
+  const scheduleAdminMode=$("scheduleAdminMode");
+  if(scheduleAdminMode){
+    scheduleAdminMode.classList.toggle("hidden",role!=="admin");
+    scheduleAdminMode.style.display=role==="admin"?"":"none";
+  }
+}
+
 function applySession(){
   $("userName").textContent=currentSession.name;
   $("userRole").textContent=roleLabel(currentSession.role);
@@ -8348,15 +8454,7 @@ function applySession(){
   $("sideRole").textContent=currentSession.name;
   $("sideUser").textContent=currentSession.email;
 
-  document.body.classList.remove("role-admin","role-teacher","role-parent","role-student");
-  document.body.classList.add(`role-${currentSession.role}`);
-
-  document.querySelectorAll(".admin-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="admin"));
-  document.querySelectorAll(".student-ai-nav").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="student"));
-  document.querySelectorAll(".admin-only-schedule").forEach(x=>x.classList.toggle("hidden",currentSession.role!=="admin"));
-  const scheduleAdminMode=$("scheduleAdminMode");
-  if(scheduleAdminMode) scheduleAdminMode.classList.toggle("hidden",currentSession.role!=="admin");
-  document.querySelectorAll(".staff-write").forEach(x=>x.style.display=currentSession.role==="admin"?"":"none");
+  enforceRoleUi();
 
   const homeTitle=document.querySelector("#inicio .topbar h1");
   const homeEyebrow=document.querySelector("#inicio .topbar .eyebrow");
@@ -9764,6 +9862,7 @@ function renderAll(){
   try{renderHomeEpochSnapshot();}catch(err){console.error("Épocas de inicio:",err);}
   try{renderStudentExperience();}catch(err){console.error("Experiencia estudiante:",err);}
   try{renderRoleExperiences();}catch(err){console.error("Experiencia por rol:",err);}
+  try{enforceRoleUi();}catch(err){console.error("Permisos visuales por rol:",err);}
 }
 
 function renderFocusCard(){
