@@ -5280,6 +5280,143 @@
     .notification-settings-card .settings-check input{accent-color:#7a5134}
 
 
+
+    /* ===== V38.2 · ARRANQUE Y CARGAS DE SESIÓN ===== */
+    body.session-resolving{
+      overflow:hidden;
+    }
+    body.session-resolving #authScreen,
+    body.session-resolving .app,
+    body.session-resolving .mobile-top,
+    body.session-resolving .mobile-nav{
+      visibility:hidden!important;
+    }
+
+    .boot-screen{
+      position:fixed;
+      inset:0;
+      z-index:200000;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      background:
+        radial-gradient(circle at 18% 12%,rgba(167,122,79,.15),transparent 31%),
+        radial-gradient(circle at 88% 85%,rgba(139,99,61,.08),transparent 34%),
+        linear-gradient(145deg,#fbf8f2,#eee5d7);
+      opacity:1;
+      visibility:visible;
+      transition:opacity .28s ease,visibility .28s ease;
+    }
+    .boot-screen.hidden{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+    .boot-card{
+      width:min(430px,calc(100vw - 36px));
+      display:grid;
+      justify-items:center;
+      text-align:center;
+      padding:34px 30px 30px;
+      border:1px solid rgba(104,74,52,.14);
+      border-radius:28px;
+      background:rgba(255,253,249,.92);
+      box-shadow:0 30px 90px rgba(62,43,29,.16);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .boot-logo{
+      width:86px;
+      height:86px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      border-radius:50%;
+      padding:6px;
+      background:#fff;
+      border:3px solid rgba(135,100,71,.2);
+      box-shadow:0 12px 32px rgba(70,49,32,.12);
+    }
+    .boot-logo img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+    }
+    .boot-eyebrow{
+      margin-top:18px;
+      color:var(--brown);
+      font-size:9px;
+      line-height:1;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+    .boot-card h1{
+      margin:8px 0 6px;
+      font-size:22px;
+      line-height:1.18;
+      color:var(--text);
+    }
+    .boot-card p{
+      margin:0;
+      max-width:330px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.55;
+    }
+    .boot-progress{
+      width:100%;
+      height:4px;
+      margin-top:24px;
+      overflow:hidden;
+      border-radius:999px;
+      background:rgba(104,74,52,.10);
+    }
+    .boot-progress::after{
+      content:"";
+      display:block;
+      width:42%;
+      height:100%;
+      border-radius:inherit;
+      background:linear-gradient(90deg,var(--brown),var(--ochre),var(--brown));
+      animation:bootSlide 1.25s ease-in-out infinite;
+    }
+    .boot-security{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      margin-top:13px;
+      color:#8a7a69;
+      font-size:9.5px;
+      font-weight:750;
+    }
+    .boot-security-dot{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#9a7554;
+      box-shadow:0 0 0 4px rgba(154,117,84,.10);
+    }
+    @keyframes bootSlide{
+      from{transform:translateX(-120%)}
+      50%{transform:translateX(95%)}
+      to{transform:translateX(240%)}
+    }
+    @media(max-width:650px){
+      .boot-card{
+        padding:28px 22px 25px;
+        border-radius:24px;
+      }
+      .boot-logo{width:74px;height:74px}
+      .boot-card h1{font-size:20px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .boot-progress::after{animation-duration:2.5s}
+    }
+
+
     /* ===== V34.0 · CARGAS Y RECORDATORIOS ===== */
     .settings-subsection-title{
       margin:14px 0 2px;
@@ -5668,7 +5805,7 @@
 
   
 
-    /* ===== V38.1 SALIDAS PEDAGÓGICAS ===== */
+    /* ===== V38.2 SALIDAS PEDAGÓGICAS ===== */
     .calendar-dot.outing{background:#9b744f}
     .calendar-status.outing{background:#efe3d2;color:#684a34}
     .agenda-item.outing,.calitem.outing{border-left:3px solid #9b744f;background:linear-gradient(135deg,#fffaf3,#f7eee2)}
@@ -5685,7 +5822,24 @@
 </style>
 
 </head>
-<body>
+<body class="session-resolving">
+
+<div id="bootScreen" class="boot-screen" role="status" aria-live="polite" aria-busy="true">
+  <div class="boot-card">
+    <div class="boot-logo">
+      <img src="./logo.png" alt="">
+    </div>
+    <div class="boot-eyebrow">Colegio Waldorf Michelangelo</div>
+    <h1 id="bootTitle">Iniciando plataforma</h1>
+    <p id="bootText">Comprobando tu sesión y preparando la información de II° Medio.</p>
+    <div class="boot-progress" aria-hidden="true"></div>
+    <div class="boot-security">
+      <span class="boot-security-dot" aria-hidden="true"></span>
+      Acceso protegido
+    </div>
+  </div>
+</div>
+
   <a class="skip-link" href="#mainContent">Saltar al contenido principal</a>
 
 <!-- ICONOS SVG CLÁSICOS · Plataforma II° Medio Michelangelo V34.0 -->
@@ -6552,7 +6706,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.1</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.2</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -7676,7 +7830,40 @@ readEvaluationDeepLink();
 
 restoreSidebarState();
 
+
+let authLoginLoading=false;
+let authLogoutLoading=false;
+let bootFinished=false;
+
+function setBootStatus(title,text=""){
+  const titleEl=$("bootTitle");
+  const textEl=$("bootText");
+  if(titleEl && title) titleEl.textContent=title;
+  if(textEl && text) textEl.textContent=text;
+}
+
+function finishBoot(){
+  if(bootFinished) return;
+  bootFinished=true;
+  document.body.classList.remove("session-resolving");
+  const boot=$("bootScreen");
+  if(boot){
+    boot.setAttribute("aria-busy","false");
+    boot.classList.add("hidden");
+    setTimeout(()=>boot.remove(),450);
+  }
+}
+
+function completeAuthTransition(){
+  if(authLoginLoading || authLogoutLoading){
+    hideGlobalLoading();
+  }
+  authLoginLoading=false;
+  authLogoutLoading=false;
+}
+
 async function initFirebase(){
+  setBootStatus("Iniciando plataforma","Conectando con los servicios seguros del colegio.");
   try{
     const [a,au,fs,msg,fn]=await Promise.all([
       import("https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js"),
@@ -7702,8 +7889,15 @@ async function initFirebase(){
     }
     try{secondaryApp=a.initializeApp(FIREBASE_CONFIG,"SecondaryAdmin");}catch{secondaryApp=a.getApp("SecondaryAdmin")}
     secondaryAuth=au.getAuth(secondaryApp);
+    setBootStatus("Comprobando sesión","Verificando si ya existe una sesión iniciada en este dispositivo.");
     au.onAuthStateChanged(auth,handleAuth);
-  }catch(e){showAuthError("No se pudo iniciar Firebase. "+e.message)}
+  }catch(e){
+    document.body.classList.remove("session-resolving");
+    $("authScreen")?.classList.remove("hidden");
+    finishBoot();
+    completeAuthTransition();
+    showAuthError("No se pudo iniciar Firebase. "+e.message);
+  }
 }
 async function handleAuth(user){
   if(!user){
@@ -7713,9 +7907,18 @@ async function handleAuth(user){
     evaluations=[];
     initialEvalSnapshot=true;
     $("authScreen").classList.remove("hidden");
+    finishBoot();
+    completeAuthTransition();
     return;
   }
   currentUser=user;
+  setBootStatus("Sesión encontrada","Cargando tu perfil y la información académica.");
+  if(authLoginLoading){
+    const title=$("globalLoadingTitle");
+    const subtitle=$("globalLoadingText");
+    if(title) title.textContent="Preparando tu cuenta…";
+    if(subtitle) subtitle.textContent="Cargando tu perfil, calendario y datos académicos.";
+  }
   try{
     const snap=await FB.getDoc(FB.doc(db,"users",user.uid));
     if(!snap.exists()) throw new Error("La cuenta existe, pero no tiene un perfil autorizado en Firestore.");
@@ -7729,7 +7932,14 @@ async function handleAuth(user){
     await logAudit("login","session",user.uid,"Inicio de sesión");
     subscribeEvaluations();
     setTimeout(refreshNotificationStatus,350);
-  }catch(e){await FB.signOut(auth);showAuthError(e.message)}
+    finishBoot();
+    completeAuthTransition();
+  }catch(e){
+    finishBoot();
+    completeAuthTransition();
+    await FB.signOut(auth);
+    showAuthError(e.message);
+  }
 }
 function applySession(){
   $("userName").textContent=currentSession.name;
@@ -7804,7 +8014,29 @@ function togglePassword(inputId,button){
   }catch(_){}
 }
 
-async function login(e){e.preventDefault();clearAuthMsgs();try{await FB.signInWithEmailAndPassword(auth,$("loginEmail").value.trim(),$("loginPassword").value)}catch(err){showAuthError(authMessage(err.code))}}
+async function login(e){
+  e.preventDefault();
+  clearAuthMsgs();
+  const form=$("loginForm");
+  const submit=form?.querySelector('button[type="submit"]');
+  setButtonLoading(submit,true,"Ingresando");
+  authLoginLoading=true;
+  showGlobalLoading("Iniciando sesión…","Validando tus credenciales y preparando la plataforma.");
+  try{
+    await FB.signInWithEmailAndPassword(
+      auth,
+      $("loginEmail").value.trim(),
+      $("loginPassword").value
+    );
+    // El overlay se cierra en handleAuth cuando el perfil y el contexto están listos.
+  }catch(err){
+    authLoginLoading=false;
+    hideGlobalLoading();
+    showAuthError(authMessage(err.code));
+  }finally{
+    setButtonLoading(submit,false);
+  }
+}
 function cleanupLiveSubscriptions(){
   if(evalUnsubscribe){
     try{evalUnsubscribe()}catch{}
@@ -7817,10 +8049,16 @@ async function logout(){
   currentStudent=null;
   evaluations=[];
   initialEvalSnapshot=true;
+  authLogoutLoading=true;
+  showGlobalLoading("Cerrando sesión…","Guardando el estado local y cerrando tu acceso de forma segura.");
   try{
     await FB.signOut(auth);
+    // handleAuth(null) cierra el overlay y muestra el acceso.
   }catch(err){
+    authLogoutLoading=false;
+    hideGlobalLoading();
     console.warn("Error al cerrar sesión:",err);
+    showToast("No se pudo cerrar la sesión. Inténtalo nuevamente.","error","Cierre de sesión");
   }
   profileDialog.close?.();
 }
@@ -12542,6 +12780,7 @@ async function openEval(id){
 }
 async function saveEval(ev){
   ev.preventDefault();
+  const submit=ev.currentTarget?.querySelector('button[type="submit"]');
   const id=$("evalId").value;
   const old=id?evaluations.find(x=>x.id===id):null;
 
@@ -12584,6 +12823,7 @@ async function saveEval(ev){
   }
 
   try{
+    setButtonLoading(submit,true,id?"Guardando cambios":"Registrando");
     if(id){
       const history=[...(old?.changeHistory||[])];
       history.push({
@@ -12614,6 +12854,8 @@ async function saveEval(ev){
   }catch(e){
     console.error(e);
     showAppMessage("No se pudo guardar",e.message||"Revisa tu conexión y permisos de Firestore.","error");
+  }finally{
+    setButtonLoading(submit,false);
   }
 }
 
@@ -12758,6 +13000,7 @@ function openPedagogicalOuting(id=""){
 async function savePedagogicalOuting(event){
   event.preventDefault();
   if(currentSession?.role!=="admin") return;
+  const submit=event.currentTarget?.querySelector('button[type="submit"]');
   const id=$("outingId").value||(`outing-${Date.now()}-${Math.random().toString(36).slice(2,8)}`);
   const item=normalizedOuting({
     id,
@@ -12776,6 +13019,7 @@ async function savePedagogicalOuting(event){
   next.push(item);
   next.sort((a,b)=>(a.date||"").localeCompare(b.date||"")||(a.title||"").localeCompare(b.title||"","es"));
   try{
+    setButtonLoading(submit,true,$("outingId").value?"Guardando cambios":"Agregando salida");
     await FB.setDoc(calendarOutingsDocRef(),{
       items:next,
       updatedAt:FB.serverTimestamp(),
@@ -12790,6 +13034,8 @@ async function savePedagogicalOuting(event){
   }catch(err){
     console.error("Guardar salida pedagógica:",err);
     showAppMessage("No se pudo guardar",err?.message||"Revisa la conexión y permisos de Firestore.","error");
+  }finally{
+    setButtonLoading(submit,false);
   }
 }
 async function deletePedagogicalOuting(id){
@@ -12799,6 +13045,7 @@ async function deletePedagogicalOuting(id){
   const ok=await appConfirm("Eliminar salida pedagógica",`¿Quieres eliminar “${item.title}” del calendario?`,"Eliminar");
   if(!ok) return;
   const next=(calendarOutings||[]).filter(x=>String(x.id)!==String(id));
+  showGlobalLoading("Eliminando salida…","Actualizando el calendario institucional.");
   try{
     await FB.setDoc(calendarOutingsDocRef(),{
       items:next,
@@ -12814,6 +13061,8 @@ async function deletePedagogicalOuting(id){
   }catch(err){
     console.error("Eliminar salida pedagógica:",err);
     showAppMessage("No se pudo eliminar",err?.message||"Inténtalo nuevamente.","error");
+  }finally{
+    hideGlobalLoading();
   }
 }
 function openOutingDetail(id){
