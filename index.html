@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#4e3524">
+  <meta name="application-name" content="Plataforma II° Medio · Michelangelo">
+  <meta name="apple-mobile-web-app-title" content="Michelangelo II°">
+  <meta name="format-detection" content="telephone=no">
   <meta name="description" content="Plataforma II° Medio del Colegio Waldorf Michelangelo">
   <title>Plataforma II° Medio · Colegio Waldorf Michelangelo</title>
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png?v=284">
@@ -5502,7 +5505,45 @@
 
 
 
-    /* ===== V35.0 ASISTENTE ACADÉMICO GEMINI ===== */
+    /* ===== V36.0 · PRESENTACIÓN OFICIAL / ACCESIBILIDAD / RESILIENCIA ===== */
+    .skip-link{
+      position:fixed;left:12px;top:10px;z-index:200000;
+      transform:translateY(-160%);padding:10px 14px;border-radius:12px;
+      background:var(--brown2);color:#fff;font-size:12px;font-weight:900;
+      box-shadow:var(--shadow2);transition:transform .16s ease;
+    }
+    .skip-link:focus{transform:translateY(0)}
+    :where(button,a,input,select,textarea,[tabindex]):focus-visible{
+      outline:3px solid rgba(201,153,85,.55)!important;
+      outline-offset:3px!important;
+    }
+    button:disabled,.btn:disabled{cursor:not-allowed;opacity:.58;transform:none!important}
+    .section[aria-hidden="true"]{display:none!important}
+    .app-ready .section.active{animation:fadeUp .24s cubic-bezier(.22,.8,.32,1) both}
+    .ai-head-copy{min-width:0;flex:1}
+    .ai-status[data-state="offline"] .ai-status-dot,
+    .ai-status[data-state="error"] .ai-status-dot{background:var(--danger)}
+    .ai-status[data-state="busy"] .ai-status-dot{background:var(--ochre);animation:softPulse .9s ease infinite}
+    .ai-message{position:relative}
+    .ai-message-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:7px}
+    .ai-message-action{
+      border:1px solid var(--line);background:var(--paper);color:var(--muted);
+      border-radius:9px;padding:5px 8px;font-size:9px;font-weight:850;
+    }
+    .ai-message-action:hover{background:#fff;color:var(--brown2)}
+    .ai-composer-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:7px}
+    .ai-char-count{font-size:9px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+    .ai-char-count.near-limit{color:var(--warn);font-weight:850}
+    .ai-composer textarea[aria-busy="true"]{opacity:.72}
+    .ai-quick:disabled{opacity:.5;cursor:not-allowed}
+    .ai-message.assistant p{margin:.2em 0 .7em}
+    .ai-message.assistant p:last-child{margin-bottom:0}
+    @media(max-width:650px){
+      .ai-composer-meta{align-items:flex-start;flex-direction:column}
+      .ai-message-actions{justify-content:flex-start}
+    }
+
+    /* ===== V36.0 ASISTENTE ACADÉMICO GEMINI ===== */
     .student-ai-nav{display:none!important}
     body.role-student .student-ai-nav{display:flex!important}
     .ai-shell{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px;align-items:start}
@@ -5564,10 +5605,88 @@
       accent-color:#68452f;
     }
 
+
+
+    /* ===== V37.0 EXPERIENCIA TRANSVERSAL POR ROL ===== */
+    .role-experience{display:grid;gap:14px;margin-bottom:16px}
+    .role-welcome-card{
+      display:flex;align-items:center;justify-content:space-between;gap:18px;
+      padding:20px 22px;border:1px solid var(--line);border-radius:22px;
+      background:linear-gradient(135deg,#fffdf9,#f2e9dc);box-shadow:var(--shadow);
+      position:relative;overflow:hidden
+    }
+    .role-welcome-card:after{
+      content:"";position:absolute;width:220px;height:220px;border-radius:50%;
+      right:-82px;top:-112px;background:rgba(135,100,71,.08);pointer-events:none
+    }
+    .role-welcome-copy,.role-welcome-actions{position:relative;z-index:1}
+    .role-welcome-kicker{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.09em;font-weight:900;color:var(--brown);margin-bottom:6px}
+    .role-welcome-card h2{margin:0 0 5px;font-size:clamp(21px,2.6vw,29px);line-height:1.15}
+    .role-welcome-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.55;max-width:720px}
+    .role-welcome-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .role-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .role-metric{
+      padding:15px 16px;border:1px solid var(--line);border-radius:17px;background:var(--panel);
+      min-width:0;box-shadow:0 7px 22px rgba(58,45,34,.045)
+    }
+    .role-metric span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.06em;font-weight:850;margin-bottom:5px}
+    .role-metric strong{display:block;font-size:21px;color:var(--brown2);line-height:1.12;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .role-metric small{display:block;margin-top:4px;color:var(--muted);font-size:9px;line-height:1.4}
+    .role-home-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:14px}
+    .role-action-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    .role-action{
+      border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;text-align:left;
+      color:var(--text);min-width:0;transition:.16s ease
+    }
+    .role-action:hover{transform:translateY(-1px);border-color:#cbb7a1;box-shadow:0 8px 20px rgba(58,45,34,.06)}
+    .role-action strong{display:block;font-size:11px;color:var(--brown2)}
+    .role-action small{display:block;font-size:9px;color:var(--muted);margin-top:3px;line-height:1.4}
+    .role-status-list{display:grid;gap:7px}
+    .role-status-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:var(--paper)}
+    .role-status-row div{min-width:0}
+    .role-status-row strong{display:block;font-size:10px;color:var(--text)}
+    .role-status-row small{display:block;margin-top:2px;font-size:9px;color:var(--muted);line-height:1.35}
+    .role-status-pill{flex:0 0 auto;padding:4px 7px;border-radius:999px;font-size:8px;font-weight:900;background:var(--okbg);color:var(--ok)}
+    .role-status-pill.warn{background:var(--warnbg);color:var(--warn)}
+    .role-status-pill.danger{background:var(--dangerbg);color:var(--danger)}
+    body.role-admin #inicio>.hero,body.role-parent #inicio>.hero{display:none!important}
+    body.role-admin #adminExperience,body.role-parent #parentExperience{display:grid!important}
+    @media(max-width:900px){
+      .role-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .role-home-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:650px){
+      .role-welcome-card{align-items:flex-start;flex-direction:column;padding:17px}
+      .role-welcome-actions{width:100%}
+      .role-welcome-actions .btn{flex:1;min-width:0}
+      .role-metrics{grid-template-columns:1fr 1fr;gap:8px}
+      .role-metric{padding:13px}
+      .role-metric strong{font-size:18px}
+      .role-action-list{grid-template-columns:1fr}
+    }
+    @media(max-width:390px){.role-metrics{grid-template-columns:1fr}}
+
+  
+
+    /* ===== V38.0 SALIDAS PEDAGÓGICAS ===== */
+    .calendar-dot.outing{background:#9b744f}
+    .calendar-status.outing{background:#efe3d2;color:#684a34}
+    .agenda-item.outing,.calitem.outing{border-left:3px solid #9b744f;background:linear-gradient(135deg,#fffaf3,#f7eee2)}
+    .agenda-item.outing strong,.calitem.outing strong{color:#684a34}
+    .outing-marker{display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border-radius:999px;background:#efe3d2;color:#684a34;font-size:8px;font-weight:900;margin-top:4px}
+    .outing-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .calendar-admin-action{margin-left:auto}
+    @media(max-width:700px){
+      .calendar-admin-action{width:100%;margin-left:0}
+      .calendar-admin-action .btn{width:100%}
+      .outing-detail-grid{grid-template-columns:1fr}
+    }
+
 </style>
 
 </head>
 <body>
+  <a class="skip-link" href="#mainContent">Saltar al contenido principal</a>
 
 <!-- ICONOS SVG CLÁSICOS · Plataforma II° Medio Michelangelo V34.0 -->
 <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
@@ -5658,7 +5777,7 @@
         <span class="sidebar-toggle-open" aria-hidden="true">‹</span>
         <span class="sidebar-toggle-closed" aria-hidden="true">›</span>
       </button>
-<nav>
+<nav aria-label="Navegación principal">
       <button class="nav-btn active" data-section="inicio" data-tooltip="Inicio" title="Inicio"><svg class="mi-icon" aria-hidden="true"><use href="#mi-home"></use></svg> Inicio</button>
       <button class="nav-btn" data-section="evaluaciones" data-tooltip="Evaluaciones" title="Evaluaciones"><svg class="mi-icon" aria-hidden="true"><use href="#mi-file"></use></svg> Evaluaciones</button>
       <button class="nav-btn" data-section="calendario" data-tooltip="Calendario" title="Calendario"><svg class="mi-icon" aria-hidden="true"><use href="#mi-calendar"></use></svg> Calendario</button>
@@ -5670,7 +5789,7 @@
     <div class="sidebox"><strong id="sideRole">—</strong><br><span id="sideUser">—</span><br><br><span class="cloud-dot"></span> Firebase conectado</div>
   </aside>
 
-  <main>
+  <main id="mainContent" tabindex="-1">
     <section id="inicio" class="section active">
       <div class="topbar">
         <div><div class="eyebrow">II° Medio</div><h1>II° Medio · Información académica</h1><p id="todayText"></p></div>
@@ -5723,6 +5842,67 @@
               </div>
             </div>
             <div id="studentWeekTimeline" class="student-week-timeline"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="adminExperience" class="role-experience hidden" aria-label="Panel de administración">
+        <div class="role-welcome-card">
+          <div class="role-welcome-copy">
+            <span class="role-welcome-kicker">Panel de administración · II° Medio</span>
+            <h2 id="adminWelcomeTitle">Gestión académica</h2>
+            <p id="adminWelcomeText">Supervisa evaluaciones, estudiantes, usuarios y configuración desde un solo lugar.</p>
+          </div>
+          <div class="role-welcome-actions">
+            <button class="btn ghost" type="button" onclick="showSection('administracion');adminTab('students')">Estudiantes</button>
+            <button class="btn primary" type="button" onclick="openEval()">+ Nueva evaluación</button>
+          </div>
+        </div>
+        <div id="adminRoleMetrics" class="role-metrics"></div>
+        <div class="role-home-grid">
+          <div class="card panel">
+            <div class="title-row"><div><span class="role-welcome-kicker">Accesos frecuentes</span><h3>Gestión rápida</h3></div></div>
+            <div class="role-action-list">
+              <button class="role-action" type="button" onclick="showSection('administracion');adminTab('users')"><strong>Usuarios</strong><small>Gestionar accesos de administrador, apoderados y estudiantes.</small></button>
+              <button class="role-action" type="button" onclick="showSection('administracion');adminTab('students')"><strong>Estudiantes</strong><small>Revisar fichas y asociaciones de II° Medio.</small></button>
+              <button class="role-action" type="button" onclick="showSection('horario')"><strong>Horario</strong><small>Revisar y editar bloques semanales.</small></button>
+              <button class="role-action" type="button" onclick="showSection('epocas')"><strong>Épocas</strong><small>Administrar el calendario institucional.</small></button>
+            </div>
+          </div>
+          <div class="card panel">
+            <div class="title-row"><div><span class="role-welcome-kicker">Estado de la plataforma</span><h3>Revisión operativa</h3></div></div>
+            <div id="adminOperationalStatus" class="role-status-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="parentExperience" class="role-experience hidden" aria-label="Inicio de apoderado">
+        <div class="role-welcome-card">
+          <div class="role-welcome-copy">
+            <span class="role-welcome-kicker">Apoderado · II° Medio</span>
+            <h2 id="parentWelcomeTitle">Información académica</h2>
+            <p id="parentWelcomeText">Revisa de forma rápida las próximas evaluaciones, el calendario y la información académica disponible.</p>
+          </div>
+          <div class="role-welcome-actions">
+            <button class="btn ghost" type="button" onclick="showSection('horario')">Ver horario</button>
+            <button class="btn primary" type="button" onclick="showSection('evaluaciones')">Próximas evaluaciones</button>
+          </div>
+        </div>
+        <div id="parentRoleMetrics" class="role-metrics"></div>
+        <div class="role-home-grid">
+          <div class="card panel">
+            <div class="title-row"><div><span class="role-welcome-kicker">Vista familiar</span><h3>Resumen</h3></div></div>
+            <div id="parentLinkedStudents" class="role-status-list"></div>
+          </div>
+          <div class="card panel">
+            <div class="title-row"><div><span class="role-welcome-kicker">Accesos</span><h3>Consultar</h3></div></div>
+            <div class="role-action-list">
+              <button class="role-action" type="button" onclick="showSection('calendario')"><strong>Calendario</strong><small>Ver evaluaciones y fechas relevantes del mes.</small></button>
+              <button class="role-action" type="button" onclick="showSection('epocas')"><strong>Épocas</strong><small>Consultar la época actual y las próximas.</small></button>
+              <button class="role-action" type="button" onclick="showSection('horario')"><strong>Horario semanal</strong><small>Revisar clases y profesores asignados.</small></button>
+              <button class="role-action" type="button" onclick="openNotificationIntro()"><strong>Notificaciones</strong><small>Activar avisos de cambios y evaluaciones.</small></button>
+            </div>
           </div>
         </div>
       </div>
@@ -5804,12 +5984,16 @@
               <option value="">Todos los cursos</option>
             </select>
           </div>
+          <div class="calendar-admin-action admin-only-schedule hidden">
+            <button class="btn primary" type="button" onclick="openPedagogicalOuting()">+ Salida pedagógica</button>
+          </div>
         </div>
 
         <div class="calendar-legend">
           <span><i class="calendar-dot"></i> Programada</span>
           <span><i class="calendar-dot changed"></i> Modificada</span>
           <span><i class="calendar-dot cancelled"></i> Cancelada</span>
+          <span><i class="calendar-dot outing"></i> Salida pedagógica</span>
           <span><i class="calendar-dot today"></i> Hoy</span>
         </div>
 
@@ -6324,17 +6508,20 @@
               <div>
                 <h2>Asistente Michelangelo</h2>
                 <p>Puede ayudarte a priorizar evaluaciones, crear planes de estudio y practicar contenidos.</p>
-                <span class="ai-status"><span class="ai-status-dot"></span> Gemini 3.6 Flash</span>
+                <span id="aiStatus" class="ai-status" data-state="ready" role="status" aria-live="polite"><span class="ai-status-dot"></span><span id="aiStatusText">Gemini 3.7 Flash · Disponible</span></span>
               </div>
             </div>
           </div>
           <div id="aiMessages" class="ai-messages" aria-live="polite"></div>
           <div class="ai-composer">
             <div class="ai-composer-row">
-              <textarea id="aiInput" maxlength="1800" placeholder="Escribe tu pregunta…" aria-label="Pregunta para el asistente"></textarea>
+              <textarea id="aiInput" maxlength="1800" rows="1" placeholder="Escribe tu pregunta…" aria-label="Pregunta para el asistente" aria-describedby="aiComposerHelp aiCharCount"></textarea>
               <button id="aiSendBtn" class="btn primary ai-send" type="button" onclick="sendAiMessage()">Enviar</button>
             </div>
-            <p class="ai-footnote">La IA puede equivocarse. Confirma siempre fechas, notas y evaluaciones en los registros oficiales de la plataforma.</p>
+            <div class="ai-composer-meta">
+              <p id="aiComposerHelp" class="ai-footnote">Enter para enviar · Shift + Enter para una nueva línea. La IA puede equivocarse: confirma fechas, notas y evaluaciones en los registros oficiales.</p>
+              <span id="aiCharCount" class="ai-char-count">0 / 1800</span>
+            </div>
           </div>
         </div>
 
@@ -6365,7 +6552,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v35.0</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.0</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -6476,6 +6663,33 @@
       <span class="meta">Escala 1,0 a 7,0. Si dejas una nota vacía y guardas, se eliminará la calificación existente.</span>
       <button class="btn primary" id="saveEvaluationGradesBtn" type="button" onclick="saveEvaluationGrades()">Guardar notas</button>
     </div>
+  </div>
+</dialog>
+
+
+<dialog id="outingDialog">
+  <div class="dialog">
+    <div class="dialoghead">
+      <h3 id="outingDialogTitle">Agregar salida pedagógica</h3>
+      <button class="iconbtn" aria-label="Cerrar" onclick="outingDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button>
+    </div>
+    <form id="outingForm" class="formgrid" onsubmit="savePedagogicalOuting(event)">
+      <input id="outingId" type="hidden">
+      <div class="field full"><label>Nombre de la actividad</label><input id="outingTitle" maxlength="120" required placeholder="Ej.: Visita al Museo de la Memoria"></div>
+      <div class="field"><label>Fecha</label><input id="outingDate" type="date" required></div>
+      <div class="field"><label>Destino / lugar</label><input id="outingDestination" maxlength="160" required placeholder="Lugar de la salida"></div>
+      <div class="field"><label>Hora de salida</label><input id="outingStartTime" type="time"></div>
+      <div class="field"><label>Hora estimada de regreso</label><input id="outingEndTime" type="time"></div>
+      <div class="field full"><label>Observaciones</label><textarea id="outingNotes" maxlength="800" placeholder="Información relevante para estudiantes y apoderados"></textarea></div>
+      <div class="form-actions"><button class="btn ghost" type="button" onclick="outingDialog.close()">Cancelar</button><button class="btn primary" type="submit">Guardar salida</button></div>
+    </form>
+  </div>
+</dialog>
+
+<dialog id="outingDetailDialog" class="entity-wide">
+  <div class="dialog">
+    <div class="dialoghead"><h3 id="outingDetailTitle">Salida pedagógica</h3><button class="iconbtn" aria-label="Cerrar" onclick="outingDetailDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
+    <div id="outingDetailContent"></div>
   </div>
 </dialog>
 
@@ -6633,6 +6847,8 @@ const SYSTEM_EVALUATION_STATUSES=[
 const SYSTEM_SCHEDULE_BLOCKS=["Época 1","Época 2"];
 
 let adminCatalogsCache=JSON.parse(JSON.stringify(DEFAULT_ADMIN_CATALOGS));
+let calendarOutings=[];
+let lastDateDrivenRefresh="";
 
 function adminCatalogsDocRef(){
   return FB.doc(db,"appSettings","adminCatalogs");
@@ -6752,13 +6968,73 @@ let FB={},app,auth,db,messaging=null,functions=null,secondaryApp,secondaryAuth,c
 let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(),initialEvalSnapshot=true,selectedContext="all",evalUnsubscribe=null,parentAccessSyncRunning=false,evalRangeFilter="upcoming",studyPlans=[],studyUnsubscribe=null,currentStudent=null,grades=[],gradesUnsubscribe=null,selectedGradeStudentId="",calendarView="month",calendarCourseFilter="",pendingEvaluationId="",courseTutors={},selectedTutorCourse="",academicSettings={academicYear:2026,attendanceAlert:85,gradeAlert:4,lateAlert:3},activeLibroPanel="resumen",libroRenderToken=0;
 
 /* =====================================================
-   V35.1 · ASISTENTE ACADÉMICO GEMINI (CLIENTE)
+   V36.0 · ASISTENTE ACADÉMICO GEMINI (CLIENTE)
    Reemplaza SOLO el texto entre comillas por tu API key.
 ===================================================== */
 const GEMINI_API_KEY="AQ.Ab8RN6IFS0ofSIvGX1nPqNvjjVmH38ynx25jnToZSQz9aSxeOQ";
-const GEMINI_MODEL="gemini-3.6-flash";
+const GEMINI_MODEL="gemini-3.7-flash";
+const AI_REQUEST_TIMEOUT_MS=45000;
+const AI_SESSION_KEY_PREFIX="michelangelo_ai_session_v36";
 let aiConversation=[];
 let aiBusy=false;
+
+function aiSessionKey(){
+  return `${AI_SESSION_KEY_PREFIX}:${currentUser?.uid||"anonymous"}`;
+}
+
+function saveAiConversation(){
+  try{
+    if(!currentUser || !Array.isArray(aiConversation)) return;
+    sessionStorage.setItem(aiSessionKey(),JSON.stringify(aiConversation.slice(-12)));
+  }catch{}
+}
+
+function restoreAiConversation(){
+  try{
+    if(!currentUser) return;
+    const parsed=JSON.parse(sessionStorage.getItem(aiSessionKey())||"[]");
+    if(Array.isArray(parsed)){
+      aiConversation=parsed
+        .filter(x=>["user","model"].includes(x?.role) && typeof x?.text==="string")
+        .slice(-12);
+    }
+  }catch{ aiConversation=[]; }
+}
+
+function setAiStatus(state="ready",text=""){
+  const el=$("aiStatus");
+  const label=$("aiStatusText");
+  if(el) el.dataset.state=state;
+  if(label){
+    label.textContent=text || (state==="offline"?"Sin conexión":state==="busy"?"Gemini 3.7 Flash · Pensando…":state==="error"?"Gemini no disponible":"Gemini 3.7 Flash · Disponible");
+  }
+}
+
+function updateAiComposerState(){
+  const input=$("aiInput");
+  const count=$("aiCharCount");
+  if(!input) return;
+  const len=input.value.length;
+  if(count){
+    count.textContent=`${len} / 1800`;
+    count.classList.toggle("near-limit",len>=1600);
+  }
+  input.style.height="auto";
+  input.style.height=`${Math.min(140,Math.max(48,input.scrollHeight))}px`;
+}
+
+async function copyAiText(text,button){
+  try{
+    await navigator.clipboard.writeText(String(text||""));
+    if(button){
+      const old=button.textContent;
+      button.textContent="Copiado";
+      setTimeout(()=>{ if(button.isConnected) button.textContent=old; },1200);
+    }
+  }catch{
+    showToast("No se pudo copiar la respuesta.","warn","Copiar");
+  }
+}
 
 function aiKeyConfigured(){
   return GEMINI_API_KEY && !GEMINI_API_KEY.includes("PEGA_AQUI") && GEMINI_API_KEY.length>15;
@@ -6814,24 +7090,43 @@ function renderAiMarkdown(text){
 function ensureAiChat(){
   const box=$("aiMessages");
   if(!box) return;
-  if(!box.children.length){
-    const item=document.createElement("div");
-    item.className="ai-message assistant";
-    item.innerHTML=renderAiMarkdown(aiWelcome());
-    box.appendChild(item);
+  if(box.children.length) return;
+
+  restoreAiConversation();
+  const welcome=document.createElement("div");
+  welcome.className="ai-message assistant";
+  welcome.innerHTML=renderAiMarkdown(aiWelcome());
+  box.appendChild(welcome);
+
+  for(const item of aiConversation){
+    appendAiMessage(item.role==="model"?"assistant":"user",item.text,"",{persist:false});
   }
 }
 
-function appendAiMessage(role,text,id=""){
+function appendAiMessage(role,text,id="",{persist=false}={}){
   const box=$("aiMessages");
   if(!box) return null;
   const item=document.createElement("div");
   item.className=`ai-message ${role}`;
   if(id) item.id=id;
-  if(role==="assistant") item.innerHTML=renderAiMarkdown(text);
-  else item.textContent=text;
+  if(role==="assistant"){
+    item.innerHTML=renderAiMarkdown(text);
+    const actions=document.createElement("div");
+    actions.className="ai-message-actions";
+    const copy=document.createElement("button");
+    copy.type="button";
+    copy.className="ai-message-action";
+    copy.textContent="Copiar";
+    copy.setAttribute("aria-label","Copiar respuesta del asistente");
+    copy.onclick=()=>copyAiText(text,copy);
+    actions.appendChild(copy);
+    item.appendChild(actions);
+  }else{
+    item.textContent=text;
+  }
   box.appendChild(item);
   box.scrollTop=box.scrollHeight;
+  if(persist) saveAiConversation();
   return item;
 }
 
@@ -6847,8 +7142,14 @@ function appendAiThinking(){
   return item;
 }
 
-function clearAiChat(){
+async function clearAiChat(){
+  if(aiBusy) return;
+  if(aiConversation.length){
+    const ok=await appConfirm("Nueva conversación","¿Quieres borrar la conversación actual con el Asistente Académico?","Borrar");
+    if(!ok) return;
+  }
   aiConversation=[];
+  try{ sessionStorage.removeItem(aiSessionKey()); }catch{}
   const box=$("aiMessages");
   if(box) box.innerHTML="";
   ensureAiChat();
@@ -6921,6 +7222,9 @@ async function callGeminiDirect(message){
   if(!aiKeyConfigured()){
     throw new Error("Falta configurar GEMINI_API_KEY en el index.html.");
   }
+  if(!navigator.onLine){
+    throw new Error("Sin conexión a internet. Vuelve a intentarlo cuando recuperes la conexión.");
+  }
 
   const context=await buildAiAcademicContext();
   const history=aiConversation.slice(-10).map(item=>({
@@ -6929,37 +7233,47 @@ async function callGeminiDirect(message){
   }));
   history.push({role:"user",parts:[{text:message}]});
 
-  const response=await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(GEMINI_MODEL)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`,
-    {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        systemInstruction:{parts:[{text:aiSystemInstruction(context)}]},
-        contents:history,
-        generationConfig:{temperature:0.55,maxOutputTokens:3000}
-      })
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),AI_REQUEST_TIMEOUT_MS);
+  try{
+    const response=await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(GEMINI_MODEL)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`,
+      {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        signal:controller.signal,
+        body:JSON.stringify({
+          systemInstruction:{parts:[{text:aiSystemInstruction(context)}]},
+          contents:history,
+          generationConfig:{maxOutputTokens:3000}
+        })
+      }
+    );
+
+    const raw=await response.text();
+    let data={};
+    try{ data=raw?JSON.parse(raw):{}; }catch{}
+    if(!response.ok){
+      const detail=data?.error?.message || raw || `HTTP ${response.status}`;
+      throw new Error(detail);
     }
-  );
 
-  const raw=await response.text();
-  let data={};
-  try{ data=raw?JSON.parse(raw):{}; }catch{}
-  if(!response.ok){
-    const detail=data?.error?.message || raw || `HTTP ${response.status}`;
-    throw new Error(detail);
+    const candidate=data?.candidates?.[0]||null;
+    const answer=(candidate?.content?.parts||[])
+      .map(part=>part?.text||"")
+      .join("")
+      .trim();
+    if(!answer) throw new Error("Gemini no devolvió una respuesta de texto.");
+    if(candidate?.finishReason==="MAX_TOKENS"){
+      return answer + "\n\n**La respuesta alcanzó el límite de extensión. Escribe ‘continúa’ para seguir.**";
+    }
+    return answer;
+  }catch(err){
+    if(err?.name==="AbortError") throw new Error("Gemini tardó demasiado en responder. Inténtalo nuevamente.");
+    throw err;
+  }finally{
+    clearTimeout(timeout);
   }
-
-  const candidate=data?.candidates?.[0]||null;
-  const text=(candidate?.content?.parts||[])
-    .map(part=>part?.text||"")
-    .join("")
-    .trim();
-  if(!text) throw new Error("Gemini no devolvió una respuesta de texto.");
-  if(candidate?.finishReason==="MAX_TOKENS"){
-    return text + "\n\n**La respuesta alcanzó el límite de extensión. Puedes pedirme que continúe.**";
-  }
-  return text;
 }
 
 async function sendAiMessage(prefilled=""){
@@ -6977,10 +7291,13 @@ async function sendAiMessage(prefilled=""){
     return;
   }
 
-  if(input) input.value="";
+  if(input){ input.value=""; updateAiComposerState(); }
   ensureAiChat();
   appendAiMessage("user",message);
   aiBusy=true;
+  setAiStatus("busy");
+  document.querySelectorAll(".ai-quick").forEach(b=>b.disabled=true);
+  if(input) input.setAttribute("aria-busy","true");
   const btn=$("aiSendBtn");
   if(btn){btn.disabled=true;btn.textContent="Pensando…";}
   appendAiThinking();
@@ -6991,6 +7308,8 @@ async function sendAiMessage(prefilled=""){
     appendAiMessage("assistant",answer);
     aiConversation.push({role:"user",text:message},{role:"model",text:answer});
     aiConversation=aiConversation.slice(-12);
+    saveAiConversation();
+    setAiStatus("ready");
   }catch(err){
     console.error("Asistente Gemini:",err);
     $("aiThinking")?.remove();
@@ -6998,9 +7317,12 @@ async function sendAiMessage(prefilled=""){
     if(messageText.includes("API key not valid")) messageText="La API key de Gemini no es válida. Revisa la línea GEMINI_API_KEY en el index.html.";
     if(messageText.includes("Failed to fetch")) messageText="El navegador no pudo conectarse con Gemini. Revisa la conexión y las restricciones de la API key.";
     appendAiMessage("system",messageText);
+    setAiStatus(navigator.onLine?"error":"offline");
   }finally{
     aiBusy=false;
     if(btn){btn.disabled=false;btn.textContent="Enviar";}
+    document.querySelectorAll(".ai-quick").forEach(b=>b.disabled=false);
+    if(input) input.setAttribute("aria-busy","false");
     input?.focus();
   }
 }
@@ -7010,7 +7332,22 @@ function askAiQuick(text){
   setTimeout(()=>sendAiMessage(text),80);
 }
 
+document.addEventListener("DOMContentLoaded",()=>{
+  const input=document.getElementById("aiInput");
+  if(input){
+    input.addEventListener("input",updateAiComposerState);
+    input.addEventListener("keydown",event=>{
+      if(event.key==="Enter" && !event.shiftKey && !event.isComposing){
+        event.preventDefault();
+        sendAiMessage();
+      }
+    });
+    updateAiComposerState();
+  }
+});
 
+window.addEventListener("online",()=>setAiStatus("ready"));
+window.addEventListener("offline",()=>setAiStatus("offline"));
 
 const $=id=>document.getElementById(id);
 
@@ -7291,7 +7628,7 @@ function applySession(){
   $("userName").textContent=currentSession.name;
   $("userRole").textContent=roleLabel(currentSession.role);
   $("userAvatar").textContent=currentSession.name.charAt(0).toUpperCase();
-  $("sideRole").textContent=roleLabel(currentSession.role);
+  $("sideRole").textContent=currentSession.name;
   $("sideUser").textContent=currentSession.email;
 
   document.body.classList.remove("role-admin","role-teacher","role-parent","role-student");
@@ -7311,6 +7648,12 @@ function applySession(){
   if(currentSession.role==="student"){
     if(homeTitle) homeTitle.textContent="Mi espacio académico";
     if(homeEyebrow) homeEyebrow.textContent="II° Medio · Estudiante";
+  }else if(currentSession.role==="parent"){
+    if(homeTitle) homeTitle.textContent="Acompañamiento académico";
+    if(homeEyebrow) homeEyebrow.textContent="II° Medio · Apoderado";
+  }else if(currentSession.role==="admin"){
+    if(homeTitle) homeTitle.textContent="Panel de gestión";
+    if(homeEyebrow) homeEyebrow.textContent="II° Medio · Administración";
   }else{
     if(homeTitle) homeTitle.textContent="II° Medio · Información académica";
     if(homeEyebrow) homeEyebrow.textContent="Colegio Waldorf Michelangelo";
@@ -7475,6 +7818,7 @@ async function configureContext(){
   await loadAdminCatalogs();
   await loadEpochCatalog();
   vacationCache=await loadVacationData();
+  calendarOutings=await loadCalendarOutings();
   renderEpochInstitutionalOptions();
   renderAll();
 }
@@ -7483,7 +7827,28 @@ function contextCourses(){
   if(currentSession?.role!=="parent"||selectedContext==="all") return allowedCourses();
   const s=parentChildren.find(x=>x.id===selectedContext);return s?[s.course]:[];
 }
-function visibleEvaluations(){return evaluations.filter(e=>e.course==="II° Medio");}
+function automaticEvaluationStatus(e,dateToday=iso()){
+  const status=String(e?.status||"Programada");
+  if(e?.date && e.date<dateToday && ["Programada","Modificada"].includes(status)) return "Realizada";
+  return status;
+}
+function evaluationWithAutomaticStatus(e){
+  return {...e,status:automaticEvaluationStatus(e)};
+}
+function visibleEvaluations(){
+  return evaluations
+    .filter(e=>e.course==="II° Medio")
+    .map(evaluationWithAutomaticStatus);
+}
+function refreshDateDrivenData(){
+  const today=iso();
+  if(today===lastDateDrivenRefresh) return;
+  lastDateDrivenRefresh=today;
+  if(currentSession){
+    try{renderAll()}catch{}
+  }
+}
+setInterval(refreshDateDrivenData,60000);
 function evalQuery(){
   const col=FB.collection(db,"evaluations");
   if(currentSession.role==="admin")return FB.query(col);
@@ -8546,7 +8911,7 @@ function showSection(id){
   }
   const target=document.getElementById(id);
   if(!target || !target.classList.contains("section")){
-    console.warn("Sección no disponible en V34.0:",id);
+    console.warn("Sección no disponible:",id);
     return;
   }
 
@@ -8554,9 +8919,11 @@ function showSection(id){
     document.activeElement.blur();
   }
 
-  document.querySelectorAll(".section").forEach(
-    s=>s.classList.toggle("active",s.id===id)
-  );
+  document.querySelectorAll(".section").forEach(s=>{
+    const active=s.id===id;
+    s.classList.toggle("active",active);
+    s.setAttribute("aria-hidden",active?"false":"true");
+  });
 
   document.querySelectorAll("[data-section]").forEach(
     b=>b.classList.toggle("active",b.dataset.section===id)
@@ -8651,6 +9018,7 @@ function renderAll(){
   try{renderStudentAcademicSummary();}catch(err){console.error("Resumen académico:",err);}
   try{renderHomeEpochSnapshot();}catch(err){console.error("Épocas de inicio:",err);}
   try{renderStudentExperience();}catch(err){console.error("Experiencia estudiante:",err);}
+  try{renderRoleExperiences();}catch(err){console.error("Experiencia por rol:",err);}
 }
 
 function renderFocusCard(){
@@ -8689,8 +9057,9 @@ function setEvalRange(range,button){
 }
 
 async function openEvalDetail(id){
-  const e=evaluations.find(x=>x.id===id);
-  if(!e) return;
+  const raw=evaluations.find(x=>x.id===id);
+  if(!raw) return;
+  const e=evaluationWithAutomaticStatus(raw);
 
   $("evalDetailTitle").textContent=e.title||"Detalle de evaluación";
   const history=(e.changeHistory||[]).slice().reverse();
@@ -11536,6 +11905,105 @@ async function renderStudentExperience(){
   ]);
 }
 
+
+function firstNameFrom(value=""){
+  return String(value||"").trim().split(/\s+/)[0]||"";
+}
+
+function evaluationDaysAway(dateString){
+  if(!dateString) return null;
+  const today=new Date(iso()+"T12:00:00");
+  const target=new Date(dateString+"T12:00:00");
+  if(Number.isNaN(target.getTime())) return null;
+  return Math.round((target-today)/86400000);
+}
+
+function renderParentExperience(){
+  const root=$("parentExperience");
+  if(!root) return;
+  if(currentSession?.role!=="parent"){
+    root.classList.add("hidden");
+    return;
+  }
+  root.classList.remove("hidden");
+
+  const first=firstNameFrom(currentSession.name);
+  const title=$("parentWelcomeTitle");
+  const text=$("parentWelcomeText");
+  if(title) title.textContent=first?`Hola, ${first}`:"Información académica";
+  const childNames=parentChildren.map(s=>s.name).filter(Boolean);
+  if(text) text.textContent=childNames.length
+    ? `Aquí tienes una vista rápida de ${childNames.length===1?childNames[0]:"los estudiantes asociados a tu cuenta"}.`
+    : "Aquí tienes una vista rápida de la información académica de II° Medio.";
+
+  const active=visibleEvaluations().filter(e=>e.status!=="Cancelada");
+  const today=iso();
+  const weekEnd=new Date(); weekEnd.setDate(weekEnd.getDate()+7);
+  const upcoming=active.filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
+  const next=upcoming[0]||null;
+  const weekCount=active.filter(e=>e.date>=today&&e.date<=iso(weekEnd)).length;
+  const nextDays=next?evaluationDaysAway(next.date):null;
+
+  const metrics=$("parentRoleMetrics");
+  if(metrics) metrics.innerHTML=`
+    <div class="role-metric"><span>Estudiante${childNames.length===1?"":"s"} asociado${childNames.length===1?"":"s"}</span><strong>${childNames.length||"—"}</strong><small>${childNames.length?esc(childNames.join(" · ")):"Sin asociaciones visibles"}</small></div>
+    <div class="role-metric"><span>Próxima evaluación</span><strong>${next?esc(next.subject||next.title||"Evaluación"):"Sin pendientes"}</strong><small>${next?`${fmt(next.date)}${nextDays===0?" · hoy":nextDays===1?" · mañana":nextDays>1?` · en ${nextDays} días`:""}`:"No hay evaluaciones futuras"}</small></div>
+    <div class="role-metric"><span>Próximos 7 días</span><strong>${weekCount}</strong><small>evaluación${weekCount===1?"":"es"} programada${weekCount===1?"":"s"}</small></div>
+    <div class="role-metric"><span>Avisos del navegador</span><strong>${typeof Notification!=="undefined"&&Notification.permission==="granted"?"Activos":"Revisar"}</strong><small>${typeof Notification!=="undefined"&&Notification.permission==="granted"?"Este dispositivo puede recibir avisos":"Puedes activarlos desde Avisos"}</small></div>`;
+
+  const linked=$("parentLinkedStudents");
+  if(linked) linked.innerHTML=parentChildren.length
+    ? parentChildren.map(s=>`<div class="role-status-row"><div><strong>${esc(s.name||"Estudiante")}</strong><small>II° Medio · información académica vinculada a esta cuenta</small></div><span class="role-status-pill">Vinculado</span></div>`).join("")
+    : '<div class="role-status-row"><div><strong>Sin estudiantes asociados</strong><small>Si esto no corresponde, solicita al administrador revisar la cuenta.</small></div><span class="role-status-pill warn">Revisar</span></div>';
+}
+
+function renderAdminExperience(){
+  const root=$("adminExperience");
+  if(!root) return;
+  if(currentSession?.role!=="admin"){
+    root.classList.add("hidden");
+    return;
+  }
+  root.classList.remove("hidden");
+
+  const first=firstNameFrom(currentSession.name);
+  const title=$("adminWelcomeTitle");
+  if(title) title.textContent=first?`Hola, ${first}`:"Gestión académica";
+
+  const activeUsers=users.filter(u=>u.active!==false);
+  const parentUsers=activeUsers.filter(u=>u.role==="parent");
+  const studentUsers=activeUsers.filter(u=>u.role==="student");
+  const activeEvals=visibleEvaluations().filter(e=>e.status!=="Cancelada");
+  const today=iso();
+  const weekEnd=new Date(); weekEnd.setDate(weekEnd.getDate()+7);
+  const weekCount=activeEvals.filter(e=>e.date>=today&&e.date<=iso(weekEnd)).length;
+  const studentsWithoutAccount=students.filter(s=>!s.accountEmail && !studentUsers.some(u=>u.studentId===s.id)).length;
+  const parentsWithoutStudent=parentUsers.filter(u=>!(u.studentIds||[]).length).length;
+
+  const metrics=$("adminRoleMetrics");
+  if(metrics) metrics.innerHTML=`
+    <div class="role-metric"><span>Estudiantes</span><strong>${students.length||"—"}</strong><small>fichas registradas en II° Medio</small></div>
+    <div class="role-metric"><span>Usuarios activos</span><strong>${activeUsers.length||"—"}</strong><small>cuentas habilitadas en la plataforma</small></div>
+    <div class="role-metric"><span>Evaluaciones · 7 días</span><strong>${weekCount}</strong><small>programadas para la próxima semana</small></div>
+    <div class="role-metric"><span>Próximas evaluaciones</span><strong>${activeEvals.filter(e=>e.date>=today).length}</strong><small>evaluaciones futuras vigentes</small></div>`;
+
+  const status=$("adminOperationalStatus");
+  if(status){
+    const rows=[
+      {label:"Cuentas de estudiantes",detail:studentsWithoutAccount?`${studentsWithoutAccount} ficha${studentsWithoutAccount===1?"":"s"} sin cuenta de acceso`:"Todas las fichas cargadas tienen cuenta o están listas para operar",level:studentsWithoutAccount?"warn":"ok",pill:studentsWithoutAccount?"Revisar":"Correcto"},
+      {label:"Apoderados asociados",detail:parentsWithoutStudent?`${parentsWithoutStudent} apoderado${parentsWithoutStudent===1?"":"s"} sin estudiante asociado`:"Las cuentas de apoderados cargadas tienen asociaciones",level:parentsWithoutStudent?"warn":"ok",pill:parentsWithoutStudent?"Revisar":"Correcto"},
+      {label:"Carga académica",detail:weekCount>=4?`${weekCount} evaluaciones en los próximos 7 días`:"Carga de evaluaciones de la próxima semana dentro de un rango moderado",level:weekCount>=4?"warn":"ok",pill:weekCount>=4?"Atención":"Normal"},
+      {label:"Conexión",detail:navigator.onLine?"El navegador está conectado a internet":"El navegador está sin conexión",level:navigator.onLine?"ok":"danger",pill:navigator.onLine?"En línea":"Sin conexión"}
+    ];
+    status.innerHTML=rows.map(r=>`<div class="role-status-row"><div><strong>${r.label}</strong><small>${r.detail}</small></div><span class="role-status-pill ${r.level==='ok'?"":r.level}">${r.pill}</span></div>`).join("");
+  }
+}
+
+function renderRoleExperiences(){
+  renderParentExperience();
+  renderAdminExperience();
+}
+
 function renderDashboard(){
   const data=visibleEvaluations().filter(e=>e.status!=="Cancelada");
   const today=iso();
@@ -11952,7 +12420,7 @@ async function openEval(id){
     $("eDate").value=existing.date;
     $("eTitle").value=existing.title;
     $("eTeacher").value=existing.teacher||"";
-    $("eStatus").value=existing.status||"Programada";
+    $("eStatus").value=automaticEvaluationStatus(existing);
     $("eWeight").value=existing.weight??"";
     $("eMaterial").value=existing.material||"";
     $("eContents").value=existing.contents||"";
@@ -11985,6 +12453,8 @@ async function saveEval(ev){
     updatedBy:currentSession.uid,
     updatedAt:FB.serverTimestamp()
   };
+
+  data.status=automaticEvaluationStatus(data);
 
   if(!data.course||!data.subject||!data.date||!data.title){
     showAppMessage("Faltan datos","Curso, asignatura, fecha y título son obligatorios.","warn");
@@ -12121,6 +12591,144 @@ async function deleteEval(id){
 }
 
 
+function calendarOutingsDocRef(){
+  return FB.doc(db,"appSettings","calendarOutings");
+}
+async function loadCalendarOutings(){
+  try{
+    const snap=await FB.getDoc(calendarOutingsDocRef());
+    const data=snap.exists()?snap.data():{};
+    return Array.isArray(data.items)?data.items:[];
+  }catch(err){
+    console.error("Salidas pedagógicas:",err);
+    return [];
+  }
+}
+function normalizedOuting(item={}){
+  return {
+    id:String(item.id||""),
+    title:String(item.title||"Salida pedagógica").trim(),
+    date:String(item.date||"").trim(),
+    destination:String(item.destination||"").trim(),
+    startTime:String(item.startTime||"").trim(),
+    endTime:String(item.endTime||"").trim(),
+    notes:String(item.notes||"").trim(),
+    course:"II° Medio"
+  };
+}
+function calendarOutingEntries(y,m){
+  return (calendarOutings||[])
+    .map(normalizedOuting)
+    .filter(o=>o.id&&o.date)
+    .map(o=>({
+      ...o,
+      isOuting:true,
+      subject:"Salida pedagógica",
+      type:"Actividad",
+      status:"Salida pedagógica"
+    }));
+}
+function outingTimeLabel(o){
+  if(o.startTime&&o.endTime) return `${o.startTime}–${o.endTime}`;
+  if(o.startTime) return `Salida ${o.startTime}`;
+  if(o.endTime) return `Regreso ${o.endTime}`;
+  return "Horario por confirmar";
+}
+function openPedagogicalOuting(id=""){
+  if(currentSession?.role!=="admin") return;
+  const current=id?(calendarOutings||[]).find(x=>String(x.id)===String(id)):null;
+  $("outingForm").reset();
+  $("outingId").value=current?.id||"";
+  $("outingDialogTitle").textContent=current?"Editar salida pedagógica":"Agregar salida pedagógica";
+  $("outingTitle").value=current?.title||"";
+  $("outingDate").value=current?.date||iso();
+  $("outingDestination").value=current?.destination||"";
+  $("outingStartTime").value=current?.startTime||"";
+  $("outingEndTime").value=current?.endTime||"";
+  $("outingNotes").value=current?.notes||"";
+  outingDialog.showModal();
+}
+async function savePedagogicalOuting(event){
+  event.preventDefault();
+  if(currentSession?.role!=="admin") return;
+  const id=$("outingId").value||(`outing-${Date.now()}-${Math.random().toString(36).slice(2,8)}`);
+  const item=normalizedOuting({
+    id,
+    title:$("outingTitle").value,
+    date:$("outingDate").value,
+    destination:$("outingDestination").value,
+    startTime:$("outingStartTime").value,
+    endTime:$("outingEndTime").value,
+    notes:$("outingNotes").value
+  });
+  if(!item.title||!item.date||!item.destination){
+    showAppMessage("Faltan datos","Nombre, fecha y destino son obligatorios.","warn");
+    return;
+  }
+  const next=(calendarOutings||[]).filter(x=>String(x.id)!==id);
+  next.push(item);
+  next.sort((a,b)=>(a.date||"").localeCompare(b.date||"")||(a.title||"").localeCompare(b.title||"","es"));
+  try{
+    await FB.setDoc(calendarOutingsDocRef(),{
+      items:next,
+      updatedAt:FB.serverTimestamp(),
+      updatedBy:currentSession.uid,
+      updatedByName:currentSession.name
+    },{merge:true});
+    calendarOutings=next;
+    await logAudit($("outingId").value?"update":"create","calendarOuting",id,`${item.title} · ${item.date} · ${item.destination}`);
+    outingDialog.close();
+    renderCalendar();
+    showToast("La salida pedagógica quedó registrada en el calendario.","ok","Calendario actualizado");
+  }catch(err){
+    console.error("Guardar salida pedagógica:",err);
+    showAppMessage("No se pudo guardar",err?.message||"Revisa la conexión y permisos de Firestore.","error");
+  }
+}
+async function deletePedagogicalOuting(id){
+  if(currentSession?.role!=="admin") return;
+  const item=(calendarOutings||[]).find(x=>String(x.id)===String(id));
+  if(!item) return;
+  const ok=await appConfirm("Eliminar salida pedagógica",`¿Quieres eliminar “${item.title}” del calendario?`,"Eliminar");
+  if(!ok) return;
+  const next=(calendarOutings||[]).filter(x=>String(x.id)!==String(id));
+  try{
+    await FB.setDoc(calendarOutingsDocRef(),{
+      items:next,
+      updatedAt:FB.serverTimestamp(),
+      updatedBy:currentSession.uid,
+      updatedByName:currentSession.name
+    },{merge:true});
+    calendarOutings=next;
+    await logAudit("delete","calendarOuting",id,`${item.title} · ${item.date}`);
+    outingDetailDialog.close();
+    renderCalendar();
+    showToast("Salida pedagógica eliminada.","ok","Calendario actualizado");
+  }catch(err){
+    console.error("Eliminar salida pedagógica:",err);
+    showAppMessage("No se pudo eliminar",err?.message||"Inténtalo nuevamente.","error");
+  }
+}
+function openOutingDetail(id){
+  const o=(calendarOutings||[]).map(normalizedOuting).find(x=>String(x.id)===String(id));
+  if(!o) return;
+  $("outingDetailTitle").textContent=o.title||"Salida pedagógica";
+  $("outingDetailContent").innerHTML=`
+    <div class="entity-hero">
+      <div class="entity-avatar">↗</div>
+      <div><h3>${esc(o.title)}</h3><p>Salida pedagógica · II° Medio</p></div>
+    </div>
+    <div class="outing-detail-grid">
+      <div class="entity-box"><span>Fecha</span><strong>${fmt(o.date,{weekday:"long",day:"2-digit",month:"long",year:"numeric"})}</strong></div>
+      <div class="entity-box"><span>Horario</span><strong>${esc(outingTimeLabel(o))}</strong></div>
+      <div class="entity-box"><span>Destino</span><strong>${esc(o.destination)}</strong></div>
+      <div class="entity-box"><span>Curso</span><strong>II° Medio</strong></div>
+    </div>
+    ${o.notes?`<div class="entity-section"><h4>Observaciones</h4><p>${esc(o.notes)}</p></div>`:""}
+    ${currentSession?.role==="admin"?`<div class="entity-actions"><button class="btn danger" type="button" onclick="deletePedagogicalOuting('${o.id}')">Eliminar</button><button class="btn primary" type="button" onclick="outingDetailDialog.close();openPedagogicalOuting('${o.id}')">Editar</button></div>`:""}`;
+  outingDetailDialog.showModal();
+}
+
 function setCalendarView(view){
   calendarView=view;
   $("calendarMonthBtn")?.classList.toggle("active",view==="month");
@@ -12185,7 +12793,7 @@ function renderCalendar(){
     );
   }
 
-  data=[...data,...calendarVacationEntries(y,m)];
+  data=[...data,...calendarVacationEntries(y,m),...calendarOutingEntries(y,m)];
 
   const monthData=data.filter(e=>{
     if(!e.date) return false;
@@ -12201,16 +12809,18 @@ function renderCalendar(){
   });
 
   const activeMonth=monthData.filter(
-    e=>!e.isVacation && e.status!=="Cancelada"
+    e=>!e.isVacation && !e.isOuting && e.status!=="Cancelada"
   );
 
   const changed=monthData.filter(
-    e=>!e.isVacation && e.status==="Modificada"
+    e=>!e.isVacation && !e.isOuting && e.status==="Modificada"
   ).length;
 
   const cancelled=monthData.filter(
-    e=>!e.isVacation && e.status==="Cancelada"
+    e=>!e.isVacation && !e.isOuting && e.status==="Cancelada"
   ).length;
+
+  const outingCount=monthData.filter(e=>e.isOuting).length;
 
   const vacationDays=monthData.filter(e=>e.isVacation).length;
   const vacationPeriods=(vacationCache||[]).filter(v=>{
@@ -12253,6 +12863,12 @@ function renderCalendar(){
         <div class="sub">durante el mes</div>
       </div>
 
+      <div class="card stat">
+        <div class="label">Salidas pedagógicas</div>
+        <div class="value">${outingCount}</div>
+        <div class="sub">actividades del mes</div>
+      </div>
+
       <div class="card stat vacation-stat ${vacationDays?"active":""}">
         <div class="label">Vacaciones</div>
         <div class="value">${vacationDays}</div>
@@ -12268,7 +12884,7 @@ function renderCalendar(){
 
   if($("calendarMobileCount")){
     $("calendarMobileCount").textContent=
-      `${activeMonth.length} evaluación${activeMonth.length===1?"":"es"}${vacationDays?` · ${vacationDays} día${vacationDays===1?"":"s"} de vacaciones`:""}`;
+      `${activeMonth.length} evaluación${activeMonth.length===1?"":"es"}${outingCount?` · ${outingCount} salida${outingCount===1?"":"s"} pedagógica${outingCount===1?"":"s"}`:""}${vacationDays?` · ${vacationDays} día${vacationDays===1?"":"s"} de vacaciones`:""}`;
   }
 
   const mobile=
@@ -12299,7 +12915,7 @@ function renderCalendar(){
     if(!ordered.length){
       grid.innerHTML=`
         <div class="agenda-empty">
-          No hay evaluaciones para ${esc(prettyMonth.toLowerCase())}
+          No hay evaluaciones ni salidas pedagógicas para ${esc(prettyMonth.toLowerCase())}
           ${calendarCourseFilter?` en ${esc(calendarCourseFilter)}`:""}.
         </div>`;
       return;
@@ -12340,7 +12956,7 @@ function renderCalendar(){
 
           const activeCount=
             items.filter(
-              e=>!e.isVacation && e.status!=="Cancelada"
+              e=>!e.isVacation && !e.isOuting && e.status!=="Cancelada"
             ).length;
 
           return `
@@ -12368,6 +12984,14 @@ function renderCalendar(){
                         <strong>Vacaciones · sin clases</strong>
                         <small>${esc(e.title)}${e.note?` · ${esc(e.note)}`:""}</small>
                         <span class="agenda-badge">Vacaciones</span>
+                      </div>`;
+                  }
+                  if(e.isOuting){
+                    return `
+                      <div class="agenda-item outing" role="button" tabindex="0" onclick="openOutingDetail('${e.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openOutingDetail('${e.id}')}" >
+                        <strong>Salida pedagógica · ${esc(e.title)}</strong>
+                        <small>${esc(e.destination)} · ${esc(outingTimeLabel(e))}</small>
+                        <span class="agenda-badge">Salida pedagógica</span>
                       </div>`;
                   }
 
@@ -12432,7 +13056,7 @@ function renderCalendar(){
 
     if(!ordered.length){
       $("calendarGrid").innerHTML=
-        '<div class="agenda-empty">No hay evaluaciones para este mes con los filtros seleccionados.</div>';
+        '<div class="agenda-empty">No hay evaluaciones ni salidas pedagógicas para este mes con los filtros seleccionados.</div>';
       return;
     }
 
@@ -12445,6 +13069,8 @@ function renderCalendar(){
         const statusClass=
           e.isVacation
             ? "vacation"
+            : e.isOuting
+              ? "outing"
             : e.status==="Modificada"
               ? "modified"
               : e.status==="Cancelada"
@@ -12456,7 +13082,7 @@ function renderCalendar(){
         return `
           <div
             class="calendar-agenda-row ${e.isVacation?"vacation":""}"
-            ${e.isVacation?"":`onclick="openEvalDetail('${e.id}')"` }
+            ${e.isVacation?"":e.isOuting?`onclick="openOutingDetail('${e.id}')"`:`onclick="openEvalDetail('${e.id}')"` }
           >
             <div class="calendar-agenda-date">
               <strong>
@@ -12475,18 +13101,18 @@ function renderCalendar(){
 
             <div class="calendar-agenda-main">
               <strong>
-                ${e.isVacation?"Vacaciones · sin clases":`${esc(e.subject)} · ${esc(e.course)}`}
+                ${e.isVacation?"Vacaciones · sin clases":e.isOuting?`Salida pedagógica · ${esc(e.title)}`:`${esc(e.subject)} · ${esc(e.course)}`}
               </strong>
               <small>
-                ${esc(e.title)}
+                ${e.isOuting?`${esc(e.destination)} · ${esc(outingTimeLabel(e))}`:esc(e.title)}
                 ${e.isVacation&&e.note?` · ${esc(e.note)}`:""}
-                ${!e.isVacation&&e.type?` · ${esc(e.type)}`:""}
-                ${!e.isVacation&&e.teacher?` · ${esc(e.teacher)}`:""}
+                ${!e.isVacation&&!e.isOuting&&e.type?` · ${esc(e.type)}`:""}
+                ${!e.isVacation&&!e.isOuting&&e.teacher?` · ${esc(e.teacher)}`:""}
               </small>
             </div>
 
             <span class="calendar-status ${statusClass}">
-              ${esc(e.status||"Programada")}
+              ${e.isOuting?"Salida pedagógica":esc(e.status||"Programada")}
             </span>
           </div>`;
       }).join("");
@@ -12546,7 +13172,7 @@ function renderCalendar(){
 
     const activeCount=
       items.filter(
-        e=>!e.isVacation && e.status!=="Cancelada"
+        e=>!e.isVacation && !e.isOuting && e.status!=="Cancelada"
       ).length;
 
     h+=`
@@ -12591,6 +13217,13 @@ function renderCalendar(){
                       <small>${esc(e.title)}</small>
                     </div>`;
                 }
+                if(e.isOuting){
+                  return `
+                    <div class="calitem outing" onclick="openOutingDetail('${e.id}')">
+                      <strong>Salida pedagógica</strong>
+                      <small>${esc(e.title)} · ${esc(e.destination)}</small>
+                    </div>`;
+                }
 
                 const cls=
                   e.status==="Modificada"
@@ -12625,15 +13258,16 @@ function renderCalendar(){
   $("calendarGrid").innerHTML=h;
 }
 function openDayEvaluations(date){
-  const items=visibleEvaluations()
-    .filter(e=>e.date===date)
-    .sort((a,b)=>(a.subject||"").localeCompare(b.subject||"","es"));
+  const evalItems=visibleEvaluations().filter(e=>e.date===date);
+  const outingItems=(calendarOutings||[]).map(normalizedOuting).filter(o=>o.date===date).map(o=>({...o,isOuting:true}));
+  const items=[...evalItems,...outingItems].sort((a,b)=>(a.title||"").localeCompare(b.title||"","es"));
 
   if(!items.length) return;
 
-  const title=`Evaluaciones del ${fmt(date,{day:"2-digit",month:"long",year:"numeric"})}`;
-  const list=items.map(e=>
-    `${e.subject} · ${e.course} · ${e.title} · ${e.status||"Programada"}`
+  const title=`Actividades del ${fmt(date,{day:"2-digit",month:"long",year:"numeric"})}`;
+  const list=items.map(e=>e.isOuting
+    ? `Salida pedagógica · ${e.title} · ${e.destination} · ${outingTimeLabel(e)}`
+    : `${e.subject} · ${e.course} · ${e.title} · ${e.status||"Programada"}`
   ).join("\n");
 
   showAppMessage(title,list,"info");
@@ -12924,6 +13558,7 @@ async function loadUsers(){
       .sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"));
     renderUsersList();
     renderCreateAssignments();
+    try{renderAdminExperience();}catch{}
 
     // Repara automáticamente perfiles antiguos o desincronizados.
     const repaired=await syncAllParentCourseAccess({silent:true});
@@ -12933,6 +13568,7 @@ async function loadUsers(){
         .map(d=>({id:d.id,...d.data()}))
         .sort((a,b)=>(a.name||"").localeCompare(b.name||"","es"));
       renderUsersList();
+      try{renderAdminExperience();}catch{}
     }
   }catch(e){
     console.error(e);
@@ -12988,6 +13624,7 @@ async function loadStudents(){
       </div>`).join("")||'<div class="empty">Sin estudiantes de II° Medio.</div>';
     }
     renderCreateAssignments();
+    try{renderAdminExperience();}catch{}
   }catch(e){
     console.error(e);
     if($("studentsList")) $("studentsList").innerHTML='<div class="empty">No se pudieron cargar los estudiantes.</div>';
@@ -13767,6 +14404,16 @@ window.addEventListener("resize",()=>{
   },140);
 });
 
+
+
+/* V36.0 · PRESENTACIÓN OFICIAL */
+window.addEventListener("load",()=>{
+  document.body.classList.add("app-ready");
+  document.querySelectorAll(".section").forEach(s=>{
+    s.setAttribute("aria-hidden",s.classList.contains("active")?"false":"true");
+  });
+  if(!navigator.onLine) setAiStatus("offline");
+});
 </script>
 
 
