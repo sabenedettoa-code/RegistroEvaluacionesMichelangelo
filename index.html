@@ -5284,7 +5284,7 @@
 
 
 
-    /* ===== V38.11 · BOTÓN INSTALAR APP ===== */
+    /* ===== V38.12 · BOTÓN INSTALAR APP ===== */
     .pwa-install-btn{
       position:fixed!important;
       right:22px!important;
@@ -5405,7 +5405,7 @@
     }
 
 
-    /* ===== V38.11 · ARRANQUE Y CARGAS DE SESIÓN ===== */
+    /* ===== V38.12 · ARRANQUE Y CARGAS DE SESIÓN ===== */
     body.session-resolving{
       overflow:hidden;
     }
@@ -5848,7 +5848,7 @@
 
 
 
-    /* ===== V38.11 · BOTÓN ASISTENTE EN CELULARES ===== */
+    /* ===== V38.12 · BOTÓN ASISTENTE EN CELULARES ===== */
     @media(max-width:650px){
       .mobile-nav button{
         display:grid!important;
@@ -5975,7 +5975,7 @@
 
   
 
-    /* ===== V38.11 SALIDAS PEDAGÓGICAS ===== */
+    /* ===== V38.12 SALIDAS PEDAGÓGICAS ===== */
     .calendar-dot.outing{background:#9b744f}
     .calendar-status.outing{background:#efe3d2;color:#684a34}
     .agenda-item.outing,.calitem.outing{border-left:3px solid #9b744f;background:linear-gradient(135deg,#fffaf3,#f7eee2)}
@@ -5990,7 +5990,7 @@
     }
 
 
-    /* ===== V38.11 · ASISTENTE MÓVIL CON SCROLL HORIZONTAL ===== */
+    /* ===== V38.12 · ASISTENTE MÓVIL CON SCROLL HORIZONTAL ===== */
     @media(max-width:650px){
       body.role-student .mobile-nav{
         display:flex!important;
@@ -6072,7 +6072,7 @@
     }
 
 
-    /* ===== V38.11 · AISLAMIENTO ESTRICTO DE ROLES ===== */
+    /* ===== V38.12 · AISLAMIENTO ESTRICTO DE ROLES ===== */
     body.role-student .admin-nav,
     body.role-student .staff-write,
     body.role-student .admin-only-schedule,
@@ -6089,7 +6089,7 @@
     }
 
 
-    /* ===== V38.11 · GUARDIA MÓVIL DE PERMISOS ===== */
+    /* ===== V38.12 · GUARDIA MÓVIL DE PERMISOS ===== */
     @media(max-width:980px){
       .mobile-nav .admin-nav[hidden],
       .mobile-nav .admin-nav.hidden{
@@ -6117,6 +6117,43 @@
         overflow:hidden!important;
         pointer-events:none!important;
       }
+    }
+
+
+    /* ===== V38.12 · ASOCIACIÓN AUTOMÁTICA DE ESTUDIANTE ===== */
+    .student-match-box{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin:9px 0 11px;
+      padding:10px 11px;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--paper);
+      font-size:10px;
+      line-height:1.45;
+    }
+    .student-match-box .match-icon{
+      width:28px;height:28px;flex:0 0 28px;
+      display:grid;place-items:center;
+      border-radius:9px;
+      background:var(--soft);
+      color:var(--brown2);
+      font-weight:950;
+    }
+    .student-match-box strong{display:block;font-size:10.5px;margin-bottom:2px}
+    .student-match-box span{display:block;color:var(--muted)}
+    .student-match-box.ok{
+      background:var(--okbg);
+      border-color:#d8ccba;
+    }
+    .student-match-box.warn{
+      background:var(--warnbg);
+      border-color:#dfcfb5;
+    }
+    .student-match-box.danger{
+      background:var(--dangerbg);
+      border-color:#e4c7c0;
     }
 
 </style>
@@ -6567,7 +6604,7 @@
             <h3 style="margin-top:0">Crear cuenta de acceso</h3>
             <p class="meta">Solo se crean cuentas para administrador, apoderados y estudiantes. Los profesores no necesitan iniciar sesión.</p>
             <form id="createUserForm" class="formgrid">
-              <div class="field full"><label>Nombre</label><input id="cuName" required></div>
+              <div class="field full"><label>Nombre</label><input id="cuName" required autocomplete="off" oninput="handleCreateUserNameInput()"></div>
               <div class="field full"><label>Correo</label><input id="cuEmail" type="email" required></div>
               <div class="field full">
                 <label>Contraseña temporal</label>
@@ -7015,7 +7052,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.11</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.12</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -7286,7 +7323,7 @@
 </div></dialog>
 
 <script>
-const APP_VERSION="38.11";
+const APP_VERSION="38.12";
 const FCM_VAPID_KEY="BDBgoG6OGo9TkmAJT5GDnmxtOk8fePxBK0U42Nu5H6UxJ2d8wyzr7a9AgLEfO5Dooio329l8b1mcWTqIrnfUEv4";
 
 const FIREBASE_CONFIG={
@@ -8899,7 +8936,7 @@ async function enableNotifications(){
      */
     const registration=
       await navigator.serviceWorker.register(
-        "./sw.js?v=38.11",
+        "./sw.js?v=38.12",
         {
           scope:"./",
           updateViaCache:"none"
@@ -14564,6 +14601,137 @@ function teacherAssignmentsHTML(prefix,u={}){
     </div>
   </div>`;
 }
+function normalizePersonName(value=""){
+  return String(value||"")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase()
+    .replace(/[^a-z0-9ñ\s-]/gi," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function studentHasPlatformAccount(student){
+  if(!student) return false;
+  if(String(student.accountUid||"").trim()) return true;
+  if(String(student.accountEmail||"").trim()) return true;
+  return users.some(u=>u.role==="student" && u.studentId===student.id);
+}
+
+function exactStudentMatchesByName(name){
+  const target=normalizePersonName(name);
+  if(!target) return [];
+
+  return students.filter(student=>
+    normalizePersonName(student.name)===target
+  );
+}
+
+function handleCreateUserNameInput(){
+  if($("cuRole")?.value!=="student") return;
+  applyAutomaticStudentMatch();
+}
+
+function studentMatchFeedbackHTML(matches,name){
+  const normalized=normalizePersonName(name);
+
+  if(!normalized){
+    return `
+      <div class="student-match-box">
+        <div class="match-icon">1</div>
+        <div>
+          <strong>Escribe el nombre completo</strong>
+          <span>La plataforma buscará automáticamente una ficha de estudiante con el mismo nombre.</span>
+        </div>
+      </div>`;
+  }
+
+  if(matches.length===1){
+    const student=matches[0];
+    const alreadyLinked=studentHasPlatformAccount(student);
+
+    if(alreadyLinked){
+      return `
+        <div class="student-match-box danger">
+          <div class="match-icon">!</div>
+          <div>
+            <strong>${esc(student.name)} ya tiene una cuenta asociada</strong>
+            <span>No se seleccionará automáticamente para evitar duplicar accesos.</span>
+          </div>
+        </div>`;
+    }
+
+    return `
+      <div class="student-match-box ok">
+        <div class="match-icon">✓</div>
+        <div>
+          <strong>Estudiante detectado: ${esc(student.name)}</strong>
+          <span>La cuenta se asociará automáticamente a esta ficha de II° Medio.</span>
+        </div>
+      </div>`;
+  }
+
+  if(matches.length>1){
+    return `
+      <div class="student-match-box warn">
+        <div class="match-icon">!</div>
+        <div>
+          <strong>Encontramos más de una ficha con ese nombre</strong>
+          <span>Selecciona manualmente el estudiante correcto antes de crear la cuenta.</span>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div class="student-match-box warn">
+      <div class="match-icon">?</div>
+      <div>
+        <strong>No encontramos una coincidencia exacta</strong>
+        <span>Puedes seleccionar manualmente la ficha correcta en la lista.</span>
+      </div>
+    </div>`;
+}
+
+function applyAutomaticStudentMatch(){
+  if($("cuRole")?.value!=="student") return;
+
+  const name=$("cuName")?.value||"";
+  const matches=exactStudentMatchesByName(name);
+  const radios=[...document.querySelectorAll('input[name="cuStudent"]')];
+  const availableMatches=matches.filter(s=>!studentHasPlatformAccount(s));
+
+  // Solo asociamos automáticamente cuando existe UNA coincidencia exacta
+  // y esa ficha todavía no tiene cuenta.
+  if(matches.length===1 && availableMatches.length===1){
+    const match=availableMatches[0];
+    radios.forEach(radio=>{
+      radio.checked=radio.value===match.id;
+    });
+  }else{
+    // Si cambia el nombre y deja de haber una coincidencia única,
+    // solo quitamos selecciones que fueron automáticas.
+    radios.forEach(radio=>{
+      if(radio.dataset.autoMatched==="1"){
+        radio.checked=false;
+        delete radio.dataset.autoMatched;
+      }
+    });
+  }
+
+  if(matches.length===1 && availableMatches.length===1){
+    const selected=document.querySelector(`input[name="cuStudent"][value="${availableMatches[0].id}"]`);
+    if(selected){
+      selected.checked=true;
+      selected.dataset.autoMatched="1";
+    }
+  }
+
+  const feedback=$("cuStudentMatchFeedback");
+  if(feedback){
+    feedback.innerHTML=studentMatchFeedbackHTML(matches,name);
+  }
+}
+
 function renderCreateAssignments(){
   const role=$("cuRole").value;
 
@@ -14583,19 +14751,39 @@ function renderCreateAssignments(){
   }
 
   else if(role==="student"){
+    const currentName=$("cuName")?.value||"";
+    const matches=exactStudentMatchesByName(currentName);
+
     $("cuAssignments").innerHTML=`
       <label>Estudiante asociado</label>
-      <div class="assignment-helper">Selecciona la ficha del estudiante al que pertenecerá esta cuenta.</div>
+      <div class="assignment-helper">
+        Escribe el nombre completo de la cuenta. Si coincide con una única ficha existente, se seleccionará automáticamente.
+      </div>
+
+      <div id="cuStudentMatchFeedback">
+        ${studentMatchFeedbackHTML(matches,currentName)}
+      </div>
+
       <div class="checkgrid student-single-select">
         ${students.length
-          ? students.map(s=>`
-              <label class="check">
-                <input type="radio" name="cuStudent" value="${s.id}">
-                ${esc(s.name)} · ${esc(s.course)}
-              </label>
-            `).join("")
+          ? students.map(s=>{
+              const linked=studentHasPlatformAccount(s);
+              return `
+                <label class="check" ${linked?'style="opacity:.58"':''}>
+                  <input
+                    type="radio"
+                    name="cuStudent"
+                    value="${s.id}"
+                    ${linked?"disabled":""}
+                    onchange="this.dataset.autoMatched='0'"
+                  >
+                  ${esc(s.name)} · ${esc(s.course)}${linked?" · Ya tiene cuenta":""}
+                </label>`;
+            }).join("")
           : '<span class="meta">Primero crea estudiantes.</span>'}
       </div>`;
+
+    applyAutomaticStudentMatch();
   }
 
   else{
@@ -14626,6 +14814,12 @@ async function createUser(e){
     studentId
       ? students.find(s=>s.id===studentId)
       : null;
+
+  if(role==="student" && studentRecord && studentHasPlatformAccount(studentRecord)){
+    $("cuMsg").innerHTML=
+      '<div class="notice danger">La ficha seleccionada ya tiene una cuenta de acceso asociada.</div>';
+    return;
+  }
 
   const courses=
     role==="teacher"
@@ -14700,6 +14894,26 @@ async function createUser(e){
       );
     }
 
+    // Para estudiantes, sincronizamos también la ficha students/{studentId}
+    // con el UID y correo reales devueltos por Firebase Authentication.
+    if(role==="student" && studentRecord){
+      const createdUid=String(result?.data?.uid||"").trim();
+
+      if(!createdUid){
+        throw new Error("La cuenta fue creada, pero el servidor no devolvió el UID necesario para asociarla a la ficha.");
+      }
+
+      await FB.updateDoc(
+        FB.doc(db,"students",studentRecord.id),
+        {
+          accountUid:createdUid,
+          accountEmail:email,
+          updatedAt:FB.serverTimestamp(),
+          updatedBy:currentSession.uid
+        }
+      );
+    }
+
     if(role==="parent"){
       await syncAllParentCourseAccess({
         silent:true
@@ -14707,7 +14921,9 @@ async function createUser(e){
     }
 
     $("cuMsg").innerHTML=
-      '<div class="notice ok">Cuenta creada correctamente.</div>';
+      role==="student" && studentRecord
+        ? `<div class="notice ok">Cuenta creada y asociada a ${esc(studentRecord.name)}.</div>`
+        : '<div class="notice ok">Cuenta creada correctamente.</div>';
 
     $("createUserForm").reset();
 
@@ -14717,7 +14933,9 @@ async function createUser(e){
     await loadStudents();
 
     showToast(
-      "La cuenta fue creada y el correo quedó correctamente asociado.",
+      role==="student" && studentRecord
+        ? `La cuenta quedó asociada automáticamente a ${studentRecord.name}.`
+        : "La cuenta fue creada y el correo quedó correctamente asociado.",
       "ok",
       "Usuario creado"
     );
@@ -15280,7 +15498,7 @@ if("serviceWorker" in navigator){
   window.addEventListener("load",async()=>{
     try{
       const registration=await navigator.serviceWorker.register(
-        "./sw.js?v=38.11",
+        "./sw.js?v=38.12",
         {scope:"./",updateViaCache:"none"}
       );
       await registration.update().catch(()=>{});
