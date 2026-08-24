@@ -5284,7 +5284,7 @@
 
 
 
-    /* ===== V38.10 · BOTÓN INSTALAR APP ===== */
+    /* ===== V38.11 · BOTÓN INSTALAR APP ===== */
     .pwa-install-btn{
       position:fixed!important;
       right:22px!important;
@@ -5405,7 +5405,7 @@
     }
 
 
-    /* ===== V38.10 · ARRANQUE Y CARGAS DE SESIÓN ===== */
+    /* ===== V38.11 · ARRANQUE Y CARGAS DE SESIÓN ===== */
     body.session-resolving{
       overflow:hidden;
     }
@@ -5848,7 +5848,7 @@
 
 
 
-    /* ===== V38.10 · BOTÓN ASISTENTE EN CELULARES ===== */
+    /* ===== V38.11 · BOTÓN ASISTENTE EN CELULARES ===== */
     @media(max-width:650px){
       .mobile-nav button{
         display:grid!important;
@@ -5975,7 +5975,7 @@
 
   
 
-    /* ===== V38.10 SALIDAS PEDAGÓGICAS ===== */
+    /* ===== V38.11 SALIDAS PEDAGÓGICAS ===== */
     .calendar-dot.outing{background:#9b744f}
     .calendar-status.outing{background:#efe3d2;color:#684a34}
     .agenda-item.outing,.calitem.outing{border-left:3px solid #9b744f;background:linear-gradient(135deg,#fffaf3,#f7eee2)}
@@ -5990,7 +5990,7 @@
     }
 
 
-    /* ===== V38.10 · ASISTENTE MÓVIL CON SCROLL HORIZONTAL ===== */
+    /* ===== V38.11 · ASISTENTE MÓVIL CON SCROLL HORIZONTAL ===== */
     @media(max-width:650px){
       body.role-student .mobile-nav{
         display:flex!important;
@@ -6072,7 +6072,7 @@
     }
 
 
-    /* ===== V38.10 · AISLAMIENTO ESTRICTO DE ROLES ===== */
+    /* ===== V38.11 · AISLAMIENTO ESTRICTO DE ROLES ===== */
     body.role-student .admin-nav,
     body.role-student .staff-write,
     body.role-student .admin-only-schedule,
@@ -6086,6 +6086,37 @@
     body.role-parent #adminExperience,
     body.role-parent #scheduleAdminMode{
       display:none!important;
+    }
+
+
+    /* ===== V38.11 · GUARDIA MÓVIL DE PERMISOS ===== */
+    @media(max-width:980px){
+      .mobile-nav .admin-nav[hidden],
+      .mobile-nav .admin-nav.hidden{
+        display:none!important;
+        visibility:hidden!important;
+        width:0!important;
+        min-width:0!important;
+        max-width:0!important;
+        flex:0 0 0!important;
+        padding:0!important;
+        margin:0!important;
+        overflow:hidden!important;
+        pointer-events:none!important;
+      }
+      .mobile-nav .student-ai-nav[hidden],
+      .mobile-nav .student-ai-nav.hidden{
+        display:none!important;
+        visibility:hidden!important;
+        width:0!important;
+        min-width:0!important;
+        max-width:0!important;
+        flex:0 0 0!important;
+        padding:0!important;
+        margin:0!important;
+        overflow:hidden!important;
+        pointer-events:none!important;
+      }
     }
 
 </style>
@@ -6216,7 +6247,7 @@
       <button class="nav-btn" data-section="epocas" data-tooltip="Épocas" title="Épocas"><svg class="mi-icon" aria-hidden="true"><use href="#mi-book"></use></svg> Épocas</button>
       <button class="nav-btn" data-section="horario" data-tooltip="Horario" title="Horario"><svg class="mi-icon" aria-hidden="true"><use href="#mi-schedule"></use></svg> Horario</button>
       <button class="nav-btn student-ai-nav hidden" data-section="asistente" data-tooltip="Asistente IA" aria-label="Asistente IA"><svg class="mi-icon" aria-hidden="true"><use href="#mi-sparkle"></use></svg> <span class="nav-label">Asistente IA</span></button>
-      <button class="nav-btn admin-nav hidden" data-section="administracion" data-tooltip="Administración" title="Administración"><svg class="mi-icon" aria-hidden="true"><use href="#mi-users"></use></svg> Administración</button>
+      <button class="nav-btn admin-nav hidden" hidden aria-hidden="true" data-section="administracion" data-tooltip="Administración" title="Administración"><svg class="mi-icon" aria-hidden="true"><use href="#mi-users"></use></svg> Administración</button>
     </nav>
     <div class="sidebox"><strong id="sideRole">—</strong><br><span id="sideUser">—</span><br><br><span class="cloud-dot"></span> Firebase conectado</div>
   </aside>
@@ -6984,7 +7015,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.10</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.11</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -6993,7 +7024,7 @@
   <button data-section="epocas" onclick="showSection('epocas')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-book"></use></svg></span><br><span>Épocas</span></button>
   <button data-section="horario" onclick="showSection('horario')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-schedule"></use></svg></span><br><span>Horario</span></button>
   <button class="student-ai-nav hidden" data-section="asistente" onclick="showSection('asistente')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-sparkle"></use></svg></span><br><span>Asistente</span></button>
-  <button class="admin-nav hidden" data-section="administracion" onclick="showSection('administracion')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-users"></use></svg></span><br><span>Admin</span></button>
+  <button class="admin-nav hidden" hidden aria-hidden="true" data-section="administracion" onclick="showSection('administracion')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-users"></use></svg></span><br><span>Admin</span></button>
 </div>
 
 <div id="connectionBanner" class="connection-banner"></div>
@@ -7255,7 +7286,7 @@
 </div></dialog>
 
 <script>
-const APP_VERSION="38.10";
+const APP_VERSION="38.11";
 const FCM_VAPID_KEY="BDBgoG6OGo9TkmAJT5GDnmxtOk8fePxBK0U42Nu5H6UxJ2d8wyzr7a9AgLEfO5Dooio329l8b1mcWTqIrnfUEv4";
 
 const FIREBASE_CONFIG={
@@ -7542,7 +7573,7 @@ let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(
    V36.0 · ASISTENTE ACADÉMICO GEMINI (CLIENTE)
    Reemplaza SOLO el texto entre comillas por tu API key.
 ===================================================== */
-const GEMINI_API_KEY="AQ.Ab8RN6IFS0ofSIvGX1nPqNvjjVmH38ynx25jnToZSQz9aSxeOQ";
+const GEMINI_API_KEY="AQ.Ab8RN6L_Gqq-WS93_wwGHu6viqgAHlccFoCDeS0FVnQgzUI0uw";
 const GEMINI_MODEL="gemini-3.7-flash";
 const GEMINI_FALLBACK_MODEL="gemini-3.6-flash";
 const AI_REQUEST_TIMEOUT_MS=45000;
@@ -8424,13 +8455,27 @@ function enforceRoleUi(){
   document.body.classList.add(`role-${role}`);
 
   document.querySelectorAll(".admin-nav").forEach(el=>{
-    el.classList.toggle("hidden",role!=="admin");
-    el.style.display=role==="admin"?"":"none";
+    const allowed=role==="admin";
+    el.classList.toggle("hidden",!allowed);
+    el.hidden=!allowed;
+    el.setAttribute("aria-hidden",allowed?"false":"true");
+    if(allowed){
+      el.style.removeProperty("display");
+    }else{
+      el.style.setProperty("display","none","important");
+    }
   });
 
   document.querySelectorAll(".student-ai-nav").forEach(el=>{
-    el.classList.toggle("hidden",role!=="student");
-    el.style.display=role==="student"?"":"none";
+    const allowed=role==="student";
+    el.classList.toggle("hidden",!allowed);
+    el.hidden=!allowed;
+    el.setAttribute("aria-hidden",allowed?"false":"true");
+    if(allowed){
+      el.style.removeProperty("display");
+    }else{
+      el.style.setProperty("display","none","important");
+    }
   });
 
   document.querySelectorAll(".admin-only-schedule").forEach(el=>{
@@ -8854,7 +8899,7 @@ async function enableNotifications(){
      */
     const registration=
       await navigator.serviceWorker.register(
-        "./sw.js?v=38.10",
+        "./sw.js?v=38.11",
         {
           scope:"./",
           updateViaCache:"none"
@@ -15235,7 +15280,7 @@ if("serviceWorker" in navigator){
   window.addEventListener("load",async()=>{
     try{
       const registration=await navigator.serviceWorker.register(
-        "./sw.js?v=38.10",
+        "./sw.js?v=38.11",
         {scope:"./",updateViaCache:"none"}
       );
       await registration.update().catch(()=>{});

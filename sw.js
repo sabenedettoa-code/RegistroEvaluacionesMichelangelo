@@ -1,8 +1,8 @@
-/* Académica Michelangelo · Service Worker v38.10
+/* Académica Michelangelo · Service Worker v38.11
    Evita que index.html quede pegado a versiones antiguas en celulares.
 */
 
-const SW_VERSION = "38.10";
+const SW_VERSION = "38.11";
 const STATIC_CACHE = `academica-michelangelo-static-${SW_VERSION}`;
 const RUNTIME_CACHE = `academica-michelangelo-runtime-${SW_VERSION}`;
 const OFFLINE_HTML = "./__offline_latest__.html";
@@ -57,26 +57,68 @@ self.addEventListener("fetch", event => {
   const acceptsHtml = request.headers.get("accept")?.includes("text/html");
   const isNavigation = request.mode === "navigate" || acceptsHtml;
 
-  // HTML / navegación: SIEMPRE intenta red primero.
-  // Esto evita abrir una versión vieja de la plataforma desde caché.
+  // HTML / navegación:
+  // intenta SIEMPRE obtener primero la versión más reciente desde la red.
+  // Esto evita que el celular quede usando un index.html antiguo.
   if(isNavigation){
     event.respondWith((async () => {
       try{
-        const fresh = await fetch(request, {cache:"no-store"});
+        const fresh = await fetch(request, {
+          cache: "no-store"
+        });
 
         if(fresh && fresh.ok){
           const cache = await caches.open(RUNTIME_CACHE);
-          await cache.put(OFFLINE_HTML, fresh.clone());
+
+          await cache.put(
+            OFFLINE_HTML,
+            fresh.clone()
+          );
         }
 
         return fresh;
       }catch(err){
         const cached = await caches.match(OFFLINE_HTML);
-        if(cached) return cached;
+
+        if(cached){
+          return cached;
+        }
 
         return new Response(
-          `<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sin conexión</title><body style="font-family:system-ui;padding:32px;background:#f3efe6;color:#2f2923"><h2>Sin conexión</h2><p>No fue posible cargar Académica Michelangelo. Revisa tu conexión e inténtalo nuevamente.</p></body></html>`,
-          {headers:{"Content-Type":"text/html; charset=utf-8"}}
+          `
+          <!doctype html>
+          <html lang="es">
+          <head>
+            <meta charset="utf-8">
+            <meta
+              name="viewport"
+              content="width=device-width,initial-scale=1"
+            >
+            <title>Sin conexión</title>
+          </head>
+
+          <body
+            style="
+              font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+              padding:32px;
+              background:#f3efe6;
+              color:#2f2923;
+            "
+          >
+            <h2>Sin conexión</h2>
+
+            <p>
+              No fue posible cargar Académica Michelangelo.
+              Revisa tu conexión e inténtalo nuevamente.
+            </p>
+          </body>
+          </html>
+          `,
+          {
+            headers: {
+              "Content-Type": "text/html; charset=utf-8"
+            }
+          }
         );
       }
     })());
@@ -84,7 +126,8 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Archivos estáticos: caché rápida con actualización en segundo plano.
+  // Archivos estáticos:
+  // usa caché rápida pero intenta actualizarla en segundo plano.
   event.respondWith((async () => {
     const cached = await caches.match(request);
 
@@ -92,25 +135,44 @@ self.addEventListener("fetch", event => {
       .then(async response => {
         if(response && response.ok){
           const cache = await caches.open(STATIC_CACHE);
-          await cache.put(request, response.clone());
+
+          await cache.put(
+            request,
+            response.clone()
+          );
         }
+
         return response;
       })
       .catch(() => null);
 
-    return cached || await networkPromise || new Response("", {status:504});
+    return (
+      cached ||
+      await networkPromise ||
+      new Response("", {status:504})
+    );
   })());
 });
 
-// Soporte de notificaciones push.
+
+// =========================================================
+// NOTIFICACIONES PUSH
+// =========================================================
+
 self.addEventListener("push", event => {
   let payload = {};
 
   try{
-    payload = event.data ? event.data.json() : {};
+    payload = event.data
+      ? event.data.json()
+      : {};
   }catch{
     try{
-      payload = {notification:{body:event.data?.text() || ""}};
+      payload = {
+        notification: {
+          body: event.data?.text() || ""
+        }
+      };
     }catch{}
   }
 
@@ -120,32 +182,58 @@ self.addEventListener("push", event => {
   const title =
     notification.title ||
     data.title ||
-    "Plataforma Académica Michelangelo";
+    "Académica Michelangelo";
 
   const options = {
-    body: notification.body || data.body || "Tienes una nueva notificación.",
-    icon: notification.icon || "./logo.png",
-    badge: notification.badge || "./logo.png",
-    tag: data.tag || notification.tag || "academica-michelangelo",
+    body:
+      notification.body ||
+      data.body ||
+      "Tienes una nueva notificación.",
+
+    icon:
+      notification.icon ||
+      "./logo.png",
+
+    badge:
+      notification.badge ||
+      "./logo.png",
+
+    tag:
+      data.tag ||
+      notification.tag ||
+      "academica-michelangelo",
+
     data: {
-      url: data.url || "./"
+      url:
+        data.url ||
+        "./"
     }
   };
 
   event.waitUntil(
-    self.registration.showNotification(title, options)
+    self.registration.showNotification(
+      title,
+      options
+    )
   );
 });
+
+
+// =========================================================
+// CLICK EN NOTIFICACIÓN
+// =========================================================
 
 self.addEventListener("notificationclick", event => {
   event.notification.close();
 
-  const targetUrl = event.notification?.data?.url || "./";
+  const targetUrl =
+    event.notification?.data?.url ||
+    "./";
 
   event.waitUntil((async () => {
     const clientList = await clients.matchAll({
-      type:"window",
-      includeUncontrolled:true
+      type: "window",
+      includeUncontrolled: true
     });
 
     for(const client of clientList){
