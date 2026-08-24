@@ -5284,7 +5284,7 @@
 
 
 
-    /* ===== V38.5 · BOTÓN INSTALAR APP ===== */
+    /* ===== V38.6 · BOTÓN INSTALAR APP ===== */
     .pwa-install-btn{
       position:fixed!important;
       right:22px!important;
@@ -5405,7 +5405,7 @@
     }
 
 
-    /* ===== V38.5 · ARRANQUE Y CARGAS DE SESIÓN ===== */
+    /* ===== V38.6 · ARRANQUE Y CARGAS DE SESIÓN ===== */
     body.session-resolving{
       overflow:hidden;
     }
@@ -5847,6 +5847,52 @@
     }
 
 
+
+    /* ===== V38.6 · BOTÓN ASISTENTE EN CELULARES ===== */
+    @media(max-width:650px){
+      .mobile-nav button{
+        display:grid!important;
+        grid-template-rows:auto auto!important;
+        justify-items:center!important;
+        align-content:center!important;
+        gap:4px!important;
+        text-align:center!important;
+      }
+      .mobile-nav button br{display:none!important}
+      .mobile-nav button > span:first-child{
+        display:grid!important;
+        place-items:center!important;
+        line-height:1!important;
+      }
+      .mobile-nav button > span:last-child{
+        width:100%!important;
+        display:block!important;
+        font-size:8.7px!important;
+        line-height:1.12!important;
+        text-align:center!important;
+        white-space:nowrap!important;
+        overflow:hidden!important;
+        text-overflow:ellipsis!important;
+      }
+      body.role-student .mobile-nav{
+        overflow-x:auto!important;
+        justify-content:flex-start!important;
+        display:flex!important;
+        grid-template-columns:none!important;
+      }
+      body.role-student .mobile-nav button{
+        flex:0 0 74px!important;
+        min-width:74px!important;
+      }
+      body.role-student .mobile-nav button.student-ai-nav{
+        flex-basis:82px!important;
+        min-width:82px!important;
+      }
+      body.role-student .mobile-nav button.student-ai-nav > span:last-child{
+        font-size:8.4px!important;
+      }
+    }
+
     /* ===== V35.4 · SELECCIÓN DE ESTUDIANTE AL CREAR CUENTA ===== */
     .assignment-helper{
       margin:3px 0 8px;
@@ -5929,7 +5975,7 @@
 
   
 
-    /* ===== V38.5 SALIDAS PEDAGÓGICAS ===== */
+    /* ===== V38.6 SALIDAS PEDAGÓGICAS ===== */
     .calendar-dot.outing{background:#9b744f}
     .calendar-status.outing{background:#efe3d2;color:#684a34}
     .agenda-item.outing,.calitem.outing{border-left:3px solid #9b744f;background:linear-gradient(135deg,#fffaf3,#f7eee2)}
@@ -6839,7 +6885,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.5</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.6</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -6847,7 +6893,7 @@
   <button data-section="calendario" onclick="showSection('calendario')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-calendar"></use></svg></span><br><span>Calendario</span></button>
   <button data-section="epocas" onclick="showSection('epocas')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-book"></use></svg></span><br><span>Épocas</span></button>
   <button data-section="horario" onclick="showSection('horario')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-schedule"></use></svg></span><br><span>Horario</span></button>
-  <button class="student-ai-nav hidden" data-section="asistente" onclick="showSection('asistente')"><span style="font-size:18px;line-height:1" aria-hidden="true">✦</span><br><span>Asistente</span></button>
+  <button class="student-ai-nav hidden" data-section="asistente" onclick="showSection('asistente')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-sparkle"></use></svg></span><br><span>Asistente</span></button>
   <button class="admin-nav hidden" data-section="administracion" onclick="showSection('administracion')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-users"></use></svg></span><br><span>Admin</span></button>
 </div>
 
@@ -7397,7 +7443,7 @@ let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(
    V36.0 · ASISTENTE ACADÉMICO GEMINI (CLIENTE)
    Reemplaza SOLO el texto entre comillas por tu API key.
 ===================================================== */
-const GEMINI_API_KEY="AQ.Ab8RN6IFS0ofSIvGX1nPqNvjjVmH38ynx25jnToZSQz9aSxeOQ";
+const GEMINI_API_KEY="AQ.Ab8RN6L_Gqq-WS93_wwGHu6viqgAHlccFoCDeS0FVnQgzUI0uw";
 const GEMINI_MODEL="gemini-3.7-flash";
 const GEMINI_FALLBACK_MODEL="gemini-3.6-flash";
 const AI_REQUEST_TIMEOUT_MS=45000;
