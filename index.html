@@ -8,6 +8,8 @@
   <meta name="apple-mobile-web-app-title" content="Michelangelo II°">
   <meta name="format-detection" content="telephone=no">
   <meta name="description" content="Plataforma II° Medio del Colegio Waldorf Michelangelo">
+  <link rel="canonical" href="https://academicamichelangelo.site">
+  <meta property="og:url" content="https://academicamichelangelo.site">
   <title>Plataforma II° Medio · Colegio Waldorf Michelangelo</title>
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png?v=284">
   <link rel="shortcut icon" type="image/png" href="./favicon.png?v=284">
@@ -5281,7 +5283,7 @@
 
 
 
-    /* ===== V38.2 · ARRANQUE Y CARGAS DE SESIÓN ===== */
+    /* ===== V38.4 · ARRANQUE Y CARGAS DE SESIÓN ===== */
     body.session-resolving{
       overflow:hidden;
     }
@@ -5805,7 +5807,7 @@
 
   
 
-    /* ===== V38.2 SALIDAS PEDAGÓGICAS ===== */
+    /* ===== V38.4 SALIDAS PEDAGÓGICAS ===== */
     .calendar-dot.outing{background:#9b744f}
     .calendar-status.outing{background:#efe3d2;color:#684a34}
     .agenda-item.outing,.calitem.outing{border-left:3px solid #9b744f;background:linear-gradient(135deg,#fffaf3,#f7eee2)}
@@ -5846,6 +5848,7 @@
 <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
   <defs>
     <symbol id="mi-home" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></symbol>
+    <symbol id="mi-install" viewBox="0 0 24 24"><path d="M12 3v11"/><path d="m8 10 4 4 4-4"/><path d="M5 17v3h14v-3"/></symbol>
     <symbol id="mi-file" viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6V3Z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
     <symbol id="mi-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
     <symbol id="mi-school" viewBox="0 0 24 24"><path d="m3 10 9-5 9 5-9 5-9-5Z"/><path d="M7 12v5c3 2 7 2 10 0v-5M21 10v6"/></symbol>
@@ -5918,6 +5921,14 @@
   </div>
   <button class="btn primary staff-write mobile-new-eval" onclick="openEval()" aria-label="Registrar nueva evaluación">+ Nueva</button>
 </div>
+
+<button id="pwaInstallBtn" class="pwa-install-btn" type="button" onclick="handlePwaInstall()" aria-label="Instalar la app en este dispositivo">
+  <svg class="mi-icon" aria-hidden="true"><use href="#mi-install"></use></svg>
+  <span class="pwa-install-copy">
+    <span>Instalar app</span>
+    <small>Agregar a pantalla de inicio</small>
+  </span>
+</button>
 
 <div class="app">
   <aside>
@@ -6706,7 +6717,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.2</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.4</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -6924,6 +6935,54 @@
 
 
 
+
+<dialog id="pwaInstallDialog">
+  <div class="dialog">
+    <div class="dialoghead">
+      <h3>Instalar Academic Michelangelo</h3>
+      <button class="iconbtn" type="button" aria-label="Cerrar" onclick="$('pwaInstallDialog').close()">
+        <svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg>
+      </button>
+    </div>
+
+    <p class="reset-copy" style="text-align:left;margin-bottom:14px">
+      Puedes agregar esta plataforma a la pantalla de inicio para abrirla como una app, sin tener que buscar el sitio en el navegador.
+    </p>
+
+    <div id="pwaIosInstructions">
+      <div class="pwa-install-step">
+        <div class="pwa-install-number">1</div>
+        <div>
+          <strong>Toca Compartir</strong>
+          <span>En Safari, pulsa el botón de compartir de la barra del navegador.</span>
+        </div>
+      </div>
+      <div class="pwa-install-step">
+        <div class="pwa-install-number">2</div>
+        <div>
+          <strong>Selecciona “Añadir a pantalla de inicio”</strong>
+          <span>Si no lo ves de inmediato, desplázate entre las opciones del menú.</span>
+        </div>
+      </div>
+      <div class="pwa-install-step">
+        <div class="pwa-install-number">3</div>
+        <div>
+          <strong>Confirma con “Añadir”</strong>
+          <span>El ícono de Academic Michelangelo quedará disponible junto a tus otras apps.</span>
+        </div>
+      </div>
+      <div class="pwa-install-note">
+        Después de agregarla, abre la plataforma desde el nuevo ícono. El botón de instalación dejará de aparecer.
+      </div>
+    </div>
+
+    <div class="form-actions" style="margin-top:16px">
+      <button class="btn ghost" type="button" onclick="$('pwaInstallDialog').close()">Cerrar</button>
+      <button class="btn primary" type="button" onclick="confirmPwaInstalledManually()">Listo, ya la agregué</button>
+    </div>
+  </div>
+</dialog>
+
 <dialog id="profileDialog"><div class="dialog"><div class="dialoghead"><h3>Mi perfil</h3><button class="iconbtn" aria-label="Cerrar" onclick="profileDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
   <div id="profileContent"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="btn ghost" onclick="profileDialog.close();openResetPassword(currentSession.email)">Enviar enlace para cambiar contraseña</button><button class="btn danger" onclick="logout()">Cerrar sesión</button></div>
 </div></dialog>
@@ -6941,7 +7000,98 @@ const FIREBASE_CONFIG={
   appId:"1:60342850123:web:fe462b6bb326b5818e73ce",
   measurementId:"G-FNJ0M9LCF3"
 };
+
 const COURSES=["II° Medio"];
+
+let deferredPwaPrompt=null;
+const PWA_INSTALLED_KEY="michelangelo_pwa_installed_v1";
+
+function isIosDevice(){
+  return /iphone|ipad|ipod/i.test(navigator.userAgent)
+    || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+}
+
+function isStandalonePwa(){
+  return window.matchMedia?.("(display-mode: standalone)")?.matches
+    || window.matchMedia?.("(display-mode: fullscreen)")?.matches
+    || navigator.standalone===true;
+}
+
+function wasPwaMarkedInstalled(){
+  try{return localStorage.getItem(PWA_INSTALLED_KEY)==="1"}catch{return false}
+}
+
+function markPwaInstalled(){
+  try{localStorage.setItem(PWA_INSTALLED_KEY,"1")}catch{}
+  deferredPwaPrompt=null;
+  refreshPwaInstallButton();
+}
+
+function refreshPwaInstallButton(){
+  const btn=$("pwaInstallBtn");
+  if(!btn) return;
+
+  const installed=isStandalonePwa() || wasPwaMarkedInstalled();
+  const canPrompt=Boolean(deferredPwaPrompt);
+  const ios=isIosDevice();
+
+  btn.classList.toggle("show",!installed && (canPrompt || ios));
+  btn.setAttribute("aria-hidden",installed || (!canPrompt && !ios) ? "true":"false");
+}
+
+async function handlePwaInstall(){
+  if(isStandalonePwa() || wasPwaMarkedInstalled()){
+    refreshPwaInstallButton();
+    return;
+  }
+
+  if(deferredPwaPrompt){
+    try{
+      deferredPwaPrompt.prompt();
+      const choice=await deferredPwaPrompt.userChoice;
+      if(choice?.outcome==="accepted"){
+        // appinstalled terminará de marcar el estado cuando el navegador confirme.
+        $("pwaInstallBtn")?.classList.remove("show");
+      }
+    }catch(err){
+      console.warn("Instalación PWA:",err);
+      showToast("No se pudo abrir el instalador. Inténtalo nuevamente.","warn","Instalar app");
+    }finally{
+      deferredPwaPrompt=null;
+      setTimeout(refreshPwaInstallButton,700);
+    }
+    return;
+  }
+
+  if(isIosDevice()){
+    $("pwaInstallDialog")?.showModal();
+    return;
+  }
+
+  showToast("La instalación no está disponible todavía en este navegador.","warn","Instalar app");
+}
+
+function confirmPwaInstalledManually(){
+  markPwaInstalled();
+  $("pwaInstallDialog")?.close();
+  showToast("El acceso directo quedó marcado como instalado.","ok","Academic Michelangelo");
+}
+
+window.addEventListener("beforeinstallprompt",event=>{
+  event.preventDefault();
+  deferredPwaPrompt=event;
+  refreshPwaInstallButton();
+});
+
+window.addEventListener("appinstalled",()=>{
+  markPwaInstalled();
+  showToast("Academic Michelangelo se instaló correctamente.","ok","App instalada");
+});
+
+window.matchMedia?.("(display-mode: standalone)")?.addEventListener?.("change",refreshPwaInstallButton);
+window.addEventListener("pageshow",refreshPwaInstallButton);
+setTimeout(refreshPwaInstallButton,400);
+
 
 const DEFAULT_ADMIN_CATALOGS={
   evaluationSubjects:[
@@ -7125,7 +7275,7 @@ let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(
    V36.0 · ASISTENTE ACADÉMICO GEMINI (CLIENTE)
    Reemplaza SOLO el texto entre comillas por tu API key.
 ===================================================== */
-const GEMINI_API_KEY="AQ.Ab8RN6L_Gqq-WS93_wwGHu6viqgAHlccFoCDeS0FVnQgzUI0uw";
+const GEMINI_API_KEY="AQ.Ab8RN6IFS0ofSIvGX1nPqNvjjVmH38ynx25jnToZSQz9aSxeOQ";
 const GEMINI_MODEL="gemini-3.7-flash";
 const GEMINI_FALLBACK_MODEL="gemini-3.6-flash";
 const AI_REQUEST_TIMEOUT_MS=45000;
@@ -14676,7 +14826,7 @@ function exportCSV(){
 }
 function exportICS(){
   const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Waldorf Michelangelo//Evaluaciones//ES"];
-  visibleEvaluations().filter(e=>e.status!=="Cancelada").forEach(e=>{const d=e.date.replaceAll("-","");lines.push("BEGIN:VEVENT",`UID:${e.id}@registroevaluaciones`,`DTSTART;VALUE=DATE:${d}`,`SUMMARY:${icsEsc(e.course+" · "+e.subject+" · "+e.title)}`,`DESCRIPTION:${icsEsc((e.contents||"")+" "+(e.notes||""))}`,"END:VEVENT")});lines.push("END:VCALENDAR");downloadBlob(new Blob([lines.join("\r\n")],{type:"text/calendar"}),"evaluaciones_michelangelo.ics")
+  visibleEvaluations().filter(e=>e.status!=="Cancelada").forEach(e=>{const d=e.date.replaceAll("-","");lines.push("BEGIN:VEVENT",`UID:${e.id}@academicamichelangelo.site`,`DTSTART;VALUE=DATE:${d}`,`SUMMARY:${icsEsc(e.course+" · "+e.subject+" · "+e.title)}`,`DESCRIPTION:${icsEsc((e.contents||"")+" "+(e.notes||""))}`,"END:VEVENT")});lines.push("END:VCALENDAR");downloadBlob(new Blob([lines.join("\r\n")],{type:"text/calendar"}),"evaluaciones_michelangelo.ics")
 }
 const icsEsc=s=>String(s).replace(/\\/g,"\\\\").replace(/,/g,"\\,").replace(/;/g,"\\;").replace(/\n/g,"\\n");
 function downloadBlob(blobOrContent,name,type="application/octet-stream"){
