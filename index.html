@@ -5544,6 +5544,26 @@
       body.role-student .mobile-nav button{flex:0 0 74px!important;min-width:74px!important}
     }
 
+
+    /* ===== V35.4 · SELECCIÓN DE ESTUDIANTE AL CREAR CUENTA ===== */
+    .assignment-helper{
+      margin:3px 0 8px;
+      color:var(--muted);
+      font-size:8px;
+      line-height:1.4;
+    }
+    .student-single-select .check{
+      cursor:pointer;
+    }
+    .student-single-select .check:has(input:checked){
+      border-color:#b98a5d;
+      background:#f4e7d5;
+      box-shadow:0 3px 10px rgba(90,59,39,.06);
+    }
+    .student-single-select input[type="radio"]{
+      accent-color:#68452f;
+    }
+
 </style>
 
 </head>
@@ -6735,7 +6755,7 @@ let evaluations=[],users=[],students=[],parentChildren=[],calendarDate=new Date(
    V35.1 · ASISTENTE ACADÉMICO GEMINI (CLIENTE)
    Reemplaza SOLO el texto entre comillas por tu API key.
 ===================================================== */
-const GEMINI_API_KEY="AQ.Ab8RN6L_Gqq-WS93_wwGHu6viqgAHlccFoCDeS0FVnQgzUI0uw";
+const GEMINI_API_KEY="AQ.Ab8RN6IFS0ofSIvGX1nPqNvjjVmH38ynx25jnToZSQz9aSxeOQ";
 const GEMINI_MODEL="gemini-3.6-flash";
 let aiConversation=[];
 let aiBusy=false;
@@ -12989,9 +13009,42 @@ function teacherAssignmentsHTML(prefix,u={}){
 }
 function renderCreateAssignments(){
   const role=$("cuRole").value;
-  if(role==="parent") $("cuAssignments").innerHTML=`<label>Estudiantes asociados</label><div class="checkgrid">${students.length?students.map(s=>`<label class="check"><input type="checkbox" name="cuStudents" value="${s.id}">${esc(s.name)} · ${esc(s.course)}</label>`).join(""):'<span class="meta">Primero crea estudiantes.</span>'}</div>`;
-  else if(role==="student") $("cuAssignments").innerHTML=`<label>Estudiante asociado</label><select id="cuStudent">${students.length?'<option value="">Seleccionar estudiante…</option>'+students.map(s=>`<option value="${s.id}">${esc(s.name)} · ${esc(s.course)}</option>`).join(""):'<option value="">Primero crea estudiantes</option>'}</select>`;
-  else $("cuAssignments").innerHTML='<div class="notice ok">Los administradores tienen acceso global y no requieren asignaciones.</div>';
+
+  if(role==="parent"){
+    $("cuAssignments").innerHTML=`
+      <label>Estudiantes asociados</label>
+      <div class="checkgrid">
+        ${students.length
+          ? students.map(s=>`
+              <label class="check">
+                <input type="checkbox" name="cuStudents" value="${s.id}">
+                ${esc(s.name)} · ${esc(s.course)}
+              </label>
+            `).join("")
+          : '<span class="meta">Primero crea estudiantes.</span>'}
+      </div>`;
+  }
+
+  else if(role==="student"){
+    $("cuAssignments").innerHTML=`
+      <label>Estudiante asociado</label>
+      <div class="assignment-helper">Selecciona la ficha del estudiante al que pertenecerá esta cuenta.</div>
+      <div class="checkgrid student-single-select">
+        ${students.length
+          ? students.map(s=>`
+              <label class="check">
+                <input type="radio" name="cuStudent" value="${s.id}">
+                ${esc(s.name)} · ${esc(s.course)}
+              </label>
+            `).join("")
+          : '<span class="meta">Primero crea estudiantes.</span>'}
+      </div>`;
+  }
+
+  else{
+    $("cuAssignments").innerHTML=
+      '<div class="notice ok">Los administradores tienen acceso global y no requieren asignaciones.</div>';
+  }
 }
 const checked=name=>[...document.querySelectorAll(`input[name="${name}"]:checked`)].map(x=>x.value);
 async function createUser(e){
@@ -13009,7 +13062,7 @@ async function createUser(e){
 
   const studentId=
     role==="student"
-      ? ($("cuStudent")?.value||"")
+      ? (document.querySelector('input[name="cuStudent"]:checked')?.value||"")
       : "";
 
   const studentRecord=
