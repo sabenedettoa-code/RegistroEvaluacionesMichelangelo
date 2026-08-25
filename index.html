@@ -6159,6 +6159,25 @@
 
 
     /* ===== V39 PASSKEYS / DESBLOQUEO DEL DISPOSITIVO ===== */
+    /* ===== V39.2 REGISTRO PÚBLICO DE ESTUDIANTES ===== */
+    .registration-intro{
+      padding:14px 15px;border-radius:16px;background:var(--paper);border:1px solid var(--line);
+      margin-bottom:15px;font-size:11px;color:var(--muted);line-height:1.6
+    }
+    .registration-intro strong{display:block;color:var(--text);font-size:12px;margin-bottom:4px}
+    .registration-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .registration-grid .full{grid-column:1/-1}
+    .registration-note{font-size:9.5px;color:var(--muted);line-height:1.5;margin-top:6px}
+    .registration-success{padding:18px;text-align:center}
+    .registration-success h3{margin:8px 0 6px;font-size:19px}
+    .registration-success p{margin:0;color:var(--muted);font-size:11px;line-height:1.6}
+    .auth-register-box{margin-top:16px;padding-top:15px;border-top:1px solid var(--line);display:grid;gap:7px}
+    .auth-register-box small{font-size:10px;color:var(--muted);line-height:1.45}
+    @media(max-width:650px){
+      .registration-grid{grid-template-columns:1fr}
+      .registration-grid .full{grid-column:1}
+    }
+
     .passkey-card{
       margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:16px;
       background:var(--paper);display:grid;gap:10px
@@ -6284,6 +6303,10 @@
         <button class="btn primary" style="width:100%;padding:12px" type="submit">Ingresar</button>
       </form>
       <button class="textbtn" style="margin-top:14px;text-align:left;padding:0" onclick="openResetPassword()">¿Olvidaste tu contraseña?</button>
+      <div class="auth-register-box">
+        <small>¿Eres estudiante de II° Medio y todavía no tienes cuenta?</small>
+        <button class="btn ghost" type="button" onclick="openStudentRegistration()">Crear mi cuenta</button>
+      </div>
       <div id="authError" class="notice danger autherror"></div>
       <div id="authInfo" class="notice ok autherror"></div>
     </div>
@@ -7359,6 +7382,79 @@
   </div>
 </dialog>
 
+<dialog id="studentRegistrationDialog">
+  <div class="dialog">
+    <div class="dialoghead">
+      <h3>Crear mi cuenta</h3>
+      <button class="iconbtn" aria-label="Cerrar" type="button" onclick="studentRegistrationDialog.close()">
+        <svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg>
+      </button>
+    </div>
+
+    <div id="studentRegistrationFormWrap">
+      <div class="registration-intro">
+        <strong>Plataforma Académica Michelangelo</strong>
+        Regístrate con tus datos para crear tu acceso de estudiante. Tu nombre debe coincidir con la ficha registrada en la plataforma.
+      </div>
+
+      <form id="studentRegistrationForm">
+        <div class="registration-grid">
+          <div class="field">
+            <label>Nombre</label>
+            <input id="regFirstName" type="text" required autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label>Apellido paterno</label>
+            <input id="regPaternalSurname" type="text" required autocomplete="family-name">
+          </div>
+          <div class="field">
+            <label>Apellido materno</label>
+            <input id="regMaternalSurname" type="text" required>
+          </div>
+          <div class="field">
+            <label>Correo electrónico</label>
+            <input id="regEmail" type="email" required autocomplete="email">
+          </div>
+          <div class="field full">
+            <label>Contraseña</label>
+            <div class="password-field">
+              <input id="regPassword" type="password" required minlength="8" autocomplete="new-password">
+              <button class="password-toggle" type="button" onclick="togglePassword('regPassword',this)" aria-label="Mostrar contraseña" aria-pressed="false">
+                <span class="password-eye" aria-hidden="true"><svg class="mi-icon" aria-hidden="true"><use href="#mi-eye"></use></svg></span>
+                <span class="password-toggle-text">Mostrar</span>
+              </button>
+            </div>
+            <div class="registration-note">Usa al menos 8 caracteres.</div>
+          </div>
+          <div class="field full">
+            <label>Confirmar contraseña</label>
+            <div class="password-field">
+              <input id="regPasswordConfirm" type="password" required minlength="8" autocomplete="new-password">
+              <button class="password-toggle" type="button" onclick="togglePassword('regPasswordConfirm',this)" aria-label="Mostrar contraseña" aria-pressed="false">
+                <span class="password-eye" aria-hidden="true"><svg class="mi-icon" aria-hidden="true"><use href="#mi-eye"></use></svg></span>
+                <span class="password-toggle-text">Mostrar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="studentRegistrationMsg" style="margin-top:12px"></div>
+
+        <div class="form-actions" style="margin-top:15px">
+          <button class="btn ghost" type="button" onclick="studentRegistrationDialog.close()">Cancelar</button>
+          <button id="studentRegistrationSubmit" class="btn primary" type="submit">Crear cuenta</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="studentRegistrationSuccess" class="registration-success hidden">
+      <div class="success-check">✓</div>
+      <h3>Cuenta creada</h3>
+      <p>Tu cuenta fue creada correctamente. Estamos iniciando sesión en Académica Michelangelo.</p>
+    </div>
+  </div>
+</dialog>
+
 <div id="passkeyLock" class="passkey-lock" aria-hidden="true">
   <div class="passkey-lock-card">
     <div class="passkey-lock-icon">🔐</div>
@@ -7379,7 +7475,7 @@
 <script src="https://unpkg.com/@simplewebauthn/browser@13.3.0/dist/bundle/index.umd.min.js"></script>
 
 <script>
-const APP_VERSION="39.0";
+const APP_VERSION="39.2";
 const FCM_VAPID_KEY="BDBgoG6OGo9TkmAJT5GDnmxtOk8fePxBK0U42Nu5H6UxJ2d8wyzr7a9AgLEfO5Dooio329l8b1mcWTqIrnfUEv4";
 
 const FIREBASE_CONFIG={
@@ -8209,6 +8305,85 @@ function resolveAppConfirm(value){
   }
 }
 
+
+function openStudentRegistration(){
+  const dialog=$("studentRegistrationDialog");
+  if(!dialog) return;
+  $("studentRegistrationForm")?.reset();
+  const msg=$("studentRegistrationMsg");
+  if(msg) msg.innerHTML="";
+  $("studentRegistrationFormWrap")?.classList.remove("hidden");
+  $("studentRegistrationSuccess")?.classList.add("hidden");
+  dialog.showModal();
+  setTimeout(()=>$("regFirstName")?.focus(),120);
+}
+
+function readableRegistrationError(err){
+  const code=String(err?.code||"").toLowerCase();
+  const msg=String(err?.message||"");
+  if(code.includes("not-found")) return "No encontramos una ficha de estudiante que coincida exactamente con el nombre y apellidos ingresados.";
+  if(code.includes("already-exists")) return "Ya existe una cuenta asociada a este estudiante o a este correo electrónico.";
+  if(code.includes("failed-precondition")) return "No pudimos identificar una única ficha con esos datos. Contacta al administrador.";
+  if(code.includes("invalid-argument")) return msg.replace(/^.*?:\s*/,"") || "Revisa los datos ingresados.";
+  return msg.replace(/^.*?:\s*/,"") || "No fue posible crear la cuenta. Inténtalo nuevamente.";
+}
+
+async function submitStudentRegistration(event){
+  event.preventDefault();
+
+  const firstName=$("regFirstName")?.value.trim()||"";
+  const paternalSurname=$("regPaternalSurname")?.value.trim()||"";
+  const maternalSurname=$("regMaternalSurname")?.value.trim()||"";
+  const email=$("regEmail")?.value.trim().toLowerCase()||"";
+  const password=$("regPassword")?.value||"";
+  const passwordConfirm=$("regPasswordConfirm")?.value||"";
+  const msg=$("studentRegistrationMsg");
+  const btn=$("studentRegistrationSubmit");
+
+  if(password.length<8){
+    if(msg) msg.innerHTML='<div class="notice warn">La contraseña debe tener al menos 8 caracteres.</div>';
+    return;
+  }
+  if(password!==passwordConfirm){
+    if(msg) msg.innerHTML='<div class="notice warn">Las contraseñas no coinciden.</div>';
+    return;
+  }
+  if(!functions || !FB?.httpsCallable){
+    if(msg) msg.innerHTML='<div class="notice danger">No se pudo conectar con el servicio de registro. Recarga la página e inténtalo nuevamente.</div>';
+    return;
+  }
+
+  try{
+    if(btn){btn.disabled=true;btn.textContent="Creando cuenta…";}
+    if(msg) msg.innerHTML='<div class="notice">Validando tus datos…</div>';
+
+    const registerStudentAccess=FB.httpsCallable(functions,"registerStudentAccess");
+    const result=await registerStudentAccess({
+      firstName,
+      paternalSurname,
+      maternalSurname,
+      email,
+      password
+    });
+
+    if(!result?.data?.ok) throw new Error("El servidor no confirmó la creación de la cuenta.");
+
+    $("studentRegistrationFormWrap")?.classList.add("hidden");
+    $("studentRegistrationSuccess")?.classList.remove("hidden");
+
+    await FB.signInWithEmailAndPassword(auth,email,password);
+    setTimeout(()=>{ try{$("studentRegistrationDialog")?.close();}catch{} },600);
+  }catch(err){
+    console.warn("Registro estudiante:",err);
+    if(msg) msg.innerHTML=`<div class="notice danger">${esc(readableRegistrationError(err))}</div>`;
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="Crear cuenta";}
+  }
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  $("studentRegistrationForm")?.addEventListener("submit",submitStudentRegistration);
+});
 
 let passkeyEnabledForSession=false;
 let passkeyUnlockSatisfied=false;
