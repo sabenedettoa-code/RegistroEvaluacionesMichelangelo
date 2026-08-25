@@ -6156,7 +6156,48 @@
       border-color:#e4c7c0;
     }
 
-</style>
+
+
+    /* ===== V39 PASSKEYS / DESBLOQUEO DEL DISPOSITIVO ===== */
+    .passkey-card{
+      margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:16px;
+      background:var(--paper);display:grid;gap:10px
+    }
+    .passkey-card-head{display:flex;gap:11px;align-items:flex-start}
+    .passkey-icon{
+      width:42px;height:42px;border-radius:13px;display:grid;place-items:center;flex:none;
+      background:var(--panel2);font-size:20px
+    }
+    .passkey-card strong{font-size:12px}
+    .passkey-card p{margin:3px 0 0;color:var(--muted);font-size:10.5px;line-height:1.5}
+    .passkey-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .passkey-status{font-size:10px;color:var(--muted);line-height:1.45}
+    .passkey-lock{
+      position:fixed;inset:0;z-index:120000;display:none;place-items:center;padding:20px;
+      background:radial-gradient(circle at 15% 10%,rgba(167,122,79,.16),transparent 30%),linear-gradient(135deg,#f8f3ea,#eee5d7)
+    }
+    .passkey-lock.show{display:grid}
+    .passkey-lock-card{
+      width:min(430px,100%);padding:30px 26px;background:var(--panel);border:1px solid var(--line);
+      border-radius:26px;box-shadow:var(--shadow2);text-align:center
+    }
+    .passkey-lock-icon{
+      width:72px;height:72px;margin:0 auto 16px;border-radius:22px;display:grid;place-items:center;
+      background:var(--soft);font-size:32px
+    }
+    .passkey-lock-card h2{margin:0 0 7px;font-size:22px}
+    .passkey-lock-card p{margin:0 auto 18px;color:var(--muted);font-size:11.5px;line-height:1.55;max-width:330px}
+    .passkey-lock-actions{display:grid;gap:9px}
+    .passkey-lock-actions .btn{min-height:46px}
+    .passkey-lock-msg{min-height:16px;margin-top:10px;font-size:10px;color:var(--muted);line-height:1.4}
+    @media(max-width:650px){
+      .passkey-actions{display:grid;grid-template-columns:1fr}
+      .passkey-actions .btn{width:100%;min-height:46px}
+      .passkey-lock{padding:0;align-items:stretch}
+      .passkey-lock-card{width:100%;min-height:100dvh;border:0;border-radius:0;display:flex;flex-direction:column;justify-content:center;padding:30px 22px calc(30px + env(safe-area-inset-bottom))}
+    }
+
+  </style>
 
 </head>
 <body class="session-resolving">
@@ -7318,12 +7359,27 @@
   </div>
 </dialog>
 
+<div id="passkeyLock" class="passkey-lock" aria-hidden="true">
+  <div class="passkey-lock-card">
+    <div class="passkey-lock-icon">🔐</div>
+    <h2>Desbloquear Académica Michelangelo</h2>
+    <p>Confirma tu identidad con Face ID, Touch ID, huella o el método de desbloqueo de este dispositivo.</p>
+    <div class="passkey-lock-actions">
+      <button id="passkeyUnlockBtn" class="btn primary" type="button" onclick="unlockWithPasskey()">Desbloquear</button>
+      <button class="btn ghost" type="button" onclick="usePasswordInstead()">Usar contraseña</button>
+    </div>
+    <div id="passkeyLockMsg" class="passkey-lock-msg"></div>
+  </div>
+</div>
+
 <dialog id="profileDialog"><div class="dialog"><div class="dialoghead"><h3>Mi perfil</h3><button class="iconbtn" aria-label="Cerrar" onclick="profileDialog.close()"><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-x"></use></svg></button></div>
   <div id="profileContent"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="btn ghost" onclick="profileDialog.close();openResetPassword(currentSession.email)">Enviar enlace para cambiar contraseña</button><button class="btn danger" onclick="logout()">Cerrar sesión</button></div>
 </div></dialog>
 
+<script src="https://unpkg.com/@simplewebauthn/browser@13.3.0/dist/bundle/index.umd.min.js"></script>
+
 <script>
-const APP_VERSION="38.14";
+const APP_VERSION="39.0";
 const FCM_VAPID_KEY="BDBgoG6OGo9TkmAJT5GDnmxtOk8fePxBK0U42Nu5H6UxJ2d8wyzr7a9AgLEfO5Dooio329l8b1mcWTqIrnfUEv4";
 
 const FIREBASE_CONFIG={
@@ -8154,7 +8210,222 @@ function resolveAppConfirm(value){
 }
 
 
-function openProfile(){
+let passkeyEnabledForSession=false;
+let passkeyUnlockSatisfied=false;
+let passkeyStatusChecked=false;
+let passkeyHiddenAt=0;
+const PASSKEY_RELOCK_MS=5*60*1000;
+
+function passkeySupported(){
+  return !!(window.PublicKeyCredential && window.SimpleWebAuthnBrowser);
+}
+
+function callablePasskey(name){
+  if(!functions || !FB?.httpsCallable) throw new Error("Cloud Functions no está disponible.");
+  return FB.httpsCallable(functions,name);
+}
+
+function readablePasskeyError(err){
+  const name=err?.name||"";
+  const msg=String(err?.message||"");
+  if(name==="NotAllowedError") return "La verificación fue cancelada o expiró. Inténtalo nuevamente.";
+  if(name==="InvalidStateError") return "Este dispositivo o credencial ya está registrado para esta cuenta.";
+  if(name==="SecurityError") return "El acceso con el dispositivo solo funciona desde academicamichelangelo.site mediante HTTPS.";
+  if(msg.includes("not-found") || msg.includes("No hay credenciales")) return "No hay una credencial registrada para esta cuenta.";
+  return msg || "No se pudo completar la verificación con el dispositivo.";
+}
+
+async function getPasskeyStatus(){
+  if(!currentUser || !currentSession) return {enabled:false,count:0};
+  if(!passkeySupported()) return {enabled:false,count:0,unsupported:true};
+  const fn=callablePasskey("passkeyStatus");
+  const result=await fn({});
+  const data=result?.data||{};
+  passkeyEnabledForSession=!!data.enabled;
+  passkeyStatusChecked=true;
+  return {enabled:!!data.enabled,count:Number(data.count||0)};
+}
+
+async function renderPasskeyProfileStatus(){
+  const statusEl=$("passkeyProfileStatus");
+  const actionsEl=$("passkeyProfileActions");
+  if(!statusEl || !actionsEl) return;
+
+  if(location.hostname!=="academicamichelangelo.site"){
+    statusEl.textContent="Disponible únicamente en academicamichelangelo.site.";
+    actionsEl.innerHTML="";
+    return;
+  }
+  if(!passkeySupported()){
+    statusEl.textContent="Este navegador o dispositivo no ofrece WebAuthn/passkeys.";
+    actionsEl.innerHTML="";
+    return;
+  }
+
+  try{
+    const status=await getPasskeyStatus();
+    if(status.enabled){
+      statusEl.textContent=`Activo · ${status.count} credencial${status.count===1?"":"es"} registrada${status.count===1?"":"s"}.`;
+      actionsEl.innerHTML=`<button class="btn danger" type="button" onclick="disablePasskey()">Desactivar acceso con dispositivo</button>`;
+    }else{
+      statusEl.textContent="No está activado en esta cuenta.";
+      actionsEl.innerHTML=`<button class="btn primary" type="button" onclick="registerPasskey()">Activar acceso con dispositivo</button>`;
+    }
+  }catch(err){
+    console.warn("No se pudo consultar passkeyStatus:",err);
+    statusEl.textContent="No se pudo consultar el estado en este momento.";
+    actionsEl.innerHTML=`<button class="btn ghost" type="button" onclick="renderPasskeyProfileStatus()">Reintentar</button>`;
+  }
+}
+
+async function registerPasskey(){
+  const statusEl=$("passkeyProfileStatus");
+  if(!currentUser || !currentSession) return;
+  if(location.hostname!=="academicamichelangelo.site"){
+    showAppMessage("Dominio requerido","Activa esta función desde https://academicamichelangelo.site.","warn");
+    return;
+  }
+  if(!passkeySupported()){
+    showAppMessage("No compatible","Este navegador o dispositivo no admite passkeys/WebAuthn.","warn");
+    return;
+  }
+
+  try{
+    if(statusEl) statusEl.textContent="Preparando el registro…";
+    const optionsFn=callablePasskey("passkeyRegistrationOptions");
+    const optionsResult=await optionsFn({});
+    const optionsJSON=optionsResult?.data;
+    if(!optionsJSON?.challenge) throw new Error("El servidor no entregó un desafío de registro válido.");
+
+    const response=await window.SimpleWebAuthnBrowser.startRegistration({optionsJSON});
+    if(statusEl) statusEl.textContent="Verificando la credencial…";
+
+    const verifyFn=callablePasskey("passkeyRegistrationVerify");
+    const verification=await verifyFn({response});
+    if(!verification?.data?.verified) throw new Error("La credencial no pudo ser verificada.");
+
+    passkeyEnabledForSession=true;
+    passkeyUnlockSatisfied=true;
+    showToast("Acceso activado","Este dispositivo ya puede proteger tu sesión con Face ID, huella o bloqueo del equipo.","ok");
+    await renderPasskeyProfileStatus();
+  }catch(err){
+    console.warn("Registro passkey:",err);
+    const message=readablePasskeyError(err);
+    if(statusEl) statusEl.textContent=message;
+    showAppMessage("No se pudo activar",message,"warn");
+  }
+}
+
+async function disablePasskey(){
+  if(!currentUser || !currentSession) return;
+  const ok=await appConfirm(
+    "Desactivar acceso con dispositivo",
+    "Se eliminarán las credenciales de acceso con dispositivo registradas para esta cuenta. Podrás volver a activarlas después.",
+    "Desactivar"
+  );
+  if(!ok) return;
+
+  try{
+    const fn=callablePasskey("passkeyDisable");
+    const result=await fn({});
+    if(result?.data?.disabled===false) throw new Error("El servidor no confirmó la desactivación.");
+    passkeyEnabledForSession=false;
+    passkeyUnlockSatisfied=true;
+    hidePasskeyLock();
+    showToast("Acceso desactivado","La cuenta volverá a depender únicamente del inicio de sesión con contraseña.","ok");
+    await renderPasskeyProfileStatus();
+  }catch(err){
+    showAppMessage("No se pudo desactivar",readablePasskeyError(err),"error");
+  }
+}
+
+function showPasskeyLock(message=""){
+  const el=$("passkeyLock");
+  if(!el) return;
+  $("passkeyLockMsg").textContent=message;
+  el.classList.add("show");
+  el.setAttribute("aria-hidden","false");
+  document.documentElement.style.overflow="hidden";
+  passkeyUnlockSatisfied=false;
+}
+
+function hidePasskeyLock(){
+  const el=$("passkeyLock");
+  if(!el) return;
+  el.classList.remove("show");
+  el.setAttribute("aria-hidden","true");
+  $("passkeyLockMsg").textContent="";
+  document.documentElement.style.removeProperty("overflow");
+}
+
+async function unlockWithPasskey(){
+  const btn=$("passkeyUnlockBtn");
+  const msg=$("passkeyLockMsg");
+  if(!currentUser || !currentSession) return;
+  if(!passkeySupported()){
+    if(msg) msg.textContent="Este navegador no admite el desbloqueo con passkeys.";
+    return;
+  }
+
+  try{
+    if(btn){btn.disabled=true;btn.textContent="Verificando…";}
+    if(msg) msg.textContent="Confirma tu identidad en el dispositivo.";
+
+    const optionsFn=callablePasskey("passkeyAuthenticationOptions");
+    const optionsResult=await optionsFn({});
+    const optionsJSON=optionsResult?.data;
+    if(!optionsJSON?.challenge) throw new Error("El servidor no entregó un desafío de autenticación válido.");
+
+    const response=await window.SimpleWebAuthnBrowser.startAuthentication({optionsJSON});
+    const verifyFn=callablePasskey("passkeyAuthenticationVerify");
+    const verification=await verifyFn({response});
+    if(!verification?.data?.verified) throw new Error("La verificación no fue confirmada.");
+
+    passkeyUnlockSatisfied=true;
+    hidePasskeyLock();
+  }catch(err){
+    console.warn("Autenticación passkey:",err);
+    if(msg) msg.textContent=readablePasskeyError(err);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="Desbloquear";}
+  }
+}
+
+async function usePasswordInstead(){
+  hidePasskeyLock();
+  passkeyUnlockSatisfied=false;
+  passkeyEnabledForSession=false;
+  try{ await logout(); }catch{ try{ await FB.signOut(auth); }catch{} }
+}
+
+async function protectRestoredSessionWithPasskey(skipLock=false){
+  if(skipLock || !currentUser || !currentSession) return;
+  if(location.hostname!=="academicamichelangelo.site" || !passkeySupported()) return;
+  try{
+    const status=await getPasskeyStatus();
+    if(status.enabled && !passkeyUnlockSatisfied){
+      showPasskeyLock();
+    }
+  }catch(err){
+    console.warn("No se pudo comprobar el bloqueo por passkey:",err);
+  }
+}
+
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){
+    passkeyHiddenAt=Date.now();
+    return;
+  }
+  if(
+    currentUser && currentSession && passkeyEnabledForSession &&
+    passkeyHiddenAt && (Date.now()-passkeyHiddenAt)>=PASSKEY_RELOCK_MS
+  ){
+    showPasskeyLock("Por seguridad, confirma nuevamente tu identidad.");
+  }
+  passkeyHiddenAt=0;
+});
+
+async function openProfile(){
   if(!currentSession) return;
 
   let association="";
@@ -8182,9 +8453,21 @@ function openProfile(){
       <strong>Plataforma II° Medio</strong>
       <span>Épocas, horario, evaluaciones y calificaciones.</span>
     </div>
+    <div id="passkeyProfileCard" class="passkey-card">
+      <div class="passkey-card-head">
+        <div class="passkey-icon">🔐</div>
+        <div>
+          <strong>Acceso con el dispositivo</strong>
+          <p>Usa Face ID, Touch ID, huella o el PIN/bloqueo del equipo para proteger el acceso cuando vuelvas a abrir la plataforma.</p>
+        </div>
+      </div>
+      <div id="passkeyProfileStatus" class="passkey-status">Comprobando disponibilidad…</div>
+      <div id="passkeyProfileActions" class="passkey-actions"></div>
+    </div>
   `;
 
   profileDialog.showModal();
+  await renderPasskeyProfileStatus();
 }
 
 function openNotificationIntro(){
@@ -8444,6 +8727,10 @@ async function handleAuth(user){
     cleanupLiveSubscriptions();
     currentStudent=null;
     currentUser=currentSession=null;
+    passkeyEnabledForSession=false;
+    passkeyUnlockSatisfied=false;
+    passkeyStatusChecked=false;
+    hidePasskeyLock();
     evaluations=[];
     initialEvalSnapshot=true;
     $("authScreen").classList.remove("hidden");
@@ -8467,12 +8754,14 @@ async function handleAuth(user){
     const p=await resolveEffectiveSessionProfile(rawProfile,user);
     currentSession={uid:user.uid,email:user.email||p.email,name:p.name||user.email.split("@")[0],role:p.role,courses:[...new Set(p.courses||[])],subjects:[...new Set(p.subjects||[])],subjectsConfigured:Array.isArray(p.subjects),studentIds:p.studentIds||[],studentId:p.studentId||"",notificationPrefs:p.notificationPrefs||{}};
     if(!["admin","parent","student"].includes(currentSession.role)) throw new Error("La cuenta no tiene un rol válido para esta versión.");
+    const wasPasswordLogin=authLoginLoading;
     $("authScreen").classList.add("hidden");
     applySession();
     await configureContext();
     await logAudit("login","session",user.uid,"Inicio de sesión");
     subscribeEvaluations();
     setTimeout(refreshNotificationStatus,350);
+    await protectRestoredSessionWithPasskey(wasPasswordLogin);
     finishBoot();
     completeAuthTransition();
   }catch(e){
