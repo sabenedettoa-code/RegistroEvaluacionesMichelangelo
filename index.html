@@ -8216,6 +8216,10 @@ let passkeyStatusChecked=false;
 let passkeyHiddenAt=0;
 const PASSKEY_RELOCK_MS=5*60*1000;
 
+function isOfficialPasskeyHost(){
+  return ["academicamichelangelo.site","www.academicamichelangelo.site"].includes(location.hostname);
+}
+
 function passkeySupported(){
   return !!(window.PublicKeyCredential && window.SimpleWebAuthnBrowser);
 }
@@ -8230,7 +8234,7 @@ function readablePasskeyError(err){
   const msg=String(err?.message||"");
   if(name==="NotAllowedError") return "La verificación fue cancelada o expiró. Inténtalo nuevamente.";
   if(name==="InvalidStateError") return "Este dispositivo o credencial ya está registrado para esta cuenta.";
-  if(name==="SecurityError") return "El acceso con el dispositivo solo funciona desde academicamichelangelo.site mediante HTTPS.";
+  if(name==="SecurityError") return "El acceso con el dispositivo solo funciona desde academicamichelangelo.site o www.academicamichelangelo.site mediante HTTPS.";
   if(msg.includes("not-found") || msg.includes("No hay credenciales")) return "No hay una credencial registrada para esta cuenta.";
   return msg || "No se pudo completar la verificación con el dispositivo.";
 }
@@ -8251,8 +8255,8 @@ async function renderPasskeyProfileStatus(){
   const actionsEl=$("passkeyProfileActions");
   if(!statusEl || !actionsEl) return;
 
-  if(location.hostname!=="academicamichelangelo.site"){
-    statusEl.textContent="Disponible únicamente en academicamichelangelo.site.";
+  if(!isOfficialPasskeyHost()){
+    statusEl.textContent="Disponible en academicamichelangelo.site y www.academicamichelangelo.site.";
     actionsEl.innerHTML="";
     return;
   }
@@ -8281,8 +8285,8 @@ async function renderPasskeyProfileStatus(){
 async function registerPasskey(){
   const statusEl=$("passkeyProfileStatus");
   if(!currentUser || !currentSession) return;
-  if(location.hostname!=="academicamichelangelo.site"){
-    showAppMessage("Dominio requerido","Activa esta función desde https://academicamichelangelo.site.","warn");
+  if(!isOfficialPasskeyHost()){
+    showAppMessage("Dominio requerido","Activa esta función desde https://academicamichelangelo.site o https://www.academicamichelangelo.site.","warn");
     return;
   }
   if(!passkeySupported()){
@@ -8400,7 +8404,7 @@ async function usePasswordInstead(){
 
 async function protectRestoredSessionWithPasskey(skipLock=false){
   if(skipLock || !currentUser || !currentSession) return;
-  if(location.hostname!=="academicamichelangelo.site" || !passkeySupported()) return;
+  if(!isOfficialPasskeyHost() || !passkeySupported()) return;
   try{
     const status=await getPasskeyStatus();
     if(status.enabled && !passkeyUnlockSatisfied){
