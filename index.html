@@ -7416,6 +7416,16 @@
             <input id="regEmail" type="email" required autocomplete="email">
           </div>
           <div class="field full">
+            <label>Nivel de Inglés</label>
+            <select id="regEnglishLevel" required>
+              <option value="">Selecciona tu nivel</option>
+              <option value="Inglés Inicial">Inglés Inicial</option>
+              <option value="Inglés Intermedio">Inglés Intermedio</option>
+              <option value="Inglés Avanzado">Inglés Avanzado</option>
+            </select>
+            <div class="registration-note">Esto permite mostrarte solo las evaluaciones y avisos de tu nivel de Inglés.</div>
+          </div>
+          <div class="field full">
             <label>Contraseña</label>
             <div class="password-field">
               <input id="regPassword" type="password" required minlength="8" autocomplete="new-password">
@@ -7475,7 +7485,7 @@
 <script src="https://unpkg.com/@simplewebauthn/browser@13.3.0/dist/bundle/index.umd.min.js"></script>
 
 <script>
-const APP_VERSION="39.2";
+const APP_VERSION="39.4";
 const FCM_VAPID_KEY="BDBgoG6OGo9TkmAJT5GDnmxtOk8fePxBK0U42Nu5H6UxJ2d8wyzr7a9AgLEfO5Dooio329l8b1mcWTqIrnfUEv4";
 
 const FIREBASE_CONFIG={
@@ -8335,11 +8345,16 @@ async function submitStudentRegistration(event){
   const paternalSurname=$("regPaternalSurname")?.value.trim()||"";
   const maternalSurname=$("regMaternalSurname")?.value.trim()||"";
   const email=$("regEmail")?.value.trim().toLowerCase()||"";
+  const englishLevel=$("regEnglishLevel")?.value||"";
   const password=$("regPassword")?.value||"";
   const passwordConfirm=$("regPasswordConfirm")?.value||"";
   const msg=$("studentRegistrationMsg");
   const btn=$("studentRegistrationSubmit");
 
+  if(!englishLevel){
+    if(msg) msg.innerHTML='<div class="notice warn">Selecciona tu nivel de Inglés.</div>';
+    return;
+  }
   if(password.length<8){
     if(msg) msg.innerHTML='<div class="notice warn">La contraseña debe tener al menos 8 caracteres.</div>';
     return;
@@ -8363,6 +8378,7 @@ async function submitStudentRegistration(event){
       paternalSurname,
       maternalSurname,
       email,
+      englishLevel,
       password
     });
 
@@ -8604,6 +8620,92 @@ document.addEventListener("visibilitychange",()=>{
   passkeyHiddenAt=0;
 });
 
+async function saveEnglishLevelFromProfile(){
+  if(currentSession?.role!=="student" || !currentSession?.uid) return;
+
+  const level=$("profileEnglishLevel")?.value||"";
+
+  if(!ENGLISH_LEVEL_SUBJECTS.includes(level)){
+    showAppMessage(
+      "Selecciona tu nivel",
+      "Debes seleccionar Inglés Inicial, Intermedio o Avanzado.",
+      "warn"
+    );
+    return;
+  }
+
+  if(!functions || !FB.httpsCallable){
+    showAppMessage(
+      "Servicio no disponible",
+      "No fue posible conectarse con el servicio para guardar tu nivel de Inglés. Recarga la plataforma e inténtalo nuevamente.",
+      "error"
+    );
+    return;
+  }
+
+  const btn=document.querySelector('button[onclick="saveEnglishLevelFromProfile()"]');
+  const previousText=btn?.textContent||"Guardar nivel";
+
+  if(btn){
+    btn.disabled=true;
+    btn.textContent="Guardando…";
+  }
+
+  try{
+    const updateStudentEnglishLevel=
+      FB.httpsCallable(functions,"updateStudentEnglishLevel");
+
+    const result=await updateStudentEnglishLevel({
+      englishLevel:level
+    });
+
+    if(!result?.data?.ok){
+      throw new Error("La función no confirmó la actualización.");
+    }
+
+    currentSession.englishLevel=level;
+    if(currentStudent) currentStudent.englishLevel=level;
+
+    renderAll();
+
+    showToast(
+      `Tu nivel quedó configurado como ${level}.`,
+      "ok",
+      "Nivel de Inglés guardado"
+    );
+
+    try{profileDialog.close()}catch{}
+
+  }catch(err){
+    console.warn("No se pudo guardar nivel de Inglés:",err);
+
+    const code=String(err?.code||"");
+    let message="Inténtalo nuevamente en unos segundos.";
+
+    if(code.includes("unauthenticated")){
+      message="Tu sesión ya no está disponible. Inicia sesión nuevamente.";
+    }else if(code.includes("permission-denied")){
+      message="Tu cuenta no tiene permiso para modificar este nivel.";
+    }else if(code.includes("failed-precondition")){
+      message="No fue posible identificar tu ficha de estudiante. Contacta al administrador.";
+    }else if(code.includes("invalid-argument")){
+      message="El nivel seleccionado no es válido.";
+    }
+
+    showAppMessage(
+      "No se pudo guardar",
+      message,
+      "error"
+    );
+
+  }finally{
+    if(btn){
+      btn.disabled=false;
+      btn.textContent=previousText;
+    }
+  }
+}
+
 async function openProfile(){
   if(!currentSession) return;
 
@@ -8632,6 +8734,29 @@ async function openProfile(){
       <strong>Plataforma II° Medio</strong>
       <span>Épocas, horario, evaluaciones y calificaciones.</span>
     </div>
+    ${currentSession.role==="student"?`
+      <div class="passkey-card" style="margin-top:12px">
+        <div class="passkey-card-head">
+          <div class="passkey-icon">📘</div>
+          <div>
+            <strong>Mi nivel de Inglés</strong>
+            <p>Selecciona tu nivel para ver y recibir solo las evaluaciones que te corresponden.</p>
+          </div>
+        </div>
+        ${!currentSession.englishLevel?'<div class="notice warn" style="margin-bottom:10px">Selecciona tu nivel de Inglés para personalizar evaluaciones y notificaciones.</div>':''}
+        <div class="field">
+          <select id="profileEnglishLevel">
+            <option value="">Selecciona tu nivel</option>
+            <option value="Inglés Inicial" ${currentSession.englishLevel==="Inglés Inicial"?"selected":""}>Inglés Inicial</option>
+            <option value="Inglés Intermedio" ${currentSession.englishLevel==="Inglés Intermedio"?"selected":""}>Inglés Intermedio</option>
+            <option value="Inglés Avanzado" ${currentSession.englishLevel==="Inglés Avanzado"?"selected":""}>Inglés Avanzado</option>
+          </select>
+        </div>
+        <div class="passkey-actions" style="margin-top:10px">
+          <button class="btn primary" type="button" onclick="saveEnglishLevelFromProfile()">Guardar nivel</button>
+        </div>
+      </div>
+    `:""}
     <div id="passkeyProfileCard" class="passkey-card">
       <div class="passkey-card-head">
         <div class="passkey-icon">🔐</div>
@@ -8931,7 +9056,7 @@ async function handleAuth(user){
     const rawProfile=snap.data();
     if(rawProfile.active===false) throw new Error("Esta cuenta está desactivada. Contacta al administrador.");
     const p=await resolveEffectiveSessionProfile(rawProfile,user);
-    currentSession={uid:user.uid,email:user.email||p.email,name:p.name||user.email.split("@")[0],role:p.role,courses:[...new Set(p.courses||[])],subjects:[...new Set(p.subjects||[])],subjectsConfigured:Array.isArray(p.subjects),studentIds:p.studentIds||[],studentId:p.studentId||"",notificationPrefs:p.notificationPrefs||{}};
+    currentSession={uid:user.uid,email:user.email||p.email,name:p.name||user.email.split("@")[0],role:p.role,courses:[...new Set(p.courses||[])],subjects:[...new Set(p.subjects||[])],subjectsConfigured:Array.isArray(p.subjects),studentIds:p.studentIds||[],studentId:p.studentId||"",englishLevel:p.englishLevel||"",notificationPrefs:p.notificationPrefs||{}};
     if(!["admin","parent","student"].includes(currentSession.role)) throw new Error("La cuenta no tiene un rol válido para esta versión.");
     const wasPasswordLogin=authLoginLoading;
     $("authScreen").classList.add("hidden");
@@ -9211,7 +9336,12 @@ async function configureContext(){
   if(currentSession.role==="student" && currentSession.studentId){
     try{
       const s=await FB.getDoc(FB.doc(db,"students",currentSession.studentId));
-      if(s.exists()) currentStudent={id:s.id,...s.data()};
+      if(s.exists()){
+        currentStudent={id:s.id,...s.data()};
+        if(!currentSession.englishLevel && currentStudent.englishLevel){
+          currentSession.englishLevel=currentStudent.englishLevel;
+        }
+      }
     }catch(err){
       console.warn("No se pudo leer el perfil del estudiante:",err);
     }
@@ -9248,9 +9378,19 @@ function automaticEvaluationStatus(e,dateToday=iso()){
 function evaluationWithAutomaticStatus(e){
   return {...e,status:automaticEvaluationStatus(e)};
 }
+const ENGLISH_LEVEL_SUBJECTS=["Inglés Inicial","Inglés Intermedio","Inglés Avanzado"];
+function evaluationMatchesStudentEnglishLevel(e){
+  if(currentSession?.role!=="student") return true;
+  const subject=String(e?.subject||"").trim();
+  if(!ENGLISH_LEVEL_SUBJECTS.includes(subject)) return true;
+  const level=String(currentSession?.englishLevel||currentStudent?.englishLevel||"").trim();
+  if(!level) return true; // transición: cuentas antiguas siguen viendo todo hasta elegir nivel
+  return subject===level;
+}
 function visibleEvaluations(){
   return evaluations
     .filter(e=>e.course==="II° Medio")
+    .filter(evaluationMatchesStudentEnglishLevel)
     .map(evaluationWithAutomaticStatus);
 }
 function refreshDateDrivenData(){
@@ -9323,7 +9463,7 @@ function subscribeEvaluations(){
 async function notifyChanges(changes){
   if(!("Notification" in window) || Notification.permission!=="granted")return;
   for(const c of changes){
-    if(!["added","modified"].includes(c.type))continue;const e=c.doc.data();if(!allowedCourses().includes(e.course))continue;
+    if(!["added","modified"].includes(c.type))continue;const e=c.doc.data();if(!allowedCourses().includes(e.course))continue;if(!evaluationMatchesStudentEnglishLevel(e))continue;
     const title=c.type==="added"?"Nueva evaluación":"Evaluación actualizada";
     const body=`${e.course} · ${e.subject}: ${e.title} · ${fmt(e.date)}`;
     try{const reg=await navigator.serviceWorker?.ready;if(reg)reg.showNotification(title,{body,icon:"logo.png",badge:"logo.png",tag:"eval-"+c.doc.id});else new Notification(title,{body})}catch{}
