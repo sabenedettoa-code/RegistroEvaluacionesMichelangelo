@@ -6347,6 +6347,7 @@
       <button class="nav-btn" data-section="calendario" data-tooltip="Calendario" title="Calendario"><svg class="mi-icon" aria-hidden="true"><use href="#mi-calendar"></use></svg> Calendario</button>
       <button class="nav-btn" data-section="epocas" data-tooltip="Épocas" title="Épocas"><svg class="mi-icon" aria-hidden="true"><use href="#mi-book"></use></svg> Épocas</button>
       <button class="nav-btn" data-section="horario" data-tooltip="Horario" title="Horario"><svg class="mi-icon" aria-hidden="true"><use href="#mi-schedule"></use></svg> Horario</button>
+      <button class="nav-btn birthday-access-nav hidden" hidden aria-hidden="true" data-section="cumpleanos" data-tooltip="Cumpleaños" title="Cumpleaños"><svg class="mi-icon" aria-hidden="true"><use href="#mi-calendar"></use></svg> Cumpleaños</button>
       <button class="nav-btn student-ai-nav hidden" data-section="asistente" data-tooltip="Asistente IA" aria-label="Asistente IA"><svg class="mi-icon" aria-hidden="true"><use href="#mi-sparkle"></use></svg> <span class="nav-label">Asistente IA</span></button>
       <button class="nav-btn admin-nav hidden" hidden aria-hidden="true" data-section="administracion" data-tooltip="Administración" title="Administración"><svg class="mi-icon" aria-hidden="true"><use href="#mi-users"></use></svg> Administración</button>
     </nav>
@@ -6658,6 +6659,7 @@
         <button class="tabbtn active" data-tab="users" onclick="adminTab('users')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-users"></use></svg> Usuarios</button>
         <button class="tabbtn" data-tab="students" onclick="adminTab('students')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-school"></use></svg> Estudiantes</button>
         <button class="tabbtn" data-tab="professors" onclick="adminTab('professors')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-user"></use></svg> Profesores</button>
+        <button class="tabbtn" data-tab="birthdays" onclick="adminTab('birthdays')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-calendar"></use></svg> Cumpleaños</button>
         <button class="tabbtn" data-tab="settings" onclick="adminTab('settings')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-settings"></use></svg> Configuración</button>
         <button class="tabbtn" data-tab="audit" onclick="adminTab('audit')"><svg class="mi-icon" aria-hidden="true"><use href="#mi-clock"></use></svg> Auditoría</button>
       </div>
@@ -6808,6 +6810,43 @@
           <div class="card panel">
             <div class="title-row"><h3>Directorio de profesores</h3><button class="textbtn" onclick="renderProfessorDirectory()">Actualizar</button></div>
             <div id="professorsList" class="list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pane-birthdays" class="adminpane">
+        <div class="admin-grid">
+          <div class="card panel">
+            <div class="eyebrow">Cumpleaños</div>
+            <h3 style="margin-top:0">Configurar cumpleaños</h3>
+            <p class="meta">Selecciona un estudiante pendiente y elige su fecha de cumpleaños con el calendario. El año se usa solo para abrir el selector y no se guarda.</p>
+            <form id="birthdayAdminForm" class="formgrid" onsubmit="saveStudentBirthday(event)">
+              <input id="birthdayEditingStudentId" type="hidden" value="">
+              <div class="field full">
+                <label>Estudiante</label>
+                <div id="birthdaySelectedEditing" class="hidden"></div>
+                <div id="birthdayStudentPicker" class="checkgrid student-single-select"></div>
+                <div class="assignment-helper">Solo aparecen estudiantes que todavía no tienen cumpleaños configurado. Al guardar, desaparecerán automáticamente de esta lista.</div>
+              </div>
+              <div class="field full">
+                <label>Fecha de cumpleaños</label>
+                <input id="birthdayDate" type="date" required>
+                <div class="assignment-helper">Puedes elegir cualquier año; la plataforma conservará únicamente el día y el mes.</div>
+              </div>
+              <div class="form-actions">
+                <button class="btn ghost" type="button" onclick="resetBirthdayAdminForm()">Limpiar</button>
+                <button id="birthdaySaveBtn" class="btn primary" type="submit">Guardar cumpleaños</button>
+              </div>
+            </form>
+            <div id="birthdayAdminMsg" style="margin-top:10px"></div>
+          </div>
+
+          <div class="card panel">
+            <div class="title-row">
+              <h3>Lista de cumpleaños</h3>
+              <button class="textbtn" type="button" onclick="loadStudents().then(()=>renderBirthdayAdmin())">Actualizar</button>
+            </div>
+            <div id="birthdayAdminList" class="list"></div>
           </div>
         </div>
       </div>
@@ -7052,6 +7091,28 @@
       </div>
     </section>
 
+    <section id="cumpleanos" class="section" aria-hidden="true">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">II° Medio</div>
+          <h1>Cumpleaños del curso</h1>
+          <p>Revisa quién está de cumpleaños hoy y cuáles son los próximos cumpleaños.</p>
+        </div>
+      </div>
+
+      <div id="birthdayTodayCard" class="card panel" style="margin-bottom:16px"></div>
+
+      <div class="card panel">
+        <div class="title-row">
+          <h3>Próximos cumpleaños</h3>
+          <button class="textbtn" type="button" onclick="loadStudentBirthdays(true)">Actualizar</button>
+        </div>
+        <div id="birthdayPublicList" class="list">
+          <div class="empty">Cargando cumpleaños…</div>
+        </div>
+      </div>
+    </section>
+
     <section id="asistente" class="section">
       <div class="topbar">
         <div>
@@ -7116,7 +7177,7 @@
     </section>
   </main>
 </div>
-<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v38.14</div>
+<div class="app-build-badge" aria-label="Versión de la plataforma">Michelangelo · II° Medio · v39.9</div>
 
 <div class="mobile-nav">
   <button class="active" data-section="inicio" onclick="showSection('inicio')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-home"></use></svg></span><br><span>Inicio</span></button>
@@ -7124,6 +7185,7 @@
   <button data-section="calendario" onclick="showSection('calendario')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-calendar"></use></svg></span><br><span>Calendario</span></button>
   <button data-section="epocas" onclick="showSection('epocas')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-book"></use></svg></span><br><span>Épocas</span></button>
   <button data-section="horario" onclick="showSection('horario')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-schedule"></use></svg></span><br><span>Horario</span></button>
+  <button class="birthday-access-nav hidden" hidden aria-hidden="true" data-section="cumpleanos" onclick="showSection('cumpleanos')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-calendar"></use></svg></span><br><span>Cumpleaños</span></button>
   <button class="student-ai-nav hidden" data-section="asistente" onclick="showSection('asistente')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-sparkle"></use></svg></span><br><span>Asistente</span></button>
   <button class="admin-nav hidden" hidden aria-hidden="true" data-section="administracion" onclick="showSection('administracion')"><span><svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-users"></use></svg></span><br><span>Admin</span></button>
 </div>
@@ -7485,7 +7547,7 @@
 <script src="https://unpkg.com/@simplewebauthn/browser@13.3.0/dist/bundle/index.umd.min.js"></script>
 
 <script>
-const APP_VERSION="39.4";
+const APP_VERSION="39.9";
 const FCM_VAPID_KEY="BDBgoG6OGo9TkmAJT5GDnmxtOk8fePxBK0U42Nu5H6UxJ2d8wyzr7a9AgLEfO5Dooio329l8b1mcWTqIrnfUEv4";
 
 const FIREBASE_CONFIG={
@@ -9108,6 +9170,18 @@ function enforceRoleUi(){
     }
   });
 
+  document.querySelectorAll(".birthday-access-nav").forEach(el=>{
+    const allowed=role==="student" || role==="admin";
+    el.classList.toggle("hidden",!allowed);
+    el.hidden=!allowed;
+    el.setAttribute("aria-hidden",allowed?"false":"true");
+    if(allowed){
+      el.style.removeProperty("display");
+    }else{
+      el.style.setProperty("display","none","important");
+    }
+  });
+
   document.querySelectorAll(".admin-only-schedule").forEach(el=>{
     el.classList.toggle("hidden",role!=="admin");
     el.style.display=role==="admin"?"":"none";
@@ -10385,7 +10459,7 @@ async function saveNotificationSettings(event){
 function adminTab(tab){
   if(currentSession?.role!=="admin") return;
 
-  const valid=["users","students","professors","settings","audit"];
+  const valid=["users","students","professors","birthdays","settings","audit"];
   if(!valid.includes(tab)) return;
 
   document.querySelectorAll(".admin-tabs .tabbtn").forEach(btn=>{
@@ -10401,6 +10475,9 @@ function adminTab(tab){
   else if(tab==="professors"){
     renderProfessorDirectory();
     if(!$("professorSubjectPicker")?.children.length) renderProfessorSubjectPicker([]);
+  }
+  else if(tab==="birthdays"){
+    loadStudents().then(()=>renderBirthdayAdmin());
   }
   else if(tab==="settings"){
     renderEpochCatalogAdmin();
@@ -10457,9 +10534,83 @@ window.addEventListener("resize",()=>{
   }
 });
 
+let birthdayPublicCache=[];
+
+function birthdayMonthName(month){
+  return ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"][Number(month)-1] || "";
+}
+
+function nextBirthdayInfo(item){
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  let next=new Date(now.getFullYear(),Number(item.birthdayMonth)-1,Number(item.birthdayDay));
+  if(next < today) next=new Date(now.getFullYear()+1,Number(item.birthdayMonth)-1,Number(item.birthdayDay));
+  const days=Math.round((next-today)/86400000);
+  const age=next.getFullYear()-Number(item.birthdayYear);
+  return {next,days,age,isToday:days===0};
+}
+
+function renderStudentBirthdays(){
+  const todayBox=$("birthdayTodayCard");
+  const list=$("birthdayPublicList");
+  if(!todayBox || !list) return;
+
+  const items=(birthdayPublicCache||[])
+    .map(item=>({...item,...nextBirthdayInfo(item)}))
+    .sort((a,b)=>a.days-b.days || String(a.name||"").localeCompare(String(b.name||""),"es"));
+
+  const today=items.filter(item=>item.isToday);
+  if(today.length){
+    todayBox.innerHTML=`
+      <div class="eyebrow">Hoy celebramos</div>
+      <h2 style="margin:0 0 8px">🎂 ${today.map(x=>esc(x.name)).join(" · ")}</h2>
+      <p style="margin:0;color:var(--muted);line-height:1.55">${today.length===1?`¡Feliz cumpleaños! Hoy cumple ${today[0].age} años.`:"¡Feliz cumpleaños! Esperamos que tengan un excelente día."}</p>`;
+  }else{
+    const next=items[0];
+    todayBox.innerHTML=next
+      ? `<div class="eyebrow">Próximo cumpleaños</div><h2 style="margin:0 0 8px">${esc(next.name)}</h2><p style="margin:0;color:var(--muted)">${next.birthdayDay} de ${birthdayMonthName(next.birthdayMonth)} · en ${next.days} día${next.days===1?"":"s"}</p>`
+      : `<div class="empty">Todavía no hay cumpleaños configurados.</div>`;
+  }
+
+  if(!items.length){
+    list.innerHTML='<div class="empty">Todavía no hay cumpleaños configurados.</div>';
+    return;
+  }
+
+  list.innerHTML=items.map(item=>`
+    <div class="rowcard">
+      <div>
+        <strong>${esc(item.name)}</strong>
+        <small>${item.birthdayDay} de ${birthdayMonthName(item.birthdayMonth)} de ${item.birthdayYear} · cumple ${item.age} años${item.days===0?" · Hoy":` · faltan ${item.days} día${item.days===1?"":"s"}`}</small>
+      </div>
+      <span class="pill">${item.birthdayDay}/${String(item.birthdayMonth).padStart(2,"0")}</span>
+    </div>`).join("");
+}
+
+async function loadStudentBirthdays(force=false){
+  if(!currentSession || !["student","admin"].includes(currentSession.role)) return;
+  const list=$("birthdayPublicList");
+  if(!force && birthdayPublicCache.length){ renderStudentBirthdays(); return; }
+  if(list) list.innerHTML='<div class="empty">Cargando cumpleaños…</div>';
+  try{
+    if(!functions || !FB.httpsCallable) throw new Error("Cloud Functions no está disponible.");
+    const callable=FB.httpsCallable(functions,"getStudentBirthdays");
+    const result=await callable({});
+    birthdayPublicCache=Array.isArray(result?.data?.birthdays)?result.data.birthdays:[];
+    renderStudentBirthdays();
+  }catch(err){
+    console.error("getStudentBirthdays:",err);
+    if(list) list.innerHTML='<div class="notice danger">No fue posible cargar la lista de cumpleaños.</div>';
+  }
+}
+
 function showSection(id){
   if(id==="asistente" && currentSession?.role!=="student"){
     console.warn("Asistente disponible solo para estudiantes.");
+    return;
+  }
+  if(id==="cumpleanos" && !["student","admin"].includes(currentSession?.role)){
+    console.warn("Cumpleaños no disponible para apoderados.");
     return;
   }
   const target=document.getElementById(id);
@@ -10488,6 +10639,7 @@ function showSection(id){
   if(id==="calendario"){ loadVacationData().then(v=>{vacationCache=v;renderCalendar();}); }
   if(id==="epocas"){ renderEpochInstitutionalOptions(); renderEpochCalendar(); renderVacationList(); }
   if(id==="horario") renderSchedule();
+  if(id==="cumpleanos") loadStudentBirthdays();
   if(id==="asistente"){ ensureAiChat(); buildAiAcademicContext().catch(()=>{}); setTimeout(()=>$("aiInput")?.focus(),60); }
 
   if(id==="administracion"&&currentSession.role==="admin"){
@@ -15280,6 +15432,147 @@ async function loadStudents(){
     if($("studentsList")) $("studentsList").innerHTML='<div class="empty">No se pudieron cargar los estudiantes.</div>';
   }
 }
+function birthdayMonthName(month){
+  return ["","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"][Number(month)]||"";
+}
+
+function renderBirthdayAdmin(){
+  if(currentSession?.role!=="admin") return;
+
+  const editingId=$("birthdayEditingStudentId")?.value||"";
+  const pending=students
+    .filter(s=>!(Number(s.birthdayDay)>=1 && Number(s.birthdayMonth)>=1 && Number(s.birthdayYear)>=1))
+    .sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"es"));
+
+  const picker=$("birthdayStudentPicker");
+  const selectedEditing=$("birthdaySelectedEditing");
+
+  if(editingId){
+    const student=students.find(s=>s.id===editingId);
+    if(selectedEditing){
+      selectedEditing.classList.remove("hidden");
+      selectedEditing.innerHTML=`
+        <div class="rowcard" style="margin-bottom:8px">
+          <div>
+            <strong>${esc(student?.name||"Estudiante")}</strong>
+            <small>Editando cumpleaños ya configurado</small>
+          </div>
+          <button class="btn ghost" type="button" onclick="resetBirthdayAdminForm()">Cambiar</button>
+        </div>`;
+    }
+    if(picker) picker.innerHTML='<span class="meta">Estás editando un cumpleaños existente. Pulsa “Cambiar” para volver a estudiantes pendientes.</span>';
+  }else{
+    if(selectedEditing){
+      selectedEditing.classList.add("hidden");
+      selectedEditing.innerHTML="";
+    }
+    if(picker){
+      picker.innerHTML=pending.length
+        ? pending.map(s=>`
+            <label class="check">
+              <input type="radio" name="birthdayStudent" value="${esc(s.id)}" onchange="loadBirthdayStudentSelection()">
+              ${esc(s.name||"Estudiante")} · ${esc(s.course||"II° Medio")}
+            </label>`).join("")
+        : '<span class="meta">Todos los estudiantes ya tienen cumpleaños configurado.</span>';
+    }
+  }
+
+  const list=$("birthdayAdminList");
+  if(!list) return;
+
+  const configured=students
+    .filter(s=>Number(s.birthdayDay)>=1 && Number(s.birthdayMonth)>=1 && Number(s.birthdayYear)>=1)
+    .sort((a,b)=>Number(a.birthdayMonth)-Number(b.birthdayMonth) || Number(a.birthdayDay)-Number(b.birthdayDay) || String(a.name||"").localeCompare(String(b.name||""),"es"));
+
+  list.innerHTML=configured.map(s=>`
+    <div class="rowcard">
+      <div>
+        <strong>${esc(s.name||"Estudiante")}</strong>
+        <small>${Number(s.birthdayDay)} de ${esc(birthdayMonthName(s.birthdayMonth))} de ${Number(s.birthdayYear)}</small>
+      </div>
+      <button class="iconbtn" type="button" aria-label="Editar cumpleaños" onclick="editStudentBirthday('${s.id}')">
+        <svg class="mi-icon icon-only" aria-hidden="true"><use href="#mi-edit"></use></svg>
+      </button>
+    </div>`).join("") || '<div class="empty">Todavía no hay cumpleaños configurados.</div>';
+}
+
+function selectedBirthdayStudentId(){
+  return $("birthdayEditingStudentId")?.value || document.querySelector('input[name="birthdayStudent"]:checked')?.value || "";
+}
+
+function loadBirthdayStudentSelection(){
+  const id=selectedBirthdayStudentId();
+  const student=students.find(s=>s.id===id);
+  const dateInput=$("birthdayDate");
+  if(dateInput){
+    dateInput.value=(student?.birthdayDay && student?.birthdayMonth && student?.birthdayYear)
+      ? `${String(student.birthdayYear).padStart(4,"0")}-${String(student.birthdayMonth).padStart(2,"0")}-${String(student.birthdayDay).padStart(2,"0")}`
+      : "";
+  }
+  if($("birthdayAdminMsg")) $("birthdayAdminMsg").innerHTML="";
+}
+
+function editStudentBirthday(studentId){
+  if($("birthdayEditingStudentId")) $("birthdayEditingStudentId").value=studentId;
+  renderBirthdayAdmin();
+  loadBirthdayStudentSelection();
+  $("birthdayAdminForm")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function resetBirthdayAdminForm(){
+  $("birthdayAdminForm")?.reset();
+  if($("birthdayEditingStudentId")) $("birthdayEditingStudentId").value="";
+  if($("birthdayAdminMsg")) $("birthdayAdminMsg").innerHTML="";
+  renderBirthdayAdmin();
+}
+
+async function saveStudentBirthday(event){
+  event?.preventDefault?.();
+  if(currentSession?.role!=="admin") return;
+
+  const studentId=selectedBirthdayStudentId();
+  const dateValue=$("birthdayDate")?.value||"";
+  const parts=dateValue.split("-").map(Number);
+  const birthdayYear=parts.length===3 ? parts[0] : 0;
+  const birthdayMonth=parts.length===3 ? parts[1] : 0;
+  const birthdayDay=parts.length===3 ? parts[2] : 0;
+
+  if(!studentId || !birthdayDay || !birthdayMonth || !birthdayYear){
+    if($("birthdayAdminMsg")) $("birthdayAdminMsg").innerHTML='<div class="notice warn">Selecciona un estudiante y su fecha de cumpleaños.</div>';
+    return;
+  }
+
+  if(!functions || !FB.httpsCallable){
+    if($("birthdayAdminMsg")) $("birthdayAdminMsg").innerHTML='<div class="notice danger">No se pudo conectar con el backend.</div>';
+    return;
+  }
+
+  const btn=$("birthdaySaveBtn");
+  const oldText=btn?.textContent||"Guardar cumpleaños";
+  if(btn){btn.disabled=true;btn.textContent="Guardando…";}
+
+  try{
+    const callable=FB.httpsCallable(functions,"updateStudentBirthday");
+    const result=await callable({studentId,birthdayDay,birthdayMonth,birthdayYear});
+    if(!result?.data?.ok) throw new Error("La función no confirmó el guardado.");
+
+    const idx=students.findIndex(s=>s.id===studentId);
+    if(idx>=0) students[idx]={...students[idx],birthdayDay,birthdayMonth,birthdayYear};
+
+    if($("birthdayAdminMsg")) $("birthdayAdminMsg").innerHTML='<div class="notice ok">Cumpleaños guardado correctamente.</div>';
+    if($("birthdayEditingStudentId")) $("birthdayEditingStudentId").value="";
+    $("birthdayAdminForm")?.reset();
+    renderBirthdayAdmin();
+    showToast("Cumpleaños actualizado.","ok","Administración");
+  }catch(err){
+    console.error("Guardar cumpleaños:",err);
+    const msg=err?.message||"No fue posible guardar el cumpleaños.";
+    if($("birthdayAdminMsg")) $("birthdayAdminMsg").innerHTML=`<div class="notice danger">${esc(msg.replace(/^Firebase:\s*/i,""))}</div>`;
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent=oldText;}
+  }
+}
+
 function teacherAssignmentsHTML(prefix,u={}){
   const courses=u.courses||[];
   const subjects=u.subjects||[];
