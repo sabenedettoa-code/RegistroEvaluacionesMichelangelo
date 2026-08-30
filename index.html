@@ -11334,6 +11334,19 @@ function isEnglishLevel(subject=""){
   return ["Inglés Inicial","Inglés Intermedio","Inglés Avanzado"].includes(subject);
 }
 
+function scheduleMatchesStudentEnglishLevel(block){
+  if(currentSession?.role!=="student") return true;
+  const subject=String(block?.subject||"").trim();
+  if(!isEnglishLevel(subject)) return true;
+  const level=String(currentSession?.englishLevel||currentStudent?.englishLevel||"").trim();
+  if(!level) return true; // transición: cuentas antiguas siguen viendo todo hasta elegir nivel
+  return subject===level;
+}
+
+function visibleScheduleBlocks(blocks=scheduleCache){
+  return (Array.isArray(blocks)?blocks:[]).filter(scheduleMatchesStudentEnglishLevel);
+}
+
 function canScheduleOverlap(candidate,existing){
   if(candidate.parallel && existing.parallel) return true;
   if(isEnglishLevel(candidate.subject) && isEnglishLevel(existing.subject)) return true;
@@ -12196,10 +12209,11 @@ function renderScheduleHealth(blocks){
 
 function renderScheduleFromCache(){
   const professorMap=new Map(scheduleProfessorCache.map(p=>[p.id,p]));
+  const blocks=visibleScheduleBlocks(scheduleCache);
   renderScheduleEpochHeader(scheduleEpochCache);
-  renderScheduleTodayStrip(scheduleCache,scheduleEpochCache,professorMap);
-  renderScheduleDesktop(scheduleCache,scheduleEpochCache,professorMap);
-  renderScheduleMobile(scheduleCache,scheduleEpochCache,professorMap);
+  renderScheduleTodayStrip(blocks,scheduleEpochCache,professorMap);
+  renderScheduleDesktop(blocks,scheduleEpochCache,professorMap);
+  renderScheduleMobile(blocks,scheduleEpochCache,professorMap);
   renderScheduleHealth(scheduleCache);
 }
 
@@ -13456,7 +13470,7 @@ async function renderStudentTodaySchedule(){
 
     const now=new Date();
     const day=now.getDay();
-    const own=blocks
+    const own=visibleScheduleBlocks(blocks)
       .filter(b=>Number(b.day)===day)
       .sort((a,b)=>(a.start||"").localeCompare(b.start||""));
 
